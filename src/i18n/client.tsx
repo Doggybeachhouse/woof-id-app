@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
   useTransition,
@@ -48,10 +47,6 @@ export function I18nProvider({
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [locale, setLocaleState] = useState<Locale>(serverLocale);
-
-  useEffect(() => {
-    setLocaleState(serverLocale);
-  }, [serverLocale]);
 
   const messages = clientMessages[locale] ?? serverMessages;
   const t = useMemo(() => createTranslator(messages), [messages]);
