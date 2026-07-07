@@ -18,8 +18,6 @@ const ERROR_MESSAGES: Record<string, string> = {
   barcode_not_found: "Geen Woof Wallet gevonden voor deze barcode.",
   no_webshop_account:
     "Je webshop-account kon niet worden gevonden. Neem contact op met Doggy Beach House.",
-  barcode_mismatch:
-    "Deze barcode hoort niet bij je webshop-account. Pas het aan in Mijn account → Woof Wallet.",
   wwm_no_barcode: "Koppel eerst je Woof Wallet barcode.",
   wwm_no_product: "Opwaarderen is nog niet ingesteld in de webshop.",
 };

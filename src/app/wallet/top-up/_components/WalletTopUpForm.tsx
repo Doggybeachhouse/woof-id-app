@@ -30,7 +30,6 @@ const ERROR_KEYS: Record<string, string> = {
   invalid_amount: "errors.wallet.invalidAmount",
   barcode_not_found: "errors.wallet.barcodeNotFound",
   no_webshop_account: "errors.wallet.noWebshopAccount",
-  barcode_mismatch: "errors.wallet.barcodeMismatch",
   wwm_no_barcode: "errors.wallet.noBarcode",
   wwm_no_product: "errors.wallet.noProduct",
   not_configured: "errors.wallet.notConfigured",
