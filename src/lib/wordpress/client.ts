@@ -42,14 +42,16 @@ export async function wordPressPost<T extends Record<string, unknown>>(
 
   const data = (await res.json().catch(() => ({}))) as T & {
     error?: string;
+    code?: string;
     message?: string;
   };
 
   if (!res.ok) {
     const authFailed = res.status === 401 || res.status === 403;
+    const errorCode = data.error ?? data.code ?? "unknown";
     return {
       ok: false,
-      error: authFailed ? "auth_failed" : (data.error ?? "unknown"),
+      error: authFailed ? "auth_failed" : errorCode,
       message:
         data.message ??
         (authFailed

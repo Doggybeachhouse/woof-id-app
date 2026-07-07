@@ -1,4 +1,18 @@
-import { isWordPressBridgeEnabled, wordPressPost } from "@/lib/wordpress/client";
+import {
+  isWordPressBridgeEnabled,
+  type WordPressApiResponse,
+  wordPressPost,
+} from "@/lib/wordpress/client";
+
+function isBridgeUnavailable(
+  result: Extract<WordPressApiResponse<Record<string, unknown>>, { ok: false }>,
+) {
+  return (
+    result.status === 404 ||
+    result.error === "rest_no_route" ||
+    result.message?.includes("No route was found") === true
+  );
+}
 
 const REGISTER_ERRORS: Record<string, string> = {
   invalid_email: "Ongeldig e-mailadres.",
@@ -64,6 +78,10 @@ export async function registerWebshopAccount(
   });
 
   if (!result.ok) {
+    if (isBridgeUnavailable(result)) {
+      return { ok: true, created: false, linked: false };
+    }
+
     return {
       ok: false,
       code: result.error,
