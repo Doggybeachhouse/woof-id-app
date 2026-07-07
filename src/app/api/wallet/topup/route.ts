@@ -4,6 +4,10 @@ import { z } from "zod";
 
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import {
+  isValidTopUpAmountCents,
+  parseTopUpAmountEurToCents,
+} from "@/lib/wallet/topupAmount";
 import { startWalletTopUp } from "@/lib/wordpress/topup";
 
 const bodySchema = z.object({
@@ -24,6 +28,14 @@ export async function POST(req: Request) {
   const parsed = bodySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: "Ongeldig verzoek" }, { status: 400 });
+  }
+
+  const amountCents = parseTopUpAmountEurToCents(parsed.data.amountEur);
+  if (amountCents === null || !isValidTopUpAmountCents(amountCents)) {
+    return NextResponse.json(
+      { error: "Kies een bedrag tussen €1 en €500.", code: "invalid_amount" },
+      { status: 400 },
+    );
   }
 
   const dog = await prisma.dogProfile.findFirst({

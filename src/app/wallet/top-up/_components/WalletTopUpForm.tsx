@@ -22,7 +22,7 @@ type DogWithoutWallet = {
   name: string;
 };
 
-const PRESETS = ["10", "20", "25", "50"];
+const PRESETS = ["1", "10", "20", "25", "50"];
 
 const ERROR_KEYS: Record<string, string> = {
   invalid_email: "errors.wallet.invalidEmail",
@@ -177,7 +177,7 @@ export function WalletTopUpForm({
 
       <fieldset>
         <legend className="label">{t("wallet.topUp.amountLabel")}</legend>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {PRESETS.map((preset) => (
             <label key={preset} className="amount-preset">
               <input

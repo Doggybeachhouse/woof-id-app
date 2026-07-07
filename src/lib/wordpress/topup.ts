@@ -14,7 +14,7 @@ export type StartWalletTopUpResult =
 const ERROR_MESSAGES: Record<string, string> = {
   invalid_email: "Ongeldig e-mailadres.",
   invalid_barcode: "Ongeldige Woof Wallet barcode.",
-  invalid_amount: "Kies een bedrag tussen €0,01 en €500.",
+  invalid_amount: "Kies een bedrag tussen €1 en €500.",
   barcode_not_found: "Geen Woof Wallet gevonden voor deze barcode.",
   no_webshop_account:
     "Je webshop-account kon niet worden gevonden. Neem contact op met Doggy Beach House.",

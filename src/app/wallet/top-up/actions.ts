@@ -2,6 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/serverAuth";
+import {
+  isValidTopUpAmountCents,
+  parseTopUpAmountEurToCents,
+} from "@/lib/wallet/topupAmount";
 import { startWalletTopUp } from "@/lib/wordpress/topup";
 
 export type TopUpFormState = {
@@ -25,6 +29,14 @@ export async function startWalletTopUpAction(
 
   if (!dogProfileId || !amountEur) {
     return { error: "Kies een bedrag.", code: "invalid_amount" };
+  }
+
+  const amountCents = parseTopUpAmountEurToCents(amountEur);
+  if (amountCents === null || !isValidTopUpAmountCents(amountCents)) {
+    return {
+      error: "Kies een bedrag tussen €1 en €500.",
+      code: "invalid_amount",
+    };
   }
 
   const dog = await prisma.dogProfile.findFirst({

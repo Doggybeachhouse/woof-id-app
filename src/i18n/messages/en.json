@@ -603,7 +603,7 @@
       "topUpFailed": "Top-up failed. Please try again later.",
       "invalidEmail": "Invalid email address.",
       "invalidBarcode": "Invalid Woof Wallet barcode.",
-      "invalidAmount": "Choose an amount between €0.01 and €500.",
+      "invalidAmount": "Choose an amount between €1 and €500.",
       "barcodeNotFound": "No Woof Wallet found for this barcode.",
       "noWebshopAccount": "Your webshop account could not be found. Contact Doggy Beach House.",
       "barcodeMismatch": "This barcode does not match your webshop account.",
