@@ -4,6 +4,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useI18n } from "@/i18n/client";
 
+const DEFAULT_FORMATS = [
+  "code_128",
+  "code_39",
+  "ean_13",
+  "ean_8",
+  "qr_code",
+  "itf",
+] as const;
+
 type Props = {
   onDetected: (code: string) => void;
   disabled?: boolean;
@@ -11,6 +20,12 @@ type Props = {
   autoStart?: boolean;
   /** Hide start/stop controls — parent handles cancel. */
   hideControls?: boolean;
+  /** Limit detected symbologies (e.g. check-in QR only). */
+  formats?: readonly string[];
+  /** Shown while the camera is active and hunting for a code. */
+  scanningLabel?: string;
+  /** Override the default unsupported-browser hint. */
+  unsupportedHint?: string;
 };
 
 export function BarcodeScanner({
@@ -18,9 +33,13 @@ export function BarcodeScanner({
   disabled,
   autoStart = false,
   hideControls = false,
+  formats = DEFAULT_FORMATS,
+  scanningLabel,
+  unsupportedHint,
 }: Props) {
   const { t } = useI18n();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [supported, setSupported] = useState(true);
   const [active, setActive] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +49,7 @@ export function BarcodeScanner({
 
   const stopCamera = useCallback(() => {
     startGenerationRef.current += 1;
-    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     setActive(false);
   }, []);
@@ -88,21 +107,40 @@ export function BarcodeScanner({
     }
 
     const detector = new BarcodeDetectorCtor({
-      formats: [
-        "code_128",
-        "code_39",
-        "ean_13",
-        "ean_8",
-        "qr_code",
-        "itf",
-      ],
+      formats: [...formats],
     });
 
     let cancelled = false;
+    let scanCanvas = canvasRef.current;
+    if (!scanCanvas) {
+      scanCanvas = document.createElement("canvas");
+      canvasRef.current = scanCanvas;
+    }
+    const ctx = scanCanvas.getContext("2d", { willReadFrequently: true });
+
     const tick = async () => {
-      if (cancelled || detectedRef.current || !videoRef.current) return;
+      if (cancelled || detectedRef.current) return;
+
+      const video = videoRef.current;
+      if (
+        !video ||
+        video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA ||
+        video.videoWidth === 0 ||
+        video.videoHeight === 0
+      ) {
+        if (!cancelled) requestAnimationFrame(tick);
+        return;
+      }
+
       try {
-        const codes = await detector.detect(videoRef.current);
+        let codes = await detector.detect(video);
+        if (!codes[0]?.rawValue && ctx) {
+          scanCanvas.width = video.videoWidth;
+          scanCanvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0);
+          codes = await detector.detect(scanCanvas);
+        }
+
         const value = codes[0]?.rawValue?.trim();
         if (value) {
           detectedRef.current = true;
@@ -113,6 +151,7 @@ export function BarcodeScanner({
       } catch {
         /* scan frame retry */
       }
+
       if (!cancelled) requestAnimationFrame(tick);
     };
 
@@ -121,7 +160,7 @@ export function BarcodeScanner({
       cancelled = true;
       cancelAnimationFrame(id);
     };
-  }, [active, disabled, onDetected, stopCamera]);
+  }, [active, disabled, formats, onDetected, stopCamera]);
 
   return (
     <div className="space-y-3">
@@ -138,6 +177,11 @@ export function BarcodeScanner({
             {autoStart ? t("checkIn.scanner.cameraStarting") : t("receipts.scanner.cameraHint")}
           </div>
         )}
+        {active && supported && scanningLabel ? (
+          <div className="absolute bottom-0 inset-x-0 bg-black/55 px-4 py-2 text-center text-sm text-white">
+            {scanningLabel}
+          </div>
+        ) : null}
       </div>
 
       {error && <p className="text-sm text-amber-800">{error}</p>}
@@ -167,7 +211,7 @@ export function BarcodeScanner({
 
       {!supported && (
         <p className="text-xs text-black/50">
-          {t("receipts.scanner.unsupportedHint")}
+          {unsupportedHint ?? t("receipts.scanner.unsupportedHint")}
         </p>
       )}
     </div>

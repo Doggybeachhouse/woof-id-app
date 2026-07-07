@@ -208,8 +208,10 @@
       "instructionsSuffix": "in Doggy Beach House om in te checken en Woof Coins te verdienen.",
       "expiredQr": "Deze QR-code is verlopen of ongeldig. Scan de actuele code in de winkel — die vernieuwt elke 15 minuten.",
       "cameraStarting": "Camera starten…",
+      "scanning": "Richt de camera op de QR-code op het iPad-scherm",
       "retry": "Opnieuw proberen",
-      "footerHint": "Alleen de QR op het winkelscherm werkt. Max. 1× per hond per dag."
+      "unsupportedHint": "QR scannen via de camera in de app werkt het beste in Safari of Chrome. Geen scan? Open de Camera-app op je iPhone, scan de QR en tik op de link.",
+      "footerHint": "Alleen de QR op het winkelscherm werkt. Max. 1× per hond per dag. Werkt de in-app scanner niet? Scan met de Camera-app op je iPhone."
     },
     "success": {
       "title": "Ingecheckt!",
@@ -605,6 +607,9 @@
       "barcodeMismatch": "Deze barcode hoort niet bij je webshop-account.",
       "noBarcode": "Koppel eerst je Woof Wallet barcode.",
       "noProduct": "Opwaarderen is nog niet ingesteld in de webshop.",
+      "noCart": "Kon de winkelwagen niet laden. Probeer het opnieuw.",
+      "pluginMissing": "Woof Wallet is niet actief op de webshop. Neem contact op met Doggy Beach House.",
+      "networkError": "Kon de webshop niet bereiken. Probeer het later opnieuw.",
       "notConfigured": "Woof Wallet koppeling is nog niet ingesteld.",
       "authFailed": "Webshop-koppeling geweigerd. Neem contact op met Doggy Beach House.",
       "noCheckoutUrl": "Geen betaallink ontvangen van de webshop."

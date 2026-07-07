@@ -58,6 +58,9 @@ export function CheckInQrScanner({
           key={scanKey}
           autoStart
           hideControls
+          formats={["qr_code"]}
+          scanningLabel={t("checkIn.scanner.scanning")}
+          unsupportedHint={t("checkIn.scanner.unsupportedHint")}
           onDetected={onQrDetected}
           disabled={false}
         />

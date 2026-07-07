@@ -208,8 +208,10 @@
       "instructionsSuffix": "im Doggy Beach House, um einzuchecken und Woof Coins zu verdienen.",
       "expiredQr": "Dieser QR-Code ist abgelaufen oder ungültig. Scanne den aktuellen Code im Laden — er erneuert sich alle 15 Minuten.",
       "cameraStarting": "Kamera wird gestartet…",
+      "scanning": "Richte die Kamera auf den QR-Code auf dem iPad-Bildschirm",
       "retry": "Erneut versuchen",
-      "footerHint": "Nur der QR auf dem Ladenbildschirm funktioniert. Max. 1× pro Hund pro Tag."
+      "unsupportedHint": "QR-Scannen in der App funktioniert am besten in Safari oder Chrome. Kein Erfolg? Öffne die Kamera-App auf dem iPhone, scanne den QR und tippe auf den Link.",
+      "footerHint": "Nur der QR auf dem Ladenbildschirm funktioniert. Max. 1× pro Hund pro Tag. Wenn der In-App-Scanner nicht klappt, mit der iPhone-Kamera scannen."
     },
     "success": {
       "title": "Eingecheckt!",

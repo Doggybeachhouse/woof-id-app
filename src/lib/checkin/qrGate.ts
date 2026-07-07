@@ -6,7 +6,10 @@ import {
   validateRotatingCheckInToken,
 } from "@/lib/checkin/rotatingToken";
 
-/** Parse a scanned QR (full URL or /check-in path) into check-in params. */
+/**
+ * Parse a scanned QR (full URL or /check-in path) into check-in params.
+ * Token validity is checked server-side — the signing secret must never ship to the client.
+ */
 export function parseCheckInScan(
   raw: string,
 ): { loc: string; token: string } | null {
@@ -21,11 +24,11 @@ export function parseCheckInScan(
     const path = url.pathname.replace(/\/$/, "");
     if (!path.endsWith("/check-in")) return null;
 
-    const loc = url.searchParams.get("loc") ?? undefined;
-    const token = url.searchParams.get("token") ?? undefined;
-    if (!isValidCheckInQrAccess(loc, token)) return null;
+    const loc = url.searchParams.get("loc")?.trim();
+    const token = url.searchParams.get("token")?.trim();
+    if (!loc || !token) return null;
 
-    return { loc: loc!, token: token! };
+    return { loc, token };
   } catch {
     return null;
   }

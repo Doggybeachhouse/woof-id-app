@@ -208,8 +208,10 @@
       "instructionsSuffix": "in Doggy Beach House to check in and earn Woof Coins.",
       "expiredQr": "This QR code has expired or is invalid. Scan the current code in the store — it refreshes every 15 minutes.",
       "cameraStarting": "Starting camera…",
+      "scanning": "Point the camera at the QR code on the iPad screen",
       "retry": "Try again",
-      "footerHint": "Only the QR on the store screen works. Max. 1× per dog per day."
+      "unsupportedHint": "In-app QR scanning works best in Safari or Chrome. No luck? Open the Camera app on your iPhone, scan the QR, and tap the link.",
+      "footerHint": "Only the QR on the store screen works. Max. 1× per dog per day. If the in-app scanner fails, scan with your iPhone Camera app."
     },
     "success": {
       "title": "Checked in!",
