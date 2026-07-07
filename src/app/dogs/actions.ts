@@ -7,6 +7,7 @@ import { z } from "zod";
 import { startOfTodayAmsterdam } from "@/lib/checkin/qrGate";
 import { validateRotatingCheckInToken } from "@/lib/checkin/rotatingToken";
 import { saveDogPhoto } from "@/lib/dogs/storage";
+import { DEFAULT_LOCATION } from "@/lib/gamification/coins";
 import { processDogEvent } from "@/lib/gamification/processDogEvent";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/serverAuth";
@@ -169,6 +170,35 @@ export async function updateDogAction(formData: FormData) {
   revalidatePath(`/dogs/${dog.id}`);
   revalidatePath("/dogs");
   redirect(`/dogs/${dog.id}`);
+}
+
+const CHECK_IN_LOCATIONS: Record<string, string> = {
+  zandvoort: DEFAULT_LOCATION,
+};
+
+export async function submitCheckInAction(formData: FormData) {
+  const dogId = String(formData.get("dogProfileId"));
+  const locKeyForm = String(formData.get("loc") ?? "zandvoort");
+  const tokenForm = String(formData.get("token") ?? "");
+  const locName = CHECK_IN_LOCATIONS[locKeyForm] ?? DEFAULT_LOCATION;
+
+  let result: { dogName: string; location: string };
+  try {
+    result = await checkInDogAction(dogId, locName, {
+      loc: locKeyForm,
+      token: tokenForm,
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Check-in mislukt";
+    redirect(
+      `/check-in?loc=${encodeURIComponent(locKeyForm)}&token=${encodeURIComponent(tokenForm)}&error=${encodeURIComponent(message)}`,
+    );
+  }
+
+  redirect(
+    `/check-in/success?name=${encodeURIComponent(result.dogName)}&loc=${encodeURIComponent(locName)}`,
+  );
 }
 
 export async function checkInDogAction(

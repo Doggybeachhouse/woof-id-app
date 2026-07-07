@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { DateTime } from "luxon";
 
 import { CheckInQrScanner } from "@/app/check-in/_components/CheckInQrScanner";
-import { checkInDogAction } from "@/app/dogs/actions";
+import { submitCheckInAction } from "@/app/dogs/actions";
 import { getTranslations } from "@/i18n/server";
 import {
   getDogsCheckedInToday,
@@ -54,32 +54,6 @@ export default async function CheckInPage({
   );
   const eligibleDogs = dogs.filter((d) => !checkedInToday.has(d.id));
 
-  async function submitCheckIn(formData: FormData) {
-    "use server";
-    const dogId = String(formData.get("dogProfileId"));
-    const locKeyForm = String(formData.get("loc") ?? "zandvoort");
-    const tokenForm = String(formData.get("token") ?? "");
-    const locName = LOCATIONS[locKeyForm] ?? DEFAULT_LOCATION;
-
-    try {
-      const result = await checkInDogAction(dogId, locName, {
-        loc: locKeyForm,
-        token: tokenForm,
-      });
-      const { redirect } = await import("next/navigation");
-      redirect(
-        `/check-in/success?name=${encodeURIComponent(result.dogName)}&loc=${encodeURIComponent(locName)}`,
-      );
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : t("errors.checkIn.failed");
-      const { redirect } = await import("next/navigation");
-      redirect(
-        `/check-in?loc=${encodeURIComponent(locKeyForm)}&token=${encodeURIComponent(tokenForm)}&error=${encodeURIComponent(message)}`,
-      );
-    }
-  }
-
   return (
     <div className="space-y-6">
       <div className="card p-6 text-center space-y-2">
@@ -108,7 +82,7 @@ export default async function CheckInPage({
           </Link>
         </div>
       ) : (
-        <form action={submitCheckIn} className="card p-6 space-y-4">
+        <form action={submitCheckInAction} className="card p-6 space-y-4">
           <input type="hidden" name="loc" value={locKey} />
           <input type="hidden" name="token" value={token ?? ""} />
           <div>
