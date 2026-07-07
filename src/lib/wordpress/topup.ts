@@ -20,7 +20,54 @@ const ERROR_MESSAGES: Record<string, string> = {
     "Je webshop-account kon niet worden gevonden. Neem contact op met Doggy Beach House.",
   wwm_no_barcode: "Koppel eerst je Woof Wallet barcode.",
   wwm_no_product: "Opwaarderen is nog niet ingesteld in de webshop.",
+  wwm_no_cart: "Kon de winkelwagen niet laden. Probeer het opnieuw.",
+  wwm_cart_add_failed:
+    "Kon het opwaardeerproduct niet toevoegen. Probeer het opnieuw.",
+  wallet_plugin_missing:
+    "Woof Wallet is niet actief op de webshop. Neem contact op met Doggy Beach House.",
+  auth_failed:
+    "Webshop-koppeling geweigerd. Neem contact op met Doggy Beach House.",
+  network_error: "Kon de webshop niet bereiken. Probeer het later opnieuw.",
+  no_checkout_url: "Geen betaallink ontvangen van de webshop.",
+  unknown: "Opwaarderen starten mislukt. Probeer het later opnieuw.",
 };
+
+const GENERIC_ERROR =
+  "Opwaarderen starten mislukt. Probeer het later opnieuw.";
+
+function userFacingTopUpError(code: string, message?: string): string {
+  if (ERROR_MESSAGES[code]) {
+    return ERROR_MESSAGES[code];
+  }
+
+  const sanitized = sanitizeRemoteMessage(message);
+  if (sanitized) {
+    return sanitized;
+  }
+
+  return GENERIC_ERROR;
+}
+
+function sanitizeRemoteMessage(message?: string): string | undefined {
+  if (!message) return undefined;
+
+  const stripped = message
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!stripped) return undefined;
+
+  // Hide raw HTML, stack traces, and other technical dumps from users.
+  if (
+    stripped.length > 180 ||
+    /<(html|body|!doctype)\b/i.test(message) ||
+    /\b(stack trace|fatal error|wpdb|sqlstate)\b/i.test(stripped)
+  ) {
+    return undefined;
+  }
+
+  return stripped;
+}
 
 export async function startWalletTopUp(
   input: StartWalletTopUpInput,
@@ -49,10 +96,7 @@ export async function startWalletTopUp(
     return {
       ok: false,
       code,
-      error:
-        result.message ??
-        ERROR_MESSAGES[code] ??
-        "Opwaarderen starten mislukt. Probeer het later opnieuw.",
+      error: userFacingTopUpError(code, result.message),
     };
   }
 

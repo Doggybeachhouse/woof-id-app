@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import {
@@ -32,6 +32,13 @@ const ERROR_KEYS: Record<string, string> = {
   no_webshop_account: "errors.wallet.noWebshopAccount",
   wwm_no_barcode: "errors.wallet.noBarcode",
   wwm_no_product: "errors.wallet.noProduct",
+  wwm_no_cart: "errors.wallet.noCart",
+  wwm_cart_add_failed: "errors.wallet.cartAddFailed",
+  wallet_plugin_missing: "errors.wallet.pluginMissing",
+  auth_failed: "errors.wallet.authFailed",
+  network_error: "errors.wallet.networkError",
+  no_checkout_url: "errors.wallet.noCheckoutUrl",
+  unknown: "errors.wallet.topUpFailed",
   not_configured: "errors.wallet.notConfigured",
 };
 
@@ -65,6 +72,12 @@ export function WalletTopUpForm({
     dogs.find((d) => d.id === preselectedDogId)?.id ?? dogs[0]?.id ?? "";
   const [dogId, setDogId] = useState(initialDogId);
   const [state, formAction] = useActionState(startWalletTopUpAction, initialState);
+
+  useEffect(() => {
+    if (state.checkoutUrl) {
+      window.location.assign(state.checkoutUrl);
+    }
+  }, [state.checkoutUrl]);
 
   function clearCustomAmount() {
     const custom = formRef.current?.elements.namedItem(

@@ -30,15 +30,24 @@ export async function wordPressPost<T extends Record<string, unknown>>(
     };
   }
 
-  const res = await fetch(`${getWordPressStoreUrl()}/wp-json/wwm/v1${path}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Woof-Id-Secret": secret,
-    },
-    body: JSON.stringify(body),
-    cache: "no-store",
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${getWordPressStoreUrl()}/wp-json/wwm/v1${path}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Woof-Id-Secret": secret,
+      },
+      body: JSON.stringify(body),
+      cache: "no-store",
+    });
+  } catch {
+    return {
+      ok: false,
+      error: "network_error",
+      message: "Kon de webshop niet bereiken. Probeer het later opnieuw.",
+    };
+  }
 
   const data = (await res.json().catch(() => ({}))) as T & {
     error?: string;
