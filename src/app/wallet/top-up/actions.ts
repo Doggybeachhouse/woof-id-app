@@ -47,6 +47,13 @@ export async function startWalletTopUpAction(
   });
 
   if (!result.ok) {
+    console.error("[wallet/top-up] WordPress top-up failed", {
+      code: result.code,
+      email,
+      dogProfileId,
+      barcode: dog.walletLink.walletCardId,
+      error: result.error,
+    });
     return { error: result.error, code: result.code };
   }
 

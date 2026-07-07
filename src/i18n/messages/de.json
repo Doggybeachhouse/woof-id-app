@@ -600,7 +600,7 @@
       "cameraUnavailable": "Kamera nicht verfügbar. Gib den Barcode unten manuell ein."
     },
     "wallet": {
-      "topUpFailed": "Aufladen fehlgeschlagen",
+      "topUpFailed": "Aufladen fehlgeschlagen. Bitte später erneut versuchen.",
       "invalidEmail": "Ungültige E-Mail-Adresse.",
       "invalidBarcode": "Ungültiger Woof Wallet-Barcode.",
       "invalidAmount": "Wähle einen Betrag zwischen €0,01 und €500.",
@@ -612,6 +612,8 @@
       "noCart": "Warenkorb konnte nicht geladen werden. Bitte erneut versuchen.",
       "cartAddFailed": "Aufladeprodukt konnte nicht hinzugefügt werden. Bitte erneut versuchen.",
       "pluginMissing": "Woof Wallet ist im Webshop nicht aktiv. Bitte Doggy Beach House kontaktieren.",
+      "woocommerceMissing": "WooCommerce ist im Webshop nicht verfügbar. Bitte Doggy Beach House kontaktieren.",
+      "restNoRoute": "Aufladen ist im Webshop nicht verfügbar. Prüfe, ob Woof Wallet und Woof ID Bridge aktiv sind.",
       "networkError": "Webshop nicht erreichbar. Bitte später erneut versuchen.",
       "notConfigured": "Woof Wallet-Verbindung ist noch nicht eingerichtet.",
       "authFailed": "Webshop-Verbindung abgelehnt. Bitte Doggy Beach House kontaktieren.",

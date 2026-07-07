@@ -57,7 +57,21 @@ export async function wordPressPost<T extends Record<string, unknown>>(
 
   if (!res.ok) {
     const authFailed = res.status === 401 || res.status === 403;
-    const errorCode = data.error ?? data.code ?? "unknown";
+    const wpCode = typeof data.code === "string" ? data.code : "";
+    const wpError = typeof data.error === "string" ? data.error : "";
+    const errorCode =
+      wpError ||
+      (authFailed && wpCode === "rest_forbidden" ? "auth_failed" : wpCode) ||
+      "unknown";
+
+    console.error("[wordpress] API request failed", {
+      path,
+      status: res.status,
+      code: errorCode,
+      wpCode: wpCode || undefined,
+      message: data.message,
+    });
+
     return {
       ok: false,
       error: authFailed ? "auth_failed" : errorCode,

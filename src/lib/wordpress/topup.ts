@@ -25,8 +25,12 @@ const ERROR_MESSAGES: Record<string, string> = {
     "Kon het opwaardeerproduct niet toevoegen. Probeer het opnieuw.",
   wallet_plugin_missing:
     "Woof Wallet is niet actief op de webshop. Neem contact op met Doggy Beach House.",
+  woocommerce_missing:
+    "WooCommerce is niet beschikbaar op de webshop. Neem contact op met Doggy Beach House.",
   auth_failed:
     "Webshop-koppeling geweigerd. Neem contact op met Doggy Beach House.",
+  rest_no_route:
+    "Opwaarderen is niet beschikbaar op de webshop. Controleer of Woof Wallet en Woof ID Bridge actief zijn.",
   network_error: "Kon de webshop niet bereiken. Probeer het later opnieuw.",
   no_checkout_url: "Geen betaallink ontvangen van de webshop.",
   unknown: "Opwaarderen starten mislukt. Probeer het later opnieuw.",

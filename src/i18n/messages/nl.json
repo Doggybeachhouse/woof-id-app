@@ -600,7 +600,7 @@
       "cameraUnavailable": "Camera niet beschikbaar. Voer de barcode hieronder handmatig in."
     },
     "wallet": {
-      "topUpFailed": "Opwaarderen mislukt",
+      "topUpFailed": "Opwaarderen mislukt. Probeer het later opnieuw.",
       "invalidEmail": "Ongeldig e-mailadres.",
       "invalidBarcode": "Ongeldige Woof Wallet barcode.",
       "invalidAmount": "Kies een bedrag tussen €0,01 en €500.",
@@ -612,6 +612,8 @@
       "noCart": "Kon de winkelwagen niet laden. Probeer het opnieuw.",
       "cartAddFailed": "Kon het opwaardeerproduct niet toevoegen. Probeer het opnieuw.",
       "pluginMissing": "Woof Wallet is niet actief op de webshop. Neem contact op met Doggy Beach House.",
+      "woocommerceMissing": "WooCommerce is niet beschikbaar op de webshop. Neem contact op met Doggy Beach House.",
+      "restNoRoute": "Opwaarderen is niet beschikbaar op de webshop. Controleer of Woof Wallet en Woof ID Bridge actief zijn.",
       "networkError": "Kon de webshop niet bereiken. Probeer het later opnieuw.",
       "notConfigured": "Woof Wallet koppeling is nog niet ingesteld.",
       "authFailed": "Webshop-koppeling geweigerd. Neem contact op met Doggy Beach House.",

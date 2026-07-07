@@ -35,6 +35,8 @@ const ERROR_KEYS: Record<string, string> = {
   wwm_no_cart: "errors.wallet.noCart",
   wwm_cart_add_failed: "errors.wallet.cartAddFailed",
   wallet_plugin_missing: "errors.wallet.pluginMissing",
+  woocommerce_missing: "errors.wallet.woocommerceMissing",
+  rest_no_route: "errors.wallet.restNoRoute",
   auth_failed: "errors.wallet.authFailed",
   network_error: "errors.wallet.networkError",
   no_checkout_url: "errors.wallet.noCheckoutUrl",
@@ -129,11 +131,10 @@ export function WalletTopUpForm({
 
   const activeDog = dogs.find((d) => d.id === dogId) ?? dogs[0];
   const errorKey = state.code ? ERROR_KEYS[state.code] : undefined;
-  const errorMessage = errorKey
-    ? t(errorKey)
-    : state.error
-      ? state.error
-      : "";
+  // Prefer the server-localized message; i18n is fallback for codes without copy.
+  const errorMessage =
+    state.error ||
+    (errorKey ? t(errorKey) : "");
 
   return (
     <form

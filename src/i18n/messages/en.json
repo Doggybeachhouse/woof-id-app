@@ -600,7 +600,7 @@
       "cameraUnavailable": "Camera unavailable. Enter the barcode manually below."
     },
     "wallet": {
-      "topUpFailed": "Top-up failed",
+      "topUpFailed": "Top-up failed. Please try again later.",
       "invalidEmail": "Invalid email address.",
       "invalidBarcode": "Invalid Woof Wallet barcode.",
       "invalidAmount": "Choose an amount between €0.01 and €500.",
@@ -612,6 +612,8 @@
       "noCart": "Could not load the cart. Please try again.",
       "cartAddFailed": "Could not add the top-up product. Please try again.",
       "pluginMissing": "Woof Wallet is not active on the webshop. Please contact Doggy Beach House.",
+      "woocommerceMissing": "WooCommerce is not available on the webshop. Please contact Doggy Beach House.",
+      "restNoRoute": "Top-up is not available on the webshop. Check that Woof Wallet and Woof ID Bridge are active.",
       "networkError": "Could not reach the webshop. Please try again later.",
       "notConfigured": "Woof Wallet connection is not configured yet.",
       "authFailed": "Webshop connection was rejected. Please contact Doggy Beach House.",
