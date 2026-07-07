@@ -264,6 +264,8 @@
       "cameraHint": "Richt de camera op de barcode onderaan je bon",
       "startCamera": "Camera starten",
       "stopCamera": "Camera stoppen",
+      "detecting": "QR zoeken…",
+      "holdSteady": "Houd de camera stil op de QR-code",
       "unsupportedHint": "Barcode scannen via camera werkt het beste in Chrome. Gebruik anders het invoerveld hieronder."
     },
     "photoForm": {
@@ -608,6 +610,7 @@
       "noBarcode": "Koppel eerst je Woof Wallet barcode.",
       "noProduct": "Opwaarderen is nog niet ingesteld in de webshop.",
       "noCart": "Kon de winkelwagen niet laden. Probeer het opnieuw.",
+      "cartAddFailed": "Kon het opwaardeerproduct niet toevoegen. Probeer het opnieuw.",
       "pluginMissing": "Woof Wallet is niet actief op de webshop. Neem contact op met Doggy Beach House.",
       "networkError": "Kon de webshop niet bereiken. Probeer het later opnieuw.",
       "notConfigured": "Woof Wallet koppeling is nog niet ingesteld.",

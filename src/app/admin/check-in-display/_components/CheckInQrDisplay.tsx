@@ -285,6 +285,7 @@ export function CheckInQrDisplay({ initialQr }: { initialQr?: QrPayload }) {
             <BarcodeScanner
               autoStart
               hideControls
+              scanMode="qr"
               onDetected={(code) => void handleVoucherDetected(code)}
               disabled={false}
             />

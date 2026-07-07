@@ -264,6 +264,8 @@
       "cameraHint": "Point the camera at the barcode at the bottom of your receipt",
       "startCamera": "Start camera",
       "stopCamera": "Stop camera",
+      "detecting": "Looking for QR…",
+      "holdSteady": "Hold steady on the QR code",
       "unsupportedHint": "Barcode scanning via camera works best in Chrome. Otherwise use the input field below."
     },
     "photoForm": {
@@ -607,6 +609,10 @@
       "barcodeMismatch": "This barcode does not match your webshop account.",
       "noBarcode": "Link your Woof Wallet barcode first.",
       "noProduct": "Top-up is not configured in the webshop yet.",
+      "noCart": "Could not load the cart. Please try again.",
+      "cartAddFailed": "Could not add the top-up product. Please try again.",
+      "pluginMissing": "Woof Wallet is not active on the webshop. Please contact Doggy Beach House.",
+      "networkError": "Could not reach the webshop. Please try again later.",
       "notConfigured": "Woof Wallet connection is not configured yet.",
       "authFailed": "Webshop connection was rejected. Please contact Doggy Beach House.",
       "noCheckoutUrl": "No payment link was received from the webshop."

@@ -1,17 +1,11 @@
 "use client";
 
+import jsQR from "jsqr";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useI18n } from "@/i18n/client";
 
-const DEFAULT_FORMATS = [
-  "code_128",
-  "code_39",
-  "ean_13",
-  "ean_8",
-  "qr_code",
-  "itf",
-] as const;
+export type BarcodeScanMode = "qr" | "barcode" | "all";
 
 type Props = {
   onDetected: (code: string) => void;
@@ -20,29 +14,37 @@ type Props = {
   autoStart?: boolean;
   /** Hide start/stop controls — parent handles cancel. */
   hideControls?: boolean;
-  /** Limit detected symbologies (e.g. check-in QR only). */
-  formats?: readonly string[];
-  /** Shown while the camera is active and hunting for a code. */
-  scanningLabel?: string;
-  /** Override the default unsupported-browser hint. */
-  unsupportedHint?: string;
+  /** QR-only mode uses jsQR fallback (required on iOS Safari). */
+  scanMode?: BarcodeScanMode;
 };
+
+const SCAN_INTERVAL_MS = 120;
+const HOLD_STEADY_AFTER_ATTEMPTS = 24;
+
+function looksLikeQr(value: string) {
+  const trimmed = value.trim();
+  return (
+    trimmed.startsWith("http") ||
+    trimmed.includes("/check-in") ||
+    trimmed.startsWith("WOOF-")
+  );
+}
 
 export function BarcodeScanner({
   onDetected,
   disabled,
   autoStart = false,
   hideControls = false,
-  formats = DEFAULT_FORMATS,
-  scanningLabel,
-  unsupportedHint,
+  scanMode = "all",
 }: Props) {
   const { t } = useI18n();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [supported, setSupported] = useState(true);
   const [active, setActive] = useState(false);
   const [error, setError] = useState("");
+  const [scanStatus, setScanStatus] = useState<"idle" | "scanning" | "holdSteady">(
+    "idle",
+  );
   const streamRef = useRef<MediaStream | null>(null);
   const detectedRef = useRef(false);
   const startGenerationRef = useRef(0);
@@ -52,6 +54,7 @@ export function BarcodeScanner({
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     setActive(false);
+    setScanStatus("idle");
   }, []);
 
   useEffect(() => () => stopCamera(), [stopCamera]);
@@ -60,6 +63,7 @@ export function BarcodeScanner({
     const generation = ++startGenerationRef.current;
     setError("");
     detectedRef.current = false;
+    setScanStatus("idle");
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: { ideal: "environment" } },
@@ -101,24 +105,52 @@ export function BarcodeScanner({
       }
     ).BarcodeDetector;
 
-    if (!BarcodeDetectorCtor) {
+    const wantsQr = scanMode === "qr" || scanMode === "all";
+    const wantsBarcode = scanMode === "barcode" || scanMode === "all";
+    const canUseNative = Boolean(BarcodeDetectorCtor) && wantsBarcode;
+
+    if (!canUseNative && !wantsQr) {
       setSupported(false);
       return;
     }
 
-    const detector = new BarcodeDetectorCtor({
-      formats: [...formats],
-    });
+    const detector = canUseNative
+      ? new BarcodeDetectorCtor!({
+          formats: [
+            "code_128",
+            "code_39",
+            "ean_13",
+            "ean_8",
+            "qr_code",
+            "itf",
+          ],
+        })
+      : null;
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
     let cancelled = false;
-    let scanCanvas = canvasRef.current;
-    if (!scanCanvas) {
-      scanCanvas = document.createElement("canvas");
-      canvasRef.current = scanCanvas;
-    }
-    const ctx = scanCanvas.getContext("2d", { willReadFrequently: true });
+    let lastScanAt = 0;
+    let attempts = 0;
+    let rafId = 0;
 
-    const tick = async () => {
+    const acceptValue = (raw: string) => {
+      const value = raw.trim();
+      if (!value) return false;
+      if (scanMode === "qr") return looksLikeQr(value) || value.length > 8;
+      if (scanMode === "barcode") return !looksLikeQr(value);
+      return true;
+    };
+
+    const handleDetected = (value: string) => {
+      if (detectedRef.current) return;
+      detectedRef.current = true;
+      stopCamera();
+      onDetected(value);
+    };
+
+    const tick = async (now: number) => {
       if (cancelled || detectedRef.current) return;
 
       const video = videoRef.current;
@@ -128,39 +160,66 @@ export function BarcodeScanner({
         video.videoWidth === 0 ||
         video.videoHeight === 0
       ) {
-        if (!cancelled) requestAnimationFrame(tick);
+        rafId = requestAnimationFrame(tick);
         return;
       }
 
-      try {
-        let codes = await detector.detect(video);
-        if (!codes[0]?.rawValue && ctx) {
-          scanCanvas.width = video.videoWidth;
-          scanCanvas.height = video.videoHeight;
-          ctx.drawImage(video, 0, 0);
-          codes = await detector.detect(scanCanvas);
-        }
+      attempts += 1;
+      setScanStatus(attempts >= HOLD_STEADY_AFTER_ATTEMPTS ? "holdSteady" : "scanning");
 
-        const value = codes[0]?.rawValue?.trim();
-        if (value) {
-          detectedRef.current = true;
-          stopCamera();
-          onDetected(value);
-          return;
+      if (now - lastScanAt < SCAN_INTERVAL_MS) {
+        rafId = requestAnimationFrame(tick);
+        return;
+      }
+      lastScanAt = now;
+
+      if (detector) {
+        try {
+          const codes = await detector.detect(video);
+          const value = codes[0]?.rawValue?.trim();
+          if (value && acceptValue(value)) {
+            handleDetected(value);
+            return;
+          }
+        } catch {
+          /* retry next frame */
         }
-      } catch {
-        /* scan frame retry */
       }
 
-      if (!cancelled) requestAnimationFrame(tick);
+      if (wantsQr && ctx) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const qr = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: "attemptBoth",
+        });
+        const value = qr?.data?.trim();
+        if (value && acceptValue(value)) {
+          handleDetected(value);
+          return;
+        }
+      }
+
+      if (!cancelled) {
+        rafId = requestAnimationFrame(tick);
+      }
     };
 
-    const id = requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
     return () => {
       cancelled = true;
-      cancelAnimationFrame(id);
+      cancelAnimationFrame(rafId);
+      setScanStatus("idle");
     };
-  }, [active, disabled, formats, onDetected, stopCamera]);
+  }, [active, disabled, onDetected, scanMode, stopCamera]);
+
+  const statusMessage =
+    scanStatus === "holdSteady"
+      ? t("receipts.scanner.holdSteady")
+      : scanStatus === "scanning"
+        ? t("receipts.scanner.detecting")
+        : null;
 
   return (
     <div className="space-y-3">
@@ -177,11 +236,11 @@ export function BarcodeScanner({
             {autoStart ? t("checkIn.scanner.cameraStarting") : t("receipts.scanner.cameraHint")}
           </div>
         )}
-        {active && supported && scanningLabel ? (
-          <div className="absolute bottom-0 inset-x-0 bg-black/55 px-4 py-2 text-center text-sm text-white">
-            {scanningLabel}
+        {active && statusMessage && (
+          <div className="absolute bottom-0 inset-x-0 bg-black/55 text-white text-sm text-center px-4 py-2">
+            {statusMessage}
           </div>
-        ) : null}
+        )}
       </div>
 
       {error && <p className="text-sm text-amber-800">{error}</p>}
@@ -211,7 +270,7 @@ export function BarcodeScanner({
 
       {!supported && (
         <p className="text-xs text-black/50">
-          {unsupportedHint ?? t("receipts.scanner.unsupportedHint")}
+          {t("receipts.scanner.unsupportedHint")}
         </p>
       )}
     </div>

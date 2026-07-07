@@ -264,6 +264,8 @@
       "cameraHint": "Richte die Kamera auf den Barcode unten auf deinem Bon",
       "startCamera": "Kamera starten",
       "stopCamera": "Kamera stoppen",
+      "detecting": "QR wird gesucht…",
+      "holdSteady": "Halte die Kamera ruhig auf den QR-Code",
       "unsupportedHint": "Barcode-Scannen per Kamera funktioniert am besten in Chrome. Nutze sonst das Eingabefeld unten."
     },
     "photoForm": {
@@ -607,6 +609,10 @@
       "barcodeMismatch": "Dieser Barcode passt nicht zu deinem Webshop-Konto.",
       "noBarcode": "Verknüpfe zuerst deinen Woof Wallet-Barcode.",
       "noProduct": "Aufladen ist im Webshop noch nicht eingerichtet.",
+      "noCart": "Warenkorb konnte nicht geladen werden. Bitte erneut versuchen.",
+      "cartAddFailed": "Aufladeprodukt konnte nicht hinzugefügt werden. Bitte erneut versuchen.",
+      "pluginMissing": "Woof Wallet ist im Webshop nicht aktiv. Bitte Doggy Beach House kontaktieren.",
+      "networkError": "Webshop nicht erreichbar. Bitte später erneut versuchen.",
       "notConfigured": "Woof Wallet-Verbindung ist noch nicht eingerichtet.",
       "authFailed": "Webshop-Verbindung abgelehnt. Bitte Doggy Beach House kontaktieren.",
       "noCheckoutUrl": "Kein Zahlungslink von der Webshop erhalten."
