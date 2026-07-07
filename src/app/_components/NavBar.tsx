@@ -63,6 +63,7 @@ export function NavBar({ serverSession }: { serverSession?: Session | null }) {
   const mainLinks = [
     { href: "/dogs", label: t("nav.links.dogs") },
     { href: "/check-in", label: t("nav.links.checkIn") },
+    { href: "/receipts/scan", label: t("nav.links.receipts") },
     { href: "/rewards", label: t("nav.links.rewards") },
     { href: "/wallet/top-up", label: t("nav.links.wallet") },
   ];

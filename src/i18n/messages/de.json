@@ -8,6 +8,7 @@
     "links": {
       "dogs": "Hunde",
       "checkIn": "Check-in",
+      "receipts": "Bon scannen",
       "rewards": "Belohnungen",
       "wallet": "Woof Wallet",
       "admin": "Admin",
@@ -105,6 +106,7 @@
       "description": "Wähle einen Hund, um Profil, Bon oder Belohnungen anzusehen.",
       "allDogs": "Alle Hunde",
       "checkIn": "Check-in",
+      "scanReceipt": "Bon scannen",
       "rewards": "Belohnungen",
       "topUpWallet": "Woof Wallet aufladen"
     }
@@ -250,7 +252,15 @@
       "description": "Scanne den Barcode unten auf deinem Kassenbon. Produkte kommen automatisch von der Kasse — kein manuelles Tippen. 1 Woof Coin pro Artikel.",
       "descriptionBoldBarcode": "Barcode unten auf deinem Kassenbon",
       "descriptionBoldCoins": "1 Woof Coin pro Artikel",
-      "backToDogs": "Zurück zu Hunde"
+      "backToDogs": "Zurück zu Hunde",
+      "manualFallback": "Lieber Produkte selbst wählen?",
+      "manualFallbackPending": "Kassen-Anbindung noch nicht aktiv? Füge Produkte jetzt manuell hinzu und verdiene sofort Woof Coins.",
+      "manualLink": "Produkte manuell hinzufügen"
+    },
+    "manual": {
+      "title": "Bon manuell registrieren",
+      "description": "Suche Produkte aus dem Shop-Katalog und bestätige deinen Einkauf. 1 Woof Coin pro Artikel — sofort nach Bestätigung.",
+      "backToScan": "← Zurück zum Barcode-Scan"
     },
     "barcodeForm": {
       "dogLabel": "Für welchen Hund ist dieser Bon?",

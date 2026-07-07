@@ -8,6 +8,7 @@
     "links": {
       "dogs": "Dogs",
       "checkIn": "Check-in",
+      "receipts": "Scan receipt",
       "rewards": "Rewards",
       "wallet": "Woof Wallet",
       "admin": "Admin",
@@ -105,6 +106,7 @@
       "description": "Pick a dog to view their profile, receipt or rewards.",
       "allDogs": "All dogs",
       "checkIn": "Check-in",
+      "scanReceipt": "Scan receipt",
       "rewards": "Rewards",
       "topUpWallet": "Top up Woof Wallet"
     }
@@ -250,7 +252,15 @@
       "description": "Scan the barcode at the bottom of your receipt. Products come automatically from the till — no typing needed. 1 Woof Coin per item.",
       "descriptionBoldBarcode": "barcode at the bottom of your receipt",
       "descriptionBoldCoins": "1 Woof Coin per item",
-      "backToDogs": "Back to dogs"
+      "backToDogs": "Back to dogs",
+      "manualFallback": "Prefer to pick products yourself?",
+      "manualFallbackPending": "POS link not active yet? Add products manually now and earn Woof Coins right away.",
+      "manualLink": "Add products manually"
+    },
+    "manual": {
+      "title": "Register receipt manually",
+      "description": "Search products from the store catalog and confirm your purchase. 1 Woof Coin per item — credited immediately after confirmation.",
+      "backToScan": "← Back to barcode scan"
     },
     "barcodeForm": {
       "dogLabel": "Which dog is this receipt for?",

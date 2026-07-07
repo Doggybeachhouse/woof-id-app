@@ -8,6 +8,7 @@
     "links": {
       "dogs": "Honden",
       "checkIn": "Check-in",
+      "receipts": "Bon scannen",
       "rewards": "Beloningen",
       "wallet": "Woof Wallet",
       "admin": "Admin",
@@ -251,7 +252,15 @@
       "description": "Scan de barcode onderaan je kassabon. Producten komen automatisch uit de kassa — geen handmatig typen. 1 Woof Coin per artikel.",
       "descriptionBoldBarcode": "barcode onderaan je kassabon",
       "descriptionBoldCoins": "1 Woof Coin per artikel",
-      "backToDogs": "Terug naar honden"
+      "backToDogs": "Terug naar honden",
+      "manualFallback": "Liever zelf producten kiezen?",
+      "manualFallbackPending": "Kassa-koppeling nog niet actief? Voeg producten nu handmatig toe en verdien direct Woof Coins.",
+      "manualLink": "Producten handmatig toevoegen"
+    },
+    "manual": {
+      "title": "Bon handmatig registreren",
+      "description": "Zoek producten uit de winkelcatalogus en bevestig je aankoop. 1 Woof Coin per artikel — direct na bevestigen.",
+      "backToScan": "← Terug naar barcode scannen"
     },
     "barcodeForm": {
       "dogLabel": "Voor welke hond is deze bon?",

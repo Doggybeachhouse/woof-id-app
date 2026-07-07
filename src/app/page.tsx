@@ -95,6 +95,9 @@ export default async function HomePage() {
         <Link href="/check-in" className="btn btn-primary">
           {t("home.loggedIn.checkIn")}
         </Link>
+        <Link href="/receipts/scan" className="btn btn-secondary">
+          {t("home.loggedIn.scanReceipt")}
+        </Link>
         <Link href="/rewards" className="btn btn-secondary">
           {t("home.loggedIn.rewards")}
         </Link>
