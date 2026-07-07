@@ -286,6 +286,7 @@ export function CheckInQrDisplay({ initialQr }: { initialQr?: QrPayload }) {
               autoStart
               hideControls
               scanMode="qr"
+              facingMode="user"
               onDetected={(code) => void handleVoucherDetected(code)}
               disabled={false}
             />

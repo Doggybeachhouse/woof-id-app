@@ -4,8 +4,13 @@ import jsQR from "jsqr";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useI18n } from "@/i18n/client";
+import {
+  getCameraVideoConstraints,
+  type CameraFacingMode,
+} from "@/lib/camera/constraints";
 
 export type BarcodeScanMode = "qr" | "barcode" | "all";
+export type { CameraFacingMode };
 
 type Props = {
   onDetected: (code: string) => void;
@@ -16,6 +21,8 @@ type Props = {
   hideControls?: boolean;
   /** QR-only mode uses jsQR fallback (required on iOS Safari). */
   scanMode?: BarcodeScanMode;
+  /** `user` = front/selfie camera (kiosk voucher scan); `environment` = rear (default). */
+  facingMode?: CameraFacingMode;
 };
 
 const SCAN_INTERVAL_MS = 120;
@@ -36,6 +43,7 @@ export function BarcodeScanner({
   autoStart = false,
   hideControls = false,
   scanMode = "all",
+  facingMode = "environment",
 }: Props) {
   const { t } = useI18n();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -65,10 +73,9 @@ export function BarcodeScanner({
     detectedRef.current = false;
     setScanStatus("idle");
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: "environment" } },
-        audio: false,
-      });
+      const stream = await navigator.mediaDevices.getUserMedia(
+        getCameraVideoConstraints(facingMode),
+      );
       if (generation !== startGenerationRef.current) {
         stream.getTracks().forEach((track) => track.stop());
         return;
@@ -86,7 +93,7 @@ export function BarcodeScanner({
       setError(t("errors.receipts.cameraUnavailable"));
       setSupported(false);
     }
-  }, [t]);
+  }, [facingMode, t]);
 
   useEffect(() => {
     if (!autoStart || disabled) return;

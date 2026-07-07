@@ -109,6 +109,7 @@ export function VoucherRedeemDisplay() {
                 {t("admin.voucherDisplay.scanningHint")}
               </p>
               <BarcodeScanner
+                facingMode="user"
                 onDetected={(code) => void handleDetected(code)}
                 disabled={false}
               />
