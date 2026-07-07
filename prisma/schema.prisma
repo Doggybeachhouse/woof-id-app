@@ -1,0 +1,330 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  STAFF
+  ADMIN
+}
+
+enum ProductCategory {
+  LICKY
+  SNACKS
+  TOYS
+  ACCESSORIES
+  GROOMING
+  CLOTHING
+  OTHER
+}
+
+enum JourneyEventType {
+  PROFILE_CREATED
+  CHECK_IN
+  RECEIPT_SCANNED
+  PRODUCTS_REGISTERED
+  TOP_UP
+  ACHIEVEMENT_UNLOCKED
+  PHOTO_UPLOADED
+  MISSION_COMPLETED
+  COINS_EARNED
+  REWARD_REDEEMED
+}
+
+enum CoinSourceType {
+  CHECK_IN
+  RECEIPT
+  PHOTO
+  TOP_UP
+  BIRTHDAY
+  MISSION
+  ACHIEVEMENT
+  MANUAL
+  REDEMPTION
+}
+
+enum VoucherStatus {
+  ACTIVE
+  REDEEMED
+  CANCELLED
+}
+
+enum AchievementRuleType {
+  VISIT_COUNT
+  TOP_UP_COUNT
+  TOP_UP_TOTAL_EUR
+  RECEIPT_COUNT
+  PRODUCT_CATEGORY_COUNT
+  PHOTO_COUNT
+}
+
+enum ReceiptStatus {
+  PENDING
+  CONFIRMED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String?
+  name         String?
+  role         UserRole @default(OWNER)
+  createdAt    DateTime @default(now())
+
+  dogs     DogProfile[]
+  accounts Account[]
+  sessions Session[]
+  topUpsRegistered TopUp[] @relation("TopUpRegisteredBy")
+  vouchersRedeemed RewardVoucher[] @relation("VoucherRedeemedBy")
+}
+
+model DogProfile {
+  id               String    @id @default(cuid())
+  woofId           String    @unique
+  ownerUserId      String
+  name             String
+  photoUrl         String?
+  breed            String?
+  birthday         DateTime?
+  weightKg         Float?
+  favoriteSnack    String?
+  favoriteIceCream String?
+  personality      String?
+  woofCoins        Int       @default(0)
+  visitCount       Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  owner            User              @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  walletLink       WoofWalletLink?
+  visits           Visit[]
+  topUps           TopUp[]
+  receipts         Receipt[]
+  coinLedger       CoinLedger[]
+  achievements     DogAchievement[]
+  missionProgress  MissionProgress[]
+  journeyEvents    JourneyEvent[]
+  photoChallenges  PhotoChallenge[]
+  rewardVouchers   RewardVoucher[]
+
+  @@index([ownerUserId])
+}
+
+model RewardVoucher {
+  id           String        @id @default(cuid())
+  code         String        @unique
+  dogProfileId String
+  rewardId     String
+  rewardTitle  String
+  coinsSpent   Int
+  status       VoucherStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  redeemedAt   DateTime?
+  redeemedById String?
+
+  dog        DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+  redeemedBy User?      @relation("VoucherRedeemedBy", fields: [redeemedById], references: [id], onDelete: SetNull)
+
+  @@index([dogProfileId, status])
+  @@index([code])
+}
+
+model WoofWalletLink {
+  id           String   @id @default(cuid())
+  dogProfileId String   @unique
+  walletCardId String
+  linkedAt     DateTime @default(now())
+  linkedBy     String?
+
+  dog DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+
+  @@index([walletCardId])
+}
+
+model Visit {
+  id           String   @id @default(cuid())
+  dogProfileId String
+  visitedAt    DateTime @default(now())
+  location     String   @default("Doggy Beach House Zandvoort")
+
+  dog DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+
+  @@index([dogProfileId, visitedAt])
+}
+
+model TopUp {
+  id             String   @id @default(cuid())
+  dogProfileId   String
+  amountEur      Decimal
+  toppedUpAt     DateTime @default(now())
+  registeredById String?
+  note           String?
+
+  dog          DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+  registeredBy User?      @relation("TopUpRegisteredBy", fields: [registeredById], references: [id], onDelete: SetNull)
+
+  @@index([dogProfileId, toppedUpAt])
+}
+
+model Receipt {
+  id           String        @id @default(cuid())
+  dogProfileId String
+  imageUrl     String?
+  barcode      String?       @unique
+  status       ReceiptStatus @default(PENDING)
+  totalEur     Decimal?
+  scannedAt    DateTime      @default(now())
+  confirmedAt  DateTime?
+
+  dog   DogProfile    @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+  items ReceiptItem[]
+
+  @@index([dogProfileId, scannedAt])
+}
+
+model ReceiptItem {
+  id             String           @id @default(cuid())
+  receiptId      String
+  rawName        String
+  normalizedName String
+  category       ProductCategory  @default(OTHER)
+  quantity       Int              @default(1)
+  unitPriceEur   Decimal?
+
+  receipt Receipt @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+
+  @@index([receiptId])
+}
+
+model CoinLedger {
+  id           String         @id @default(cuid())
+  dogProfileId String
+  amount       Int
+  reason       String
+  sourceType   CoinSourceType
+  sourceId     String?
+  createdAt    DateTime       @default(now())
+
+  dog DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+
+  @@index([dogProfileId, createdAt])
+}
+
+model AchievementDefinition {
+  id          String              @id @default(cuid())
+  slug        String              @unique
+  name        String
+  description String
+  icon        String
+  ruleType    AchievementRuleType
+  ruleConfig  Json
+  sortOrder   Int                 @default(0)
+
+  unlocks DogAchievement[]
+}
+
+model DogAchievement {
+  id            String   @id @default(cuid())
+  dogProfileId  String
+  achievementId String
+  unlockedAt    DateTime @default(now())
+
+  dog         DogProfile            @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+  achievement AchievementDefinition @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([dogProfileId, achievementId])
+}
+
+model MissionDefinition {
+  id            String  @id @default(cuid())
+  slug          String  @unique
+  name          String
+  description   String
+  ruleConfig    Json
+  coinReward    Int     @default(50)
+  achievementId String?
+  active        Boolean @default(true)
+
+  progress MissionProgress[]
+}
+
+model MissionProgress {
+  id           String    @id @default(cuid())
+  dogProfileId String
+  missionId    String
+  progress     Int       @default(0)
+  target       Int       @default(1)
+  completedAt  DateTime?
+
+  dog     DogProfile        @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+  mission MissionDefinition @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@unique([dogProfileId, missionId])
+}
+
+model PhotoChallenge {
+  id           String   @id @default(cuid())
+  dogProfileId String
+  challengeSlug String
+  imageUrl     String
+  uploadedAt   DateTime @default(now())
+
+  dog DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+
+  @@index([dogProfileId])
+}
+
+model JourneyEvent {
+  id           String           @id @default(cuid())
+  dogProfileId String
+  eventType    JourneyEventType
+  title        String
+  body         String?
+  metadata     Json?
+  occurredAt   DateTime         @default(now())
+
+  dog DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+
+  @@index([dogProfileId, occurredAt])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

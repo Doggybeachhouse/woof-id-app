@@ -1,0 +1,640 @@
+{
+  "nav": {
+    "brand": {
+      "appName": "Woof ID",
+      "tagline": "Doggy Beach House",
+      "logoAlt": "Doggy Beach House"
+    },
+    "links": {
+      "dogs": "Dogs",
+      "checkIn": "Check-in",
+      "rewards": "Rewards",
+      "wallet": "Woof Wallet",
+      "admin": "Admin",
+      "account": "Account",
+      "login": "Log in",
+      "register": "Sign up"
+    },
+    "logout": {
+      "label": "Out",
+      "ariaLabel": "Log out"
+    },
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    },
+    "footer": {
+      "timeline": "Timeline",
+      "website": "doggybeachhouse.com",
+      "account": "Account",
+      "brandLine": "Doggy Beach House · Zandvoort"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "subtitle": "Welcome back to Woof ID",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Log in",
+      "submitLoading": "Working…",
+      "forgotPassword": "Forgot your password or email?",
+      "noAccount": "Don't have an account yet?",
+      "registerLink": "Sign up",
+      "resetSuccess": "Your password has been updated. You can log in now.",
+      "loading": "Loading…"
+    },
+    "magicLogin": {
+      "title": "Log in",
+      "loggingIn": "Logging you in…",
+      "requestNewLink": "Request a new link",
+      "loading": "Loading…"
+    },
+    "register": {
+      "title": "Create account",
+      "intro": "One account for Woof ID and doggybeachhouse.com — log in on both with the same details.",
+      "nameLabel": "Your name (optional)",
+      "emailLabel": "Email",
+      "emailChecking": "Checking email address…",
+      "emailInUseWoofId": "This email address is already registered with Woof ID.",
+      "goToLogin": "Go to log in",
+      "passwordLabel": "Password (min. 8 characters)",
+      "submit": "Sign up",
+      "submitLoading": "Working…",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in"
+    },
+    "forgotPassword": {
+      "title": "Login help",
+      "subtitle": "Choose how you'd like to get back into your Woof ID account.",
+      "modeReset": "Reset password",
+      "modeMagic": "Log in via email",
+      "emailLabel": "Email address",
+      "submitReset": "Send reset link",
+      "submitMagic": "Send login link",
+      "submitLoading": "Working…",
+      "staffLinkTitle": "Link for staff (valid 1 hour)",
+      "staffLinkHint": "Share this link with the customer if email isn't set up yet.",
+      "backToLogin": "Back to log in"
+    },
+    "resetPassword": {
+      "title": "New password",
+      "checkingLink": "Checking link…",
+      "invalidLink": "This reset link is invalid or has expired.",
+      "requestNewLink": "Request a new link",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm password",
+      "submit": "Save password",
+      "submitLoading": "Working…",
+      "loading": "Loading…"
+    }
+  },
+  "home": {
+    "guest": {
+      "eyebrow": "Doggy Beach House · Zandvoort",
+      "headline": "Your dog, front and centre.",
+      "description": "Create a Woof ID, check in at the store, earn Woof Coins and unlock rewards — linked to your Woof Wallet.",
+      "ctaRegister": "Get started with Woof ID",
+      "ctaLogin": "Log in",
+      "checkInHint": "Checking in? Scan the QR code in the store after logging in.",
+      "disclaimer": "No medical data. Just good times for dogs and their humans."
+    },
+    "loggedIn": {
+      "eyebrow": "Welcome back",
+      "headline": "Ready for a woofin' visit?",
+      "description": "Pick a dog to view their profile, receipt or rewards.",
+      "allDogs": "All dogs",
+      "checkIn": "Check-in",
+      "rewards": "Rewards",
+      "topUpWallet": "Top up Woof Wallet"
+    }
+  },
+  "dogs": {
+    "list": {
+      "title": "My dogs",
+      "addDog": "+ Dog",
+      "empty": "No dog profiles yet.",
+      "createFirst": "Create your first dog",
+      "visits": "{count} visits",
+      "wallet": "Wallet {walletCardId}",
+      "topUp": "Top up"
+    },
+    "new": {
+      "back": "← Back",
+      "title": "New dog profile",
+      "photoLabel": "Photo of your dog",
+      "nameLabel": "Dog's name *",
+      "breedLabel": "Breed",
+      "birthdayLabel": "Birthday",
+      "weightLabel": "Weight (kg)",
+      "favoriteSnackLabel": "Favourite snack",
+      "favoriteIceCreamLabel": "Favourite ice cream (Licky)",
+      "personalityLabel": "Personality / description",
+      "walletLabel": "Woof Wallet number (optional)",
+      "walletPlaceholder": "e.g. 00000001915",
+      "walletHint": "The number on your physical Woof Wallet. You can add this later too.",
+      "submit": "Create Woof ID"
+    },
+    "detail": {
+      "back": "← Dogs",
+      "woofWallet": "Woof Wallet",
+      "prepaid": "Prepaid",
+      "balanceHintPrefix": "Your balance on the website will appear once the till is connected. Until then, check your balance in store or at",
+      "balanceHintSuffix": ".",
+      "balanceHint": "Your balance on the website will appear once the till is connected. Until then, check your balance in store or at {link}.",
+      "websiteLink": "doggybeachhouse.com",
+      "topUp": "Top up",
+      "noWalletLinked": "No Woof Wallet linked yet. Add your card or tag number under Edit profile.",
+      "editProfileBold": "Edit profile",
+      "editWalletOrProfile": "Change wallet or profile",
+      "linkWallet": "Link wallet",
+      "breed": "Breed:",
+      "birthday": "Birthday:",
+      "weight": "Weight:",
+      "weightUnit": "kg",
+      "favoriteSnack": "Favourite snack:",
+      "favoriteIceCream": "Favourite ice cream:",
+      "personality": "Personality:",
+      "visits": "Visits:",
+      "totalTopUpAdmin": "Total topped up (admin):",
+      "editProfile": "Edit profile",
+      "rewards": "Rewards",
+      "scanReceipt": "Scan receipt",
+      "checkIn": "Check-in",
+      "checkInHint": "Check in via the QR code in the store.",
+      "achievementsTitle": "Achievements",
+      "achievementsEmpty": "No badges yet — check in or scan a receipt!",
+      "timelineTitle": "Recent timeline",
+      "fullTimeline": "Full timeline →"
+    },
+    "edit": {
+      "back": "← {dogName}",
+      "title": "Edit profile",
+      "photoLabel": "Photo of {dogName}",
+      "nameLabel": "Name *",
+      "breedLabel": "Breed",
+      "birthdayLabel": "Birthday",
+      "weightLabel": "Weight (kg)",
+      "favoriteSnackLabel": "Favourite snack",
+      "favoriteIceCreamLabel": "Favourite ice cream (Licky)",
+      "personalityLabel": "Personality",
+      "walletLabel": "Woof Wallet number",
+      "walletPlaceholder": "e.g. 00000001915",
+      "walletHint": "The number on your physical Woof Wallet card or tag.",
+      "submit": "Save"
+    },
+    "journey": {
+      "back": "← {dogName}",
+      "title": "Timeline",
+      "empty": "No events yet — time for a visit!"
+    }
+  },
+  "checkIn": {
+    "page": {
+      "title": "Check-in",
+      "alreadyCheckedInTitle": "Already checked in today",
+      "alreadyCheckedInBody": "All your dogs have already received check-in coins today. See you tomorrow!",
+      "backHome": "Back to home",
+      "selectDogLabel": "Choose your dog",
+      "alreadyCheckedInToday": "Already checked in today:",
+      "maxPerDay": "Maximum 1 check-in per dog per day.",
+      "submit": "Check in (+25 Woof Coins)"
+    },
+    "scanner": {
+      "title": "Check-in",
+      "instructionsPrefix": "Scan the",
+      "instructions": "Scan the QR code on the screen at the till in Doggy Beach House to check in and earn Woof Coins.",
+      "instructionsBold": "QR code on the screen at the till",
+      "instructionsSuffix": "in Doggy Beach House to check in and earn Woof Coins.",
+      "expiredQr": "This QR code has expired or is invalid. Scan the current code in the store — it refreshes every 15 minutes.",
+      "cameraStarting": "Starting camera…",
+      "retry": "Try again",
+      "footerHint": "Only the QR on the store screen works. Max. 1× per dog per day."
+    },
+    "success": {
+      "title": "Checked in!",
+      "message": "{dogName} has checked in at {location}.",
+      "defaultDogName": "Your dog",
+      "defaultLocation": "Doggy Beach House Zandvoort",
+      "coinsEarned": "+25 Woof Coins",
+      "toDogProfile": "Go to dog profile",
+      "home": "Home"
+    },
+    "display": {
+      "title": "Scan to check in",
+      "instructions": "Open Woof ID on your phone and scan this code at the till.",
+      "loading": "Loading QR…",
+      "loadTimeout": "Loading the QR is taking too long. Check your Wi‑Fi and try again.",
+      "retryLoad": "Try again",
+      "qrAlt": "Check-in QR code",
+      "refreshCountdown": "Refreshes in {minutes}:{seconds}",
+      "footerHint": "This code changes every 15 minutes. Photos of old codes won't work. Maximum 1 check-in per dog per day.",
+      "scanVoucherButton": "Scan voucher",
+      "voucherScanHint": "Hold the QR code on your phone in front of the camera.",
+      "cancelVoucherScan": "Cancel",
+      "voucherSuccessTitle": "Voucher redeemed!",
+      "voucherSuccessDetail": "{rewardTitle} for {dogName}",
+      "voucherAlreadyRedeemedTitle": "Already redeemed",
+      "voucherAlreadyRedeemedBody": "{rewardTitle} for {dogName} — this voucher has already been used.",
+      "voucherErrorTitle": "Scan failed",
+      "voucherErrorNotFound": "Voucher not recognized. Please try again.",
+      "voucherErrorCancelled": "This voucher has been cancelled.",
+      "voucherTryAgain": "Try again"
+    }
+  },
+  "receipts": {
+    "scan": {
+      "title": "Scan receipt",
+      "description": "Scan the barcode at the bottom of your receipt. Products come automatically from the till — no typing needed. 1 Woof Coin per item.",
+      "descriptionBoldBarcode": "barcode at the bottom of your receipt",
+      "descriptionBoldCoins": "1 Woof Coin per item",
+      "backToDogs": "Back to dogs"
+    },
+    "barcodeForm": {
+      "dogLabel": "Which dog is this receipt for?",
+      "barcodeLabel": "Barcode on receipt (if camera doesn't work)",
+      "barcodePlaceholder": "Scan or type the code at the bottom of the receipt",
+      "submit": "Register receipt",
+      "submitLoading": "Looking up receipt…",
+      "mplusPending": "Till integration is being activated. Your receipt will be saved; Woof Coins will follow once STN has connected the API."
+    },
+    "scanner": {
+      "cameraHint": "Point the camera at the barcode at the bottom of your receipt",
+      "startCamera": "Start camera",
+      "stopCamera": "Stop camera",
+      "unsupportedHint": "Barcode scanning via camera works best in Chrome. Otherwise use the input field below."
+    },
+    "photoForm": {
+      "dogLabel": "Which dog is this receipt for?",
+      "photoLabel": "Photo of receipt",
+      "photoHint": "Take a photo or choose from your gallery. Max 5 MB.",
+      "previewAlt": "Receipt preview",
+      "submit": "Scan receipt",
+      "submitLoading": "AI reading receipt…",
+      "processingHint": "Just a moment — products are being recognised…"
+    },
+    "manualForm": {
+      "dogLabel": "Dog",
+      "searchLabel": "Search product",
+      "searchPlaceholder": "E.g. Licky, snack, toy…",
+      "noProducts": "No products found",
+      "receiptTitle": "Your receipt",
+      "removeAriaLabel": "Remove",
+      "totalSingular": "Total: {count} item → {coins} Woof Coins",
+      "totalPlural": "Total: {count} items → {coins} Woof Coins",
+      "submit": "Confirm and earn coins",
+      "submitLoading": "Working…"
+    },
+    "review": {
+      "back": "← Scan again",
+      "title": "Does this look right?",
+      "forDog": "Receipt for {dogName}",
+      "receiptPhotoAlt": "Receipt photo",
+      "alreadyConfirmed": "This receipt has already been confirmed.",
+      "toDog": "Go to {dogName}",
+      "cancel": "Cancel and delete receipt",
+      "intro": "We found these products. Does this look right? Adjust names and quantities — you earn 1 Woof Coin per item (not per receipt or euro).",
+      "introBold": "1 Woof Coin per item",
+      "coinsAfterConfirm": "🪙 {count} Woof Coins after confirming",
+      "itemsSingular": "{count} item total",
+      "itemsPlural": "{count} items total",
+      "productNumber": "Product {number}",
+      "remove": "Remove",
+      "onReceipt": "On receipt:",
+      "productNameLabel": "Product name",
+      "quantityLabel": "Quantity",
+      "categoryLabel": "Category",
+      "addProduct": "+ Add product",
+      "submit": "Confirm and save"
+    },
+    "categories": {
+      "LICKY": "Licky / dog ice cream",
+      "SNACKS": "Snacks",
+      "TOYS": "Toys",
+      "ACCESSORIES": "Accessories",
+      "GROOMING": "Grooming",
+      "CLOTHING": "Clothing",
+      "OTHER": "Other"
+    },
+    "success": {
+      "title": "Receipt saved!",
+      "message": "{dogName}'s purchases have been registered.",
+      "defaultDogName": "your dog",
+      "coinsEarned": "+{count} Woof Coins",
+      "itemsSingular": "{count} item × 1 coin",
+      "itemsPlural": "{count} items × 1 coin",
+      "toDogProfiles": "Go to dog profiles",
+      "scanAnother": "Scan another receipt"
+    },
+    "pending": {
+      "title": "Receipt registered",
+      "message": "Receipt for {dogName} has been saved.",
+      "activationHint": "The till integration is being activated. Once it's live, your products and Woof Coins will be awarded automatically. Nothing else to do.",
+      "toDogProfile": "Go to dog profile"
+    }
+  },
+  "rewards": {
+    "page": {
+      "eyebrow": "Woof Coins",
+      "title": "Redeem rewards",
+      "description": "Collect coins with check-ins and receipts. Redeem them for a personal voucher.",
+      "balance": "Balance",
+      "coinsUntil": "{coins} more coins until {rewardTitle} {icon}",
+      "available": "Available",
+      "progress": "{balance} / {required} coins",
+      "howItWorksTitle": "How does it work?",
+      "howItWorks1": "Earn coins with check-ins, receipts and badges.",
+      "howItWorks2": "Pick a reward and tap \"Redeem\".",
+      "howItWorks3": "You'll get a personal voucher with a QR code and barcode.",
+      "howItWorks4": "Scan your voucher at the till on the voucher screen — each code works only once.",
+      "backToDog": "Back to {dogName}"
+    },
+    "items": {
+      "free-licky": {
+        "title": "Free Licky",
+        "description": "One free Licky ice cream for your dog — a tasty treat!"
+      },
+      "free-ball": {
+        "title": "Free ball",
+        "description": "A ball of your choice from our range, completely free."
+      },
+      "discount-10": {
+        "title": "10% off",
+        "description": "10% off your purchase in store.",
+        "terms": "Minimum spend €20. Cannot be combined with other offers."
+      },
+      "snack-bag": {
+        "title": "Bag of snacks",
+        "description": "A bag of free snacks from our snack bar — you choose, up to €15 value.",
+        "terms": "Maximum €15 worth of snacks of your choice."
+      }
+    },
+    "redeem": {
+      "brand": "Doggy Beach House",
+      "voucherSubtitle": "Personal voucher · single use",
+      "newBalance": "New balance:",
+      "showAtCheckout": "Show this voucher at the till. Once scanned, it's used up.",
+      "scanAtCounter": "Scan this QR code at the till on the voucher screen.",
+      "qrAlt": "Voucher QR code",
+      "submit": "Redeem",
+      "submitLoading": "Working…"
+    }
+  },
+  "wallet": {
+    "topUp": {
+      "back": "← Back",
+      "noWalletTitle": "No Woof Wallet linked",
+      "noWalletBody": "First link a Woof Wallet barcode to a dog profile.",
+      "toDogs": "Go to dogs",
+      "eyebrow": "Woof Wallet",
+      "title": "Top up",
+      "description": "Pay securely via iDEAL on doggybeachhouse.com. Your balance will be activated in store.",
+      "dogLabel": "Dog",
+      "barcode": "Barcode: {walletCardId}",
+      "amountLabel": "Amount",
+      "customAmountLabel": "Other amount",
+      "customAmountPlaceholder": "e.g. 15.00",
+      "loggedInAs": "Logged in as {email} — same account as on doggybeachhouse.com.",
+      "submit": "Continue to iDEAL",
+      "submitLoading": "Working…",
+      "linkWalletFor": "Link wallet for {dogName}",
+      "successTitle": "Payment received!",
+      "successBody": "Your top-up has been received. Your balance will be activated within a few hours during opening times. You'll get an email once your Woof Wallet is updated."
+    }
+  },
+  "account": {
+    "title": "Account",
+    "description": "Update your login details or get help if you've forgotten your password.",
+    "wallet": {
+      "title": "Woof Wallet",
+      "description": "Top up your physical Woof Wallet via iDEAL. Choose the dog your wallet is linked to.",
+      "topUp": "Top up via iDEAL",
+      "linkFirst": "Link a wallet to a dog first"
+    },
+    "changePassword": {
+      "title": "Change password",
+      "currentPasswordLabel": "Current password",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm new password",
+      "submit": "Save password",
+      "submitLoading": "Working…"
+    },
+    "changeEmail": {
+      "title": "Change email address",
+      "currentEmail": "Current address: {email}",
+      "newEmailLabel": "New email address",
+      "passwordLabel": "Password to confirm",
+      "submit": "Save email",
+      "submitLoading": "Working…"
+    }
+  },
+  "admin": {
+    "home": {
+      "title": "Admin",
+      "dogProfiles": "Dog profiles",
+      "checkIns": "Check-ins",
+      "totalTopUps": "Total registered top-ups",
+      "qrTabletTitle": "Check-in QR (tablet)",
+      "qrTabletDescription": "Set up a tablet at the till on the QR screen. Customers scan the code to check in; on the same screen they can also scan their voucher. The code refreshes every 15 minutes.",
+      "openQrDisplay": "Open QR screen for tablet",
+      "allDogs": "All dogs",
+      "registerTopUp": "Register top-up",
+      "scanVouchers": "Scan vouchers",
+      "openVoucherDisplay": "Open voucher screen (tablet)",
+      "accountHelp": "Account help",
+      "recentProfiles": "Recent profiles"
+    },
+    "dogs": {
+      "back": "← Admin",
+      "title": "All dog profiles",
+      "visits": "{count} visits",
+      "topUps": "{count} top-ups",
+      "badges": "{count} badges",
+      "wallet": "Wallet: {walletCardId}"
+    },
+    "topUps": {
+      "back": "← Admin",
+      "title": "Register top-up",
+      "description": "Track manually after activation at the till (no live POS connection).",
+      "dogLabel": "Dog",
+      "dogPlaceholder": "Choose a dog…",
+      "amountLabel": "Amount (EUR)",
+      "amountPlaceholder": "25.00",
+      "noteLabel": "Note (optional)",
+      "submit": "Save top-up",
+      "recentTitle": "Recently registered",
+      "registeredBySystem": "system"
+    },
+    "users": {
+      "title": "Account help",
+      "description": "Send a reset or login email to customers who've lost their password or email.",
+      "emailLabel": "Customer email address",
+      "modeLabel": "Email type",
+      "modeReset": "Reset password",
+      "modeMagic": "Log in without password",
+      "submit": "Send email",
+      "submitLoading": "Working…",
+      "emailSent": "Email sent to {email} ({mode})",
+      "emailSentHint": "The customer receives a link valid for 1 hour. The link is not shown in the admin panel.",
+      "backToAdmin": "Back to admin",
+      "errors": {
+        "invalidEmail": "Invalid email address",
+        "userNotFound": "User not found",
+        "smtpNotConfigured": "Email is not configured. Set up Gmail/SMTP in the server environment.",
+        "emailSendFailed": "Failed to send email. Check the SMTP settings."
+      }
+    },
+    "vouchers": {
+      "title": "Scan vouchers",
+      "description": "Scan the barcode or enter the code to redeem a reward.",
+      "codeLabel": "Voucher barcode / code",
+      "codePlaceholder": "WVH...",
+      "submit": "Scan & redeem voucher",
+      "submitLoading": "Working…",
+      "recentTitle": "Recent vouchers",
+      "empty": "No vouchers created yet.",
+      "redeemedSuccess": "{rewardTitle} redeemed for {dogName}",
+      "woofId": "Woof ID: {woofId}",
+      "owner": "Owner: {ownerEmail}",
+      "status": {
+        "ACTIVE": "ACTIVE",
+        "REDEEMED": "REDEEMED"
+      },
+      "errors": {
+        "notFound": "Voucher not found",
+        "alreadyRedeemed": "This voucher has already been redeemed",
+        "cancelled": "This voucher has been cancelled"
+      },
+      "backToAdmin": "Back to admin"
+    },
+    "voucherDisplay": {
+      "title": "Redeem voucher",
+      "instructions": "Customer: tap Scan voucher and hold your QR code in front of the camera. Each voucher works only once.",
+      "scanButton": "Scan voucher",
+      "scanningHint": "Hold the QR code or barcode on your screen in front of the camera.",
+      "cancelScan": "Cancel",
+      "successTitle": "Voucher redeemed!",
+      "successBody": "{rewardTitle} for {dogName}",
+      "alreadyRedeemedTitle": "Already redeemed",
+      "alreadyRedeemedBody": "This voucher has already been used and cannot be scanned again.",
+      "nextCustomer": "Next customer",
+      "tryAgain": "Try again",
+      "footerHint": "All vouchers appear in the admin system as soon as a customer redeems Woof Coins.",
+      "errors": {
+        "title": "Scan failed",
+        "notFound": "Voucher not recognized. Please try again.",
+        "cancelled": "This voucher has been cancelled."
+      }
+    }
+  },
+  "common": {
+    "meta": {
+      "title": "Woof ID | Doggy Beach House",
+      "description": "Dog profiles, check-ins, Woof Coins and rewards",
+      "appleWebAppTitle": "Woof ID"
+    },
+    "brand": {
+      "location": "Doggy Beach House · Zandvoort",
+      "defaultCheckInLocation": "Doggy Beach House Zandvoort"
+    },
+    "loading": "Loading…",
+    "busy": "Working…",
+    "back": "← Back",
+    "backToAdmin": "← Admin",
+    "coins": "Woof Coins",
+    "coinBadge": "🪙",
+    "optional": "(optional)",
+    "required": "*",
+    "email": "Email",
+    "password": "Password",
+    "dog": "Dog",
+    "save": "Save",
+    "cancel": "Cancel",
+    "remove": "Remove",
+    "home": "Home",
+    "timeline": "Timeline",
+    "achievements": "Achievements",
+    "prepaid": "Prepaid"
+  },
+  "errors": {
+    "login": {
+      "invalidCredentials": "Incorrect login details",
+      "sessionFailed": "Login succeeded but the session is not active. Try again or refresh the page.",
+      "staffRequired": "This account does not have admin access. Log in with a staff account (e.g. indykroos@hotmail.com)."
+    },
+    "register": {
+      "failed": "Registration failed",
+      "emailInUseWoofId": "This email address is already registered with Woof ID."
+    },
+    "magicLogin": {
+      "noToken": "No login link found.",
+      "invalidOrExpired": "Login link is invalid or has expired.",
+      "failed": "Login failed. Request a new link."
+    },
+    "forgotPassword": {
+      "defaultSuccess": "Request processed."
+    },
+    "resetPassword": {
+      "passwordMismatch": "Passwords don't match",
+      "failed": "Reset failed"
+    },
+    "checkIn": {
+      "failed": "Check-in failed",
+      "invalidQr": "This isn't the store's check-in QR. Scan the code at the till.",
+      "cameraUnavailable": "Camera unavailable. Allow access in your browser or scan the QR with your camera app and open the link.",
+      "barcodeDetectorUnsupported": "QR scanning works best in Chrome on your phone. You can also scan the QR with your regular camera app."
+    },
+    "receipts": {
+      "selectDogAndPhoto": "Choose a dog and a photo of your receipt",
+      "scanFailed": "Scan failed",
+      "selectDog": "Choose a dog",
+      "addProduct": "Add at least one product",
+      "saveFailed": "Save failed",
+      "selectDogAndBarcode": "Choose a dog and scan a barcode",
+      "failed": "Failed",
+      "addNamedProduct": "Add at least one product with a name",
+      "cameraUnavailable": "Camera unavailable. Enter the barcode manually below."
+    },
+    "wallet": {
+      "topUpFailed": "Top-up failed",
+      "invalidEmail": "Invalid email address.",
+      "invalidBarcode": "Invalid Woof Wallet barcode.",
+      "invalidAmount": "Choose an amount between €0.01 and €500.",
+      "barcodeNotFound": "No Woof Wallet found for this barcode.",
+      "noWebshopAccount": "Your webshop account could not be found. Contact Doggy Beach House.",
+      "barcodeMismatch": "This barcode does not match your webshop account.",
+      "noBarcode": "Link your Woof Wallet barcode first.",
+      "noProduct": "Top-up is not configured in the webshop yet.",
+      "notConfigured": "Woof Wallet connection is not configured yet.",
+      "authFailed": "Webshop connection was rejected. Please contact Doggy Beach House.",
+      "noCheckoutUrl": "No payment link was received from the webshop."
+    },
+    "admin": {
+      "qrLoadFailed": "Could not load QR",
+      "connectionFailed": "Connection failed"
+    },
+    "account": {
+      "passwordMinLength": "At least 8 characters",
+      "invalidPassword": "Invalid password",
+      "passwordMismatch": "New passwords do not match",
+      "accountNotFound": "Account not found",
+      "currentPasswordWrong": "Current password is incorrect",
+      "passwordUpdated": "Password updated",
+      "invalidEmail": "Enter a valid email address",
+      "passwordWrong": "Password is incorrect",
+      "emailInUse": "This email address is already in use",
+      "emailUpdated": "Email updated on Woof ID and doggybeachhouse.com. Please log in again."
+    },
+    "registerApi": {
+      "invalidInput": "Invalid input",
+      "invalidEmail": "Invalid email address",
+      "emailInUseWoofId": "This email is already registered with Woof ID. Log in instead of registering again.",
+      "emailAvailable": "This email address is available.",
+      "emailInUseWebshop": "This email is already used on doggybeachhouse.com. Use the same password to link your accounts.",
+      "createFailed": "Could not create account. Please try again or contact Doggy Beach House."
+    }
+  },
+  "language": {
+    "label": "Language"
+  }
+}

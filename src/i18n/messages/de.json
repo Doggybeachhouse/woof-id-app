@@ -1,0 +1,640 @@
+{
+  "nav": {
+    "brand": {
+      "appName": "Woof ID",
+      "tagline": "Doggy Beach House",
+      "logoAlt": "Doggy Beach House"
+    },
+    "links": {
+      "dogs": "Hunde",
+      "checkIn": "Check-in",
+      "rewards": "Belohnungen",
+      "wallet": "Woof Wallet",
+      "admin": "Admin",
+      "account": "Konto",
+      "login": "Anmelden",
+      "register": "Registrieren"
+    },
+    "logout": {
+      "label": "Aus",
+      "ariaLabel": "Abmelden"
+    },
+    "menu": {
+      "open": "Menü öffnen",
+      "close": "Menü schließen"
+    },
+    "footer": {
+      "timeline": "Timeline",
+      "website": "doggybeachhouse.com",
+      "account": "Konto",
+      "brandLine": "Doggy Beach House · Zandvoort"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Anmelden",
+      "subtitle": "Willkommen zurück bei Woof ID",
+      "emailLabel": "E-Mail",
+      "passwordLabel": "Passwort",
+      "submit": "Anmelden",
+      "submitLoading": "Wird geladen…",
+      "forgotPassword": "Passwort oder E-Mail vergessen?",
+      "noAccount": "Noch kein Konto?",
+      "registerLink": "Registrieren",
+      "resetSuccess": "Dein Passwort wurde aktualisiert. Du kannst dich jetzt anmelden.",
+      "loading": "Laden…"
+    },
+    "magicLogin": {
+      "title": "Anmelden",
+      "loggingIn": "Du wirst angemeldet…",
+      "requestNewLink": "Neuen Link anfordern",
+      "loading": "Laden…"
+    },
+    "register": {
+      "title": "Konto erstellen",
+      "intro": "Ein Konto für Woof ID und doggybeachhouse.com — anmelden funktioniert auf beiden mit denselben Zugangsdaten.",
+      "nameLabel": "Dein Name (optional)",
+      "emailLabel": "E-Mail",
+      "emailChecking": "E-Mail-Adresse wird geprüft…",
+      "emailInUseWoofId": "Diese E-Mail-Adresse ist bereits bei Woof ID registriert.",
+      "goToLogin": "Zur Anmeldung",
+      "passwordLabel": "Passwort (mind. 8 Zeichen)",
+      "submit": "Registrieren",
+      "submitLoading": "Wird geladen…",
+      "hasAccount": "Bereits ein Konto?",
+      "loginLink": "Anmelden"
+    },
+    "forgotPassword": {
+      "title": "Hilfe bei der Anmeldung",
+      "subtitle": "Wähle, wie du wieder Zugang zu deinem Woof ID-Konto bekommst.",
+      "modeReset": "Passwort zurücksetzen",
+      "modeMagic": "Anmelden per E-Mail",
+      "emailLabel": "E-Mail-Adresse",
+      "submitReset": "Reset-Link senden",
+      "submitMagic": "Anmelde-Link senden",
+      "submitLoading": "Wird geladen…",
+      "staffLinkTitle": "Link für Mitarbeiter (1 Stunde gültig)",
+      "staffLinkHint": "Gib diesen Link an den Kunden weiter, falls die E-Mail noch nicht eingerichtet ist.",
+      "backToLogin": "Zurück zur Anmeldung"
+    },
+    "resetPassword": {
+      "title": "Neues Passwort",
+      "checkingLink": "Link wird geprüft…",
+      "invalidLink": "Dieser Reset-Link ist ungültig oder abgelaufen.",
+      "requestNewLink": "Neuen Link anfordern",
+      "newPasswordLabel": "Neues Passwort",
+      "confirmPasswordLabel": "Passwort bestätigen",
+      "submit": "Passwort speichern",
+      "submitLoading": "Wird geladen…",
+      "loading": "Laden…"
+    }
+  },
+  "home": {
+    "guest": {
+      "eyebrow": "Doggy Beach House · Zandvoort",
+      "headline": "Dein Hund im Mittelpunkt.",
+      "description": "Erstelle eine Woof ID, checke im Laden ein, sammle Woof Coins und schalte Belohnungen frei — verbunden mit deiner Woof Wallet.",
+      "ctaRegister": "Starte mit Woof ID",
+      "ctaLogin": "Anmelden",
+      "checkInHint": "Check-in? Scanne den QR-Code im Laden nach der Anmeldung.",
+      "disclaimer": "Keine medizinischen Daten. Nur Spaß für Hunde und ihre Menschen."
+    },
+    "loggedIn": {
+      "eyebrow": "Willkommen zurück",
+      "headline": "Bereit für einen woofin' Besuch?",
+      "description": "Wähle einen Hund, um Profil, Bon oder Belohnungen anzusehen.",
+      "allDogs": "Alle Hunde",
+      "checkIn": "Check-in",
+      "rewards": "Belohnungen",
+      "topUpWallet": "Woof Wallet aufladen"
+    }
+  },
+  "dogs": {
+    "list": {
+      "title": "Meine Hunde",
+      "addDog": "+ Hund",
+      "empty": "Noch keine Hundeprofile.",
+      "createFirst": "Ersten Hund anlegen",
+      "visits": "{count} Besuche",
+      "wallet": "Wallet {walletCardId}",
+      "topUp": "Aufladen"
+    },
+    "new": {
+      "back": "← Zurück",
+      "title": "Neues Hundeprofil",
+      "photoLabel": "Foto deines Hundes",
+      "nameLabel": "Name des Hundes *",
+      "breedLabel": "Rasse",
+      "birthdayLabel": "Geburtstag",
+      "weightLabel": "Gewicht (kg)",
+      "favoriteSnackLabel": "Lieblingssnack",
+      "favoriteIceCreamLabel": "Lieblingseis (Licky)",
+      "personalityLabel": "Charakter / Beschreibung",
+      "walletLabel": "Woof Wallet-Nummer (optional)",
+      "walletPlaceholder": "z. B. 00000001915",
+      "walletHint": "Die Nummer auf deiner physischen Woof Wallet. Du kannst sie auch später hinzufügen.",
+      "submit": "Woof ID erstellen"
+    },
+    "detail": {
+      "back": "← Hunde",
+      "woofWallet": "Woof Wallet",
+      "prepaid": "Prepaid",
+      "balanceHintPrefix": "Das Guthaben auf der Website folgt, sobald die Kasse verbunden ist. Bis dahin siehst du dein Guthaben im Laden oder auf",
+      "balanceHintSuffix": ".",
+      "balanceHint": "Das Guthaben auf der Website folgt, sobald die Kasse verbunden ist. Bis dahin siehst du dein Guthaben im Laden oder auf {link}.",
+      "websiteLink": "doggybeachhouse.com",
+      "topUp": "Aufladen",
+      "noWalletLinked": "Noch keine Woof Wallet verknüpft. Füge deine Karten- oder Tag-Nummer unter Profil bearbeiten hinzu.",
+      "editProfileBold": "Profil bearbeiten",
+      "editWalletOrProfile": "Wallet oder Profil ändern",
+      "linkWallet": "Wallet verknüpfen",
+      "breed": "Rasse:",
+      "birthday": "Geburtstag:",
+      "weight": "Gewicht:",
+      "weightUnit": "kg",
+      "favoriteSnack": "Lieblingssnack:",
+      "favoriteIceCream": "Lieblingseis:",
+      "personality": "Charakter:",
+      "visits": "Besuche:",
+      "totalTopUpAdmin": "Gesamt aufgeladen (Admin):",
+      "editProfile": "Profil bearbeiten",
+      "rewards": "Belohnungen",
+      "scanReceipt": "Bon scannen",
+      "checkIn": "Check-in",
+      "checkInHint": "Check-in über den QR-Code im Laden.",
+      "achievementsTitle": "Achievements",
+      "achievementsEmpty": "Noch keine Badges — checke ein oder scanne einen Bon!",
+      "timelineTitle": "Aktuelle Timeline",
+      "fullTimeline": "Vollständige Timeline →"
+    },
+    "edit": {
+      "back": "← {dogName}",
+      "title": "Profil bearbeiten",
+      "photoLabel": "Foto von {dogName}",
+      "nameLabel": "Name *",
+      "breedLabel": "Rasse",
+      "birthdayLabel": "Geburtstag",
+      "weightLabel": "Gewicht (kg)",
+      "favoriteSnackLabel": "Lieblingssnack",
+      "favoriteIceCreamLabel": "Lieblingseis (Licky)",
+      "personalityLabel": "Charakter",
+      "walletLabel": "Woof Wallet-Nummer",
+      "walletPlaceholder": "z. B. 00000001915",
+      "walletHint": "Die Nummer auf deiner physischen Woof Wallet-Karte oder deinem Tag.",
+      "submit": "Speichern"
+    },
+    "journey": {
+      "back": "← {dogName}",
+      "title": "Timeline",
+      "empty": "Noch keine Events — Zeit für einen Besuch!"
+    }
+  },
+  "checkIn": {
+    "page": {
+      "title": "Check-in",
+      "alreadyCheckedInTitle": "Heute schon eingecheckt",
+      "alreadyCheckedInBody": "Alle deine Hunde haben heute schon Check-in-Coins erhalten. Bis morgen!",
+      "backHome": "Zurück zur Startseite",
+      "selectDogLabel": "Wähle deinen Hund",
+      "alreadyCheckedInToday": "Heute schon eingecheckt:",
+      "maxPerDay": "Maximal 1 Check-in pro Hund pro Tag.",
+      "submit": "Einchecken (+25 Woof Coins)"
+    },
+    "scanner": {
+      "title": "Check-in",
+      "instructionsPrefix": "Scanne den",
+      "instructions": "Scanne den QR-Code auf dem Bildschirm an der Kasse im Doggy Beach House, um einzuchecken und Woof Coins zu verdienen.",
+      "instructionsBold": "QR-Code auf dem Bildschirm an der Kasse",
+      "instructionsSuffix": "im Doggy Beach House, um einzuchecken und Woof Coins zu verdienen.",
+      "expiredQr": "Dieser QR-Code ist abgelaufen oder ungültig. Scanne den aktuellen Code im Laden — er erneuert sich alle 15 Minuten.",
+      "cameraStarting": "Kamera wird gestartet…",
+      "retry": "Erneut versuchen",
+      "footerHint": "Nur der QR auf dem Ladenbildschirm funktioniert. Max. 1× pro Hund pro Tag."
+    },
+    "success": {
+      "title": "Eingecheckt!",
+      "message": "{dogName} ist bei {location} eingecheckt.",
+      "defaultDogName": "Dein Hund",
+      "defaultLocation": "Doggy Beach House Zandvoort",
+      "coinsEarned": "+25 Woof Coins",
+      "toDogProfile": "Zum Hundeprofil",
+      "home": "Home"
+    },
+    "display": {
+      "title": "Scannen zum Einchecken",
+      "instructions": "Öffne Woof ID auf deinem Handy und scanne diesen Code an der Kasse.",
+      "loading": "QR wird geladen…",
+      "loadTimeout": "Das Laden des QR-Codes dauert zu lange. Prüfe dein WLAN und versuche es erneut.",
+      "retryLoad": "Erneut versuchen",
+      "qrAlt": "Check-in QR-Code",
+      "refreshCountdown": "Erneuert in {minutes}:{seconds}",
+      "footerHint": "Dieser Code ändert sich alle 15 Minuten. Fotos alter Codes funktionieren nicht mehr. Maximal 1 Check-in pro Hund pro Tag.",
+      "scanVoucherButton": "Gutschein scannen",
+      "voucherScanHint": "Halte den QR-Code auf deinem Handy vor die Kamera.",
+      "cancelVoucherScan": "Abbrechen",
+      "voucherSuccessTitle": "Gutschein eingelöst!",
+      "voucherSuccessDetail": "{rewardTitle} für {dogName}",
+      "voucherAlreadyRedeemedTitle": "Bereits eingelöst",
+      "voucherAlreadyRedeemedBody": "{rewardTitle} für {dogName} — dieser Gutschein wurde bereits verwendet.",
+      "voucherErrorTitle": "Scan fehlgeschlagen",
+      "voucherErrorNotFound": "Gutschein nicht erkannt. Bitte erneut versuchen.",
+      "voucherErrorCancelled": "Dieser Gutschein wurde storniert.",
+      "voucherTryAgain": "Erneut versuchen"
+    }
+  },
+  "receipts": {
+    "scan": {
+      "title": "Bon scannen",
+      "description": "Scanne den Barcode unten auf deinem Kassenbon. Produkte kommen automatisch von der Kasse — kein manuelles Tippen. 1 Woof Coin pro Artikel.",
+      "descriptionBoldBarcode": "Barcode unten auf deinem Kassenbon",
+      "descriptionBoldCoins": "1 Woof Coin pro Artikel",
+      "backToDogs": "Zurück zu Hunde"
+    },
+    "barcodeForm": {
+      "dogLabel": "Für welchen Hund ist dieser Bon?",
+      "barcodeLabel": "Barcode auf dem Bon (falls Kamera nicht funktioniert)",
+      "barcodePlaceholder": "Scanne oder tippe den Code unten auf dem Bon",
+      "submit": "Bon registrieren",
+      "submitLoading": "Bon wird gesucht…",
+      "mplusPending": "Kassen-Anbindung wird aktiviert. Dein Bon wird gespeichert; Woof Coins folgen, sobald STN die API verbunden hat."
+    },
+    "scanner": {
+      "cameraHint": "Richte die Kamera auf den Barcode unten auf deinem Bon",
+      "startCamera": "Kamera starten",
+      "stopCamera": "Kamera stoppen",
+      "unsupportedHint": "Barcode-Scannen per Kamera funktioniert am besten in Chrome. Nutze sonst das Eingabefeld unten."
+    },
+    "photoForm": {
+      "dogLabel": "Für welchen Hund ist dieser Bon?",
+      "photoLabel": "Foto vom Bon",
+      "photoHint": "Mach ein Foto oder wähle aus deiner Galerie. Max. 5 MB.",
+      "previewAlt": "Bon-Vorschau",
+      "submit": "Bon scannen",
+      "submitLoading": "KI liest Bon…",
+      "processingHint": "Einen Moment — Produkte werden erkannt…"
+    },
+    "manualForm": {
+      "dogLabel": "Hund",
+      "searchLabel": "Produkt suchen",
+      "searchPlaceholder": "Z. B. Licky, Snack, Spielzeug…",
+      "noProducts": "Keine Produkte gefunden",
+      "receiptTitle": "Dein Bon",
+      "removeAriaLabel": "Entfernen",
+      "totalSingular": "Gesamt: {count} Artikel → {coins} Woof Coins",
+      "totalPlural": "Gesamt: {count} Artikel → {coins} Woof Coins",
+      "submit": "Bestätigen und Coins verdienen",
+      "submitLoading": "Wird geladen…"
+    },
+    "review": {
+      "back": "← Erneut scannen",
+      "title": "Stimmt das?",
+      "forDog": "Bon für {dogName}",
+      "receiptPhotoAlt": "Bon-Foto",
+      "alreadyConfirmed": "Dieser Bon wurde bereits bestätigt.",
+      "toDog": "Zu {dogName}",
+      "cancel": "Abbrechen und Bon löschen",
+      "intro": "Wir haben diese Produkte gefunden. Stimmt das? Passe Namen und Mengen an — du erhältst 1 Woof Coin pro Artikel (nicht pro Bon oder Euro).",
+      "introBold": "1 Woof Coin pro Artikel",
+      "coinsAfterConfirm": "🪙 {count} Woof Coins nach Bestätigung",
+      "itemsSingular": "{count} Artikel insgesamt",
+      "itemsPlural": "{count} Artikel insgesamt",
+      "productNumber": "Produkt {number}",
+      "remove": "Entfernen",
+      "onReceipt": "Auf Bon:",
+      "productNameLabel": "Produktname",
+      "quantityLabel": "Anzahl",
+      "categoryLabel": "Kategorie",
+      "addProduct": "+ Produkt hinzufügen",
+      "submit": "Bestätigen und speichern"
+    },
+    "categories": {
+      "LICKY": "Licky / Hundeeis",
+      "SNACKS": "Snacks",
+      "TOYS": "Spielzeug",
+      "ACCESSORIES": "Accessoires",
+      "GROOMING": "Pflege",
+      "CLOTHING": "Kleidung",
+      "OTHER": "Sonstiges"
+    },
+    "success": {
+      "title": "Bon gespeichert!",
+      "message": "Die Einkäufe von {dogName} wurden registriert.",
+      "defaultDogName": "deinem Hund",
+      "coinsEarned": "+{count} Woof Coins",
+      "itemsSingular": "{count} Artikel × 1 Coin",
+      "itemsPlural": "{count} Artikel × 1 Coin",
+      "toDogProfiles": "Zu Hundeprofilen",
+      "scanAnother": "Noch einen Bon scannen"
+    },
+    "pending": {
+      "title": "Bon registriert",
+      "message": "Bon von {dogName} wurde gespeichert.",
+      "activationHint": "Die Kassen-Anbindung wird aktiviert. Sobald sie live ist, werden deine Produkte und Woof Coins automatisch gutgeschrieben. Du musst nichts mehr tun.",
+      "toDogProfile": "Zum Hundeprofil"
+    }
+  },
+  "rewards": {
+    "page": {
+      "eyebrow": "Woof Coins",
+      "title": "Belohnungen einlösen",
+      "description": "Sammle Coins mit Check-ins und Bons. Löse sie für einen persönlichen Gutschein ein.",
+      "balance": "Guthaben",
+      "coinsUntil": "Noch {coins} Coins bis {rewardTitle} {icon}",
+      "available": "Verfügbar",
+      "progress": "{balance} / {required} Coins",
+      "howItWorksTitle": "Wie funktioniert's?",
+      "howItWorks1": "Verdiene Coins mit Check-ins, Bons und Badges.",
+      "howItWorks2": "Wähle eine Belohnung und tippe auf \"Einlösen\".",
+      "howItWorks3": "Du erhältst einen persönlichen Gutschein mit QR-Code und Barcode.",
+      "howItWorks4": "Scanne deinen Gutschein an der Kasse am Gutschein-Bildschirm — jeder Code funktioniert nur einmal.",
+      "backToDog": "Zurück zu {dogName}"
+    },
+    "items": {
+      "free-licky": {
+        "title": "Gratis Licky",
+        "description": "Ein gratis Licky-Eis für deinen Hund — leckere Belohnung!"
+      },
+      "free-ball": {
+        "title": "Gratis Ball",
+        "description": "Ein Ball deiner Wahl aus unserem Sortiment, komplett gratis."
+      },
+      "discount-10": {
+        "title": "10% Rabatt",
+        "description": "10% Rabatt auf deinen Einkauf im Laden.",
+        "terms": "Mindestbestellwert €20. Nicht kombinierbar mit anderen Aktionen."
+      },
+      "snack-bag": {
+        "title": "Tüte Snacks",
+        "description": "Eine Tüte gratis Snacks aus unserer Snackbar — du wählst, bis zu €15 Wert.",
+        "terms": "Maximal €15 an Snacks nach Wahl."
+      }
+    },
+    "redeem": {
+      "brand": "Doggy Beach House",
+      "voucherSubtitle": "Persönlicher Gutschein · einmalig verwendbar",
+      "newBalance": "Neues Guthaben:",
+      "showAtCheckout": "Zeige diesen Gutschein an der Kasse. Nach dem Scannen ist er verbraucht.",
+      "scanAtCounter": "Scanne diesen QR-Code an der Kasse am Gutschein-Bildschirm.",
+      "qrAlt": "Gutschein QR-Code",
+      "submit": "Einlösen",
+      "submitLoading": "Wird geladen…"
+    }
+  },
+  "wallet": {
+    "topUp": {
+      "back": "← Zurück",
+      "noWalletTitle": "Keine Woof Wallet verknüpft",
+      "noWalletBody": "Verknüpfe zuerst einen Woof Wallet-Barcode mit einem Hundeprofil.",
+      "toDogs": "Zu Hunde",
+      "eyebrow": "Woof Wallet",
+      "title": "Aufladen",
+      "description": "Bezahle sicher per iDEAL auf doggybeachhouse.com. Dein Guthaben wird im Laden aktiviert.",
+      "dogLabel": "Hund",
+      "barcode": "Barcode: {walletCardId}",
+      "amountLabel": "Betrag",
+      "customAmountLabel": "Anderer Betrag",
+      "customAmountPlaceholder": "z. B. 15.00",
+      "loggedInAs": "Angemeldet als {email} — dasselbe Konto wie auf doggybeachhouse.com.",
+      "submit": "Weiter zu iDEAL",
+      "submitLoading": "Wird geladen…",
+      "linkWalletFor": "Wallet verknüpfen für {dogName}",
+      "successTitle": "Zahlung erhalten!",
+      "successBody": "Deine Aufladung ist eingegangen. Dein Guthaben wird während der Öffnungszeiten innerhalb weniger Stunden aktiviert. Du erhältst eine E-Mail, sobald deine Woof Wallet aktualisiert ist."
+    }
+  },
+  "account": {
+    "title": "Konto",
+    "description": "Ändere deine Anmeldedaten oder hol dir Hilfe, falls du dein Passwort vergessen hast.",
+    "wallet": {
+      "title": "Woof Wallet",
+      "description": "Lade deine physische Woof Wallet per iDEAL auf. Wähle den Hund, mit dem deine Wallet verknüpft ist.",
+      "topUp": "Per iDEAL aufladen",
+      "linkFirst": "Verknüpfe zuerst eine Wallet mit einem Hund"
+    },
+    "changePassword": {
+      "title": "Passwort ändern",
+      "currentPasswordLabel": "Aktuelles Passwort",
+      "newPasswordLabel": "Neues Passwort",
+      "confirmPasswordLabel": "Neues Passwort bestätigen",
+      "submit": "Passwort speichern",
+      "submitLoading": "Wird geladen…"
+    },
+    "changeEmail": {
+      "title": "E-Mail-Adresse ändern",
+      "currentEmail": "Aktuelle Adresse: {email}",
+      "newEmailLabel": "Neue E-Mail-Adresse",
+      "passwordLabel": "Passwort zur Bestätigung",
+      "submit": "E-Mail speichern",
+      "submitLoading": "Wird geladen…"
+    }
+  },
+  "admin": {
+    "home": {
+      "title": "Admin",
+      "dogProfiles": "Hundeprofile",
+      "checkIns": "Check-ins",
+      "totalTopUps": "Gesamt registrierte Aufladungen",
+      "qrTabletTitle": "Check-in QR (Tablet)",
+      "qrTabletDescription": "Stelle ein Tablet an der Kasse auf den QR-Bildschirm. Kunden scannen den Code zum Einchecken; auf demselben Bildschirm können sie auch ihren Gutschein scannen. Der Code erneuert sich alle 15 Minuten.",
+      "openQrDisplay": "QR-Bildschirm für Tablet öffnen",
+      "allDogs": "Alle Hunde",
+      "registerTopUp": "Aufladung registrieren",
+      "scanVouchers": "Gutscheine scannen",
+      "openVoucherDisplay": "Gutschein-Bildschirm öffnen (Tablet)",
+      "accountHelp": "Konto-Hilfe",
+      "recentProfiles": "Aktuelle Profile"
+    },
+    "dogs": {
+      "back": "← Admin",
+      "title": "Alle Hundeprofile",
+      "visits": "{count} Besuche",
+      "topUps": "{count} Aufladungen",
+      "badges": "{count} Badges",
+      "wallet": "Wallet: {walletCardId}"
+    },
+    "topUps": {
+      "back": "← Admin",
+      "title": "Aufladung registrieren",
+      "description": "Manuell erfassen nach Aktivierung an der Kasse (keine Live-POS-Anbindung).",
+      "dogLabel": "Hund",
+      "dogPlaceholder": "Hund wählen…",
+      "amountLabel": "Betrag (EUR)",
+      "amountPlaceholder": "25,00",
+      "noteLabel": "Notiz (optional)",
+      "submit": "Aufladung speichern",
+      "recentTitle": "Kürzlich registriert",
+      "registeredBySystem": "System"
+    },
+    "users": {
+      "title": "Konto-Hilfe",
+      "description": "Sende eine Reset- oder Anmelde-E-Mail an Kunden, die ihr Passwort oder ihre E-Mail verloren haben.",
+      "emailLabel": "E-Mail-Adresse des Kunden",
+      "modeLabel": "E-Mail-Typ",
+      "modeReset": "Passwort zurücksetzen",
+      "modeMagic": "Anmelden ohne Passwort",
+      "submit": "E-Mail senden",
+      "submitLoading": "Wird geladen…",
+      "emailSent": "E-Mail gesendet an {email} ({mode})",
+      "emailSentHint": "Der Kunde erhält einen Link, der 1 Stunde gültig ist. Der Link wird im Admin-Panel nicht angezeigt.",
+      "backToAdmin": "Zurück zu Admin",
+      "errors": {
+        "invalidEmail": "Ungültige E-Mail-Adresse",
+        "userNotFound": "Benutzer nicht gefunden",
+        "smtpNotConfigured": "E-Mail ist nicht konfiguriert. Richte Gmail/SMTP in der Serverumgebung ein.",
+        "emailSendFailed": "E-Mail konnte nicht gesendet werden. Überprüfe die SMTP-Einstellungen."
+      }
+    },
+    "vouchers": {
+      "title": "Gutscheine scannen",
+      "description": "Scanne den Barcode oder gib den Code ein, um eine Belohnung einzulösen.",
+      "codeLabel": "Gutschein-Barcode / Code",
+      "codePlaceholder": "WVH...",
+      "submit": "Gutschein scannen & einlösen",
+      "submitLoading": "Wird geladen…",
+      "recentTitle": "Aktuelle Gutscheine",
+      "empty": "Noch keine Gutscheine erstellt.",
+      "redeemedSuccess": "{rewardTitle} eingelöst für {dogName}",
+      "woofId": "Woof ID: {woofId}",
+      "owner": "Besitzer: {ownerEmail}",
+      "status": {
+        "ACTIVE": "ACTIVE",
+        "REDEEMED": "REDEEMED"
+      },
+      "errors": {
+        "notFound": "Gutschein nicht gefunden",
+        "alreadyRedeemed": "Dieser Gutschein wurde bereits eingelöst",
+        "cancelled": "Dieser Gutschein wurde storniert"
+      },
+      "backToAdmin": "Zurück zu Admin"
+    },
+    "voucherDisplay": {
+      "title": "Gutschein einlösen",
+      "instructions": "Kunde: tippe auf Gutschein scannen und halte deinen QR-Code vor die Kamera. Jeder Gutschein funktioniert nur einmal.",
+      "scanButton": "Gutschein scannen",
+      "scanningHint": "Halte den QR-Code oder Barcode auf deinem Bildschirm vor die Kamera.",
+      "cancelScan": "Abbrechen",
+      "successTitle": "Gutschein eingelöst!",
+      "successBody": "{rewardTitle} für {dogName}",
+      "alreadyRedeemedTitle": "Bereits eingelöst",
+      "alreadyRedeemedBody": "Dieser Gutschein wurde bereits verwendet und kann nicht erneut gescannt werden.",
+      "nextCustomer": "Nächster Kunde",
+      "tryAgain": "Erneut versuchen",
+      "footerHint": "Alle Gutscheine erscheinen im Admin-System, sobald ein Kunde Woof Coins einlöst.",
+      "errors": {
+        "title": "Scan fehlgeschlagen",
+        "notFound": "Gutschein nicht erkannt. Bitte erneut versuchen.",
+        "cancelled": "Dieser Gutschein wurde storniert."
+      }
+    }
+  },
+  "common": {
+    "meta": {
+      "title": "Woof ID | Doggy Beach House",
+      "description": "Hundeprofile, Check-ins, Woof Coins und Belohnungen",
+      "appleWebAppTitle": "Woof ID"
+    },
+    "brand": {
+      "location": "Doggy Beach House · Zandvoort",
+      "defaultCheckInLocation": "Doggy Beach House Zandvoort"
+    },
+    "loading": "Laden…",
+    "busy": "Wird geladen…",
+    "back": "← Zurück",
+    "backToAdmin": "← Admin",
+    "coins": "Woof Coins",
+    "coinBadge": "🪙",
+    "optional": "(optional)",
+    "required": "*",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "dog": "Hund",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "remove": "Entfernen",
+    "home": "Home",
+    "timeline": "Timeline",
+    "achievements": "Achievements",
+    "prepaid": "Prepaid"
+  },
+  "errors": {
+    "login": {
+      "invalidCredentials": "Falsche Anmeldedaten",
+      "sessionFailed": "Anmeldung erfolgreich, aber Sitzung nicht aktiv. Bitte erneut versuchen oder Seite aktualisieren.",
+      "staffRequired": "Dieses Konto hat keinen Admin-Zugang. Melde dich mit einem Mitarbeiterkonto an (z. B. indykroos@hotmail.com)."
+    },
+    "register": {
+      "failed": "Registrierung fehlgeschlagen",
+      "emailInUseWoofId": "Diese E-Mail-Adresse ist bereits bei Woof ID registriert."
+    },
+    "magicLogin": {
+      "noToken": "Kein Anmelde-Link gefunden.",
+      "invalidOrExpired": "Anmelde-Link ist ungültig oder abgelaufen.",
+      "failed": "Anmeldung fehlgeschlagen. Fordere einen neuen Link an."
+    },
+    "forgotPassword": {
+      "defaultSuccess": "Anfrage verarbeitet."
+    },
+    "resetPassword": {
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "failed": "Zurücksetzen fehlgeschlagen"
+    },
+    "checkIn": {
+      "failed": "Check-in fehlgeschlagen",
+      "invalidQr": "Das ist nicht der Check-in-QR des Ladens. Scanne den Code an der Kasse.",
+      "cameraUnavailable": "Kamera nicht verfügbar. Erlaube den Zugriff in deinem Browser oder scanne den QR mit deiner Kamera-App und öffne den Link.",
+      "barcodeDetectorUnsupported": "QR-Scannen funktioniert am besten in Chrome auf deinem Handy. Du kannst den QR auch mit deiner normalen Kamera-App scannen."
+    },
+    "receipts": {
+      "selectDogAndPhoto": "Wähle einen Hund und ein Foto deines Bons",
+      "scanFailed": "Scannen fehlgeschlagen",
+      "selectDog": "Wähle einen Hund",
+      "addProduct": "Füge mindestens ein Produkt hinzu",
+      "saveFailed": "Speichern fehlgeschlagen",
+      "selectDogAndBarcode": "Wähle einen Hund und scanne einen Barcode",
+      "failed": "Fehlgeschlagen",
+      "addNamedProduct": "Füge mindestens ein Produkt mit Namen hinzu",
+      "cameraUnavailable": "Kamera nicht verfügbar. Gib den Barcode unten manuell ein."
+    },
+    "wallet": {
+      "topUpFailed": "Aufladen fehlgeschlagen",
+      "invalidEmail": "Ungültige E-Mail-Adresse.",
+      "invalidBarcode": "Ungültiger Woof Wallet-Barcode.",
+      "invalidAmount": "Wähle einen Betrag zwischen €0,01 und €500.",
+      "barcodeNotFound": "Keine Woof Wallet für diesen Barcode gefunden.",
+      "noWebshopAccount": "Dein Webshop-Konto konnte nicht gefunden werden. Kontaktiere Doggy Beach House.",
+      "barcodeMismatch": "Dieser Barcode passt nicht zu deinem Webshop-Konto.",
+      "noBarcode": "Verknüpfe zuerst deinen Woof Wallet-Barcode.",
+      "noProduct": "Aufladen ist im Webshop noch nicht eingerichtet.",
+      "notConfigured": "Woof Wallet-Verbindung ist noch nicht eingerichtet.",
+      "authFailed": "Webshop-Verbindung abgelehnt. Bitte Doggy Beach House kontaktieren.",
+      "noCheckoutUrl": "Kein Zahlungslink von der Webshop erhalten."
+    },
+    "admin": {
+      "qrLoadFailed": "QR konnte nicht geladen werden",
+      "connectionFailed": "Verbindung fehlgeschlagen"
+    },
+    "account": {
+      "passwordMinLength": "Mindestens 8 Zeichen",
+      "invalidPassword": "Ungültiges Passwort",
+      "passwordMismatch": "Neue Passwörter stimmen nicht überein",
+      "accountNotFound": "Konto nicht gefunden",
+      "currentPasswordWrong": "Aktuelles Passwort ist falsch",
+      "passwordUpdated": "Passwort aktualisiert",
+      "invalidEmail": "Gib eine gültige E-Mail-Adresse ein",
+      "passwordWrong": "Passwort ist falsch",
+      "emailInUse": "Diese E-Mail-Adresse wird bereits verwendet",
+      "emailUpdated": "E-Mail auf Woof ID und doggybeachhouse.com aktualisiert. Bitte erneut anmelden."
+    },
+    "registerApi": {
+      "invalidInput": "Ungültige Eingabe",
+      "invalidEmail": "Ungültige E-Mail-Adresse",
+      "emailInUseWoofId": "Diese E-Mail ist bereits bei Woof ID registriert. Melde dich an, statt erneut zu registrieren.",
+      "emailAvailable": "Diese E-Mail-Adresse ist verfügbar.",
+      "emailInUseWebshop": "Diese E-Mail wird bereits auf doggybeachhouse.com verwendet. Verwende dasselbe Passwort, um deine Konten zu verknüpfen.",
+      "createFailed": "Konto konnte nicht erstellt werden. Bitte versuche es erneut oder kontaktiere Doggy Beach House."
+    }
+  },
+  "language": {
+    "label": "Sprache"
+  }
+}

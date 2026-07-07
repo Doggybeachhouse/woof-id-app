@@ -1,0 +1,158 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { DateTime } from "luxon";
+
+import { CheckInQrScanner } from "@/app/check-in/_components/CheckInQrScanner";
+import { checkInDogAction } from "@/app/dogs/actions";
+import { getTranslations } from "@/i18n/server";
+import {
+  getDogsCheckedInToday,
+  isValidCheckInQrAccess,
+} from "@/lib/checkin/qrGate";
+import { DEFAULT_LOCATION } from "@/lib/gamification/coins";
+import { requireUser } from "@/lib/serverAuth";
+import { prisma } from "@/lib/prisma";
+
+const LOCATIONS: Record<string, string> = {
+  zandvoort: DEFAULT_LOCATION,
+};
+
+export default async function CheckInPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    loc?: string;
+    token?: string;
+    dog?: string;
+    error?: string;
+  }>;
+}) {
+  const { t } = await getTranslations();
+  const session = await requireUser();
+  const userId = (session.user as { id: string }).id;
+  const { loc, token, dog: preselectedDog, error: errorParam } = await searchParams;
+
+  if (!isValidCheckInQrAccess(loc, token)) {
+    const invalidReason =
+      loc != null || token != null ? ("expired" as const) : undefined;
+    return <CheckInQrScanner invalidReason={invalidReason} />;
+  }
+
+  const location = LOCATIONS[loc ?? "zandvoort"] ?? DEFAULT_LOCATION;
+  const locKey = loc ?? "zandvoort";
+
+  const dogs = await prisma.dogProfile.findMany({
+    where: { ownerUserId: userId },
+    orderBy: { name: "asc" },
+  });
+
+  if (dogs.length === 0) redirect("/dogs/new");
+
+  const checkedInToday = await getDogsCheckedInToday(
+    dogs.map((d) => d.id),
+    prisma,
+  );
+  const eligibleDogs = dogs.filter((d) => !checkedInToday.has(d.id));
+
+  async function submitCheckIn(formData: FormData) {
+    "use server";
+    const dogId = String(formData.get("dogProfileId"));
+    const locKeyForm = String(formData.get("loc") ?? "zandvoort");
+    const tokenForm = String(formData.get("token") ?? "");
+    const locName = LOCATIONS[locKeyForm] ?? DEFAULT_LOCATION;
+
+    try {
+      const result = await checkInDogAction(dogId, locName, {
+        loc: locKeyForm,
+        token: tokenForm,
+      });
+      const { redirect } = await import("next/navigation");
+      redirect(
+        `/check-in/success?name=${encodeURIComponent(result.dogName)}&loc=${encodeURIComponent(locName)}`,
+      );
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : t("errors.checkIn.failed");
+      const { redirect } = await import("next/navigation");
+      redirect(
+        `/check-in?loc=${encodeURIComponent(locKeyForm)}&token=${encodeURIComponent(tokenForm)}&error=${encodeURIComponent(message)}`,
+      );
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="card p-6 text-center space-y-2">
+        <p className="text-4xl">🏖️</p>
+        <h1 className="font-display text-3xl">{t("checkIn.page.title")}</h1>
+        <p className="text-[var(--foreground-muted)]">{location}</p>
+        <p className="text-xs text-[var(--foreground-muted)]">
+          {DateTime.now().setZone("Europe/Amsterdam").toFormat("cccc d MMMM, HH:mm")}
+        </p>
+      </div>
+
+      {errorParam && (
+        <div className="card p-4 text-sm text-red-700 bg-red-50 border-red-200">
+          {errorParam}
+        </div>
+      )}
+
+      {eligibleDogs.length === 0 ? (
+        <div className="card p-6 space-y-3 text-center">
+          <p className="font-semibold">{t("checkIn.page.alreadyCheckedInTitle")}</p>
+          <p className="text-sm text-[var(--foreground-muted)]">
+            {t("checkIn.page.alreadyCheckedInBody")}
+          </p>
+          <Link href="/" className="btn btn-secondary inline-flex">
+            {t("checkIn.page.backHome")}
+          </Link>
+        </div>
+      ) : (
+        <form action={submitCheckIn} className="card p-6 space-y-4">
+          <input type="hidden" name="loc" value={locKey} />
+          <input type="hidden" name="token" value={token ?? ""} />
+          <div>
+            <label className="label" htmlFor="dogProfileId">
+              {t("checkIn.page.selectDogLabel")}
+            </label>
+            <select
+              id="dogProfileId"
+              name="dogProfileId"
+              className="input"
+              defaultValue={
+                preselectedDog && eligibleDogs.some((d) => d.id === preselectedDog)
+                  ? preselectedDog
+                  : eligibleDogs[0]?.id
+              }
+              required
+            >
+              {eligibleDogs.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name} ({d.woofId})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {checkedInToday.size > 0 && (
+            <p className="text-xs text-[var(--foreground-muted)]">
+              {t("checkIn.page.alreadyCheckedInToday")}{" "}
+              {dogs
+                .filter((d) => checkedInToday.has(d.id))
+                .map((d) => d.name)
+                .join(", ")}
+            </p>
+          )}
+
+          <p className="text-xs text-[var(--foreground-muted)]">
+            {t("checkIn.page.maxPerDay")}
+          </p>
+
+          <button type="submit" className="btn btn-primary w-full text-lg">
+            {t("checkIn.page.submit")}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
