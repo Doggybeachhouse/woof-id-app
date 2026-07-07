@@ -40,6 +40,9 @@ const ERROR_KEYS: Record<string, string> = {
   auth_failed: "errors.wallet.authFailed",
   network_error: "errors.wallet.networkError",
   no_checkout_url: "errors.wallet.noCheckoutUrl",
+  wwm_remote_checkout_missing: "errors.wallet.remoteCheckoutMissing",
+  webshop_server_error: "errors.wallet.webshopServerError",
+  internal_server_error: "errors.wallet.webshopServerError",
   unknown: "errors.wallet.topUpFailed",
   not_configured: "errors.wallet.notConfigured",
 };

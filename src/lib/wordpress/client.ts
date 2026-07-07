@@ -59,10 +59,22 @@ export async function wordPressPost<T extends Record<string, unknown>>(
     const authFailed = res.status === 401 || res.status === 403;
     const wpCode = typeof data.code === "string" ? data.code : "";
     const wpError = typeof data.error === "string" ? data.error : "";
-    const errorCode =
+    const rawMessage = typeof data.message === "string" ? data.message : "";
+    const isHtmlFatal =
+      rawMessage.includes("wpcomsh-fatal") ||
+      /temporarily unavailable/i.test(rawMessage) ||
+      /<(html|body|!doctype)\b/i.test(rawMessage);
+
+    let errorCode =
       wpError ||
       (authFailed && wpCode === "rest_forbidden" ? "auth_failed" : wpCode) ||
       "unknown";
+
+    if (res.status >= 500 && isHtmlFatal) {
+      errorCode = "webshop_server_error";
+    } else if (res.status >= 500 && errorCode === "internal_server_error") {
+      errorCode = "webshop_server_error";
+    }
 
     console.error("[wordpress] API request failed", {
       path,

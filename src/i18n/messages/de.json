@@ -617,7 +617,9 @@
       "networkError": "Webshop nicht erreichbar. Bitte später erneut versuchen.",
       "notConfigured": "Woof Wallet-Verbindung ist noch nicht eingerichtet.",
       "authFailed": "Webshop-Verbindung abgelehnt. Bitte Doggy Beach House kontaktieren.",
-      "noCheckoutUrl": "Kein Zahlungslink von der Webshop erhalten."
+      "noCheckoutUrl": "Kein Zahlungslink von der Webshop erhalten.",
+      "remoteCheckoutMissing": "Aufladen über die App erfordert ein Update des Woof Wallet-Plugins auf doggybeachhouse.com. Bitte Doggy Beach House kontaktieren.",
+      "webshopServerError": "Die Webshop hat einen technischen Fehler beim Aufladen zurückgegeben. Das Woof Wallet-Plugin muss wahrscheinlich aktualisiert werden — bitte Doggy Beach House kontaktieren."
     },
     "admin": {
       "qrLoadFailed": "QR konnte nicht geladen werden",

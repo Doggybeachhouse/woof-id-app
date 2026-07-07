@@ -617,7 +617,9 @@
       "networkError": "Could not reach the webshop. Please try again later.",
       "notConfigured": "Woof Wallet connection is not configured yet.",
       "authFailed": "Webshop connection was rejected. Please contact Doggy Beach House.",
-      "noCheckoutUrl": "No payment link was received from the webshop."
+      "noCheckoutUrl": "No payment link was received from the webshop.",
+      "remoteCheckoutMissing": "Topping up via the app requires an update of the Woof Wallet plugin on doggybeachhouse.com. Please contact Doggy Beach House.",
+      "webshopServerError": "The webshop returned a technical error during top-up. The Woof Wallet plugin probably needs to be updated — please contact Doggy Beach House."
     },
     "admin": {
       "qrLoadFailed": "Could not load QR",

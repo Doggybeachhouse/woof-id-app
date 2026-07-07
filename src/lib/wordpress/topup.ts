@@ -33,6 +33,12 @@ const ERROR_MESSAGES: Record<string, string> = {
     "Opwaarderen is niet beschikbaar op de webshop. Controleer of Woof Wallet en Woof ID Bridge actief zijn.",
   network_error: "Kon de webshop niet bereiken. Probeer het later opnieuw.",
   no_checkout_url: "Geen betaallink ontvangen van de webshop.",
+  wwm_remote_checkout_missing:
+    "Opwaarderen via de app vereist een update van de Woof Wallet-plugin op doggybeachhouse.com. Neem contact op met Doggy Beach House.",
+  webshop_server_error:
+    "De webshop gaf een technische fout bij opwaarderen. Waarschijnlijk moet de Woof Wallet-plugin worden bijgewerkt — neem contact op met Doggy Beach House.",
+  internal_server_error:
+    "De webshop gaf een technische fout bij opwaarderen. Neem contact op met Doggy Beach House.",
   unknown: "Opwaarderen starten mislukt. Probeer het later opnieuw.",
 };
 

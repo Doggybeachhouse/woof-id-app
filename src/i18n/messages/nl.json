@@ -105,6 +105,7 @@
       "description": "Kies een hond om je profiel, bon of beloningen te bekijken.",
       "allDogs": "Alle honden",
       "checkIn": "Check-in",
+      "scanReceipt": "Bon scannen",
       "rewards": "Beloningen",
       "topUpWallet": "Woof Wallet opwaarderen"
     }
@@ -617,7 +618,9 @@
       "networkError": "Kon de webshop niet bereiken. Probeer het later opnieuw.",
       "notConfigured": "Woof Wallet koppeling is nog niet ingesteld.",
       "authFailed": "Webshop-koppeling geweigerd. Neem contact op met Doggy Beach House.",
-      "noCheckoutUrl": "Geen betaallink ontvangen van de webshop."
+      "noCheckoutUrl": "Geen betaallink ontvangen van de webshop.",
+      "remoteCheckoutMissing": "Opwaarderen via de app vereist een update van de Woof Wallet-plugin op doggybeachhouse.com. Neem contact op met Doggy Beach House.",
+      "webshopServerError": "De webshop gaf een technische fout bij opwaarderen. Waarschijnlijk moet de Woof Wallet-plugin worden bijgewerkt — neem contact op met Doggy Beach House."
     },
     "admin": {
       "qrLoadFailed": "Kon QR niet laden",
