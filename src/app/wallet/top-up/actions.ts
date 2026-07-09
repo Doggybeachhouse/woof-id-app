@@ -12,6 +12,7 @@ export type TopUpFormState = {
   error?: string;
   code?: string;
   checkoutUrl?: string;
+  orderId?: number;
 };
 
 export async function startWalletTopUpAction(
@@ -69,5 +70,5 @@ export async function startWalletTopUpAction(
     return { error: result.error, code: result.code };
   }
 
-  return { checkoutUrl: result.checkoutUrl };
+  return { checkoutUrl: result.checkoutUrl, orderId: result.orderId };
 }

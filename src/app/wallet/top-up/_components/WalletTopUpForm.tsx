@@ -80,9 +80,13 @@ export function WalletTopUpForm({
 
   useEffect(() => {
     if (state.checkoutUrl) {
+      if (state.orderId && state.orderId > 0) {
+        sessionStorage.setItem("woof_topup_order_id", String(state.orderId));
+        sessionStorage.setItem("woof_topup_started_at", String(Date.now()));
+      }
       window.location.assign(state.checkoutUrl);
     }
-  }, [state.checkoutUrl]);
+  }, [state.checkoutUrl, state.orderId]);
 
   function clearCustomAmount() {
     const custom = formRef.current?.elements.namedItem(

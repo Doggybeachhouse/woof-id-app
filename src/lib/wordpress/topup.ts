@@ -8,7 +8,7 @@ export type StartWalletTopUpInput = {
 };
 
 export type StartWalletTopUpResult =
-  | { ok: true; checkoutUrl: string; amountEur: number; barcode: string }
+  | { ok: true; checkoutUrl: string; orderId: number; amountEur: number; barcode: string }
   | { ok: false; error: string; code?: string };
 
 const ERROR_MESSAGES: Record<string, string> = {
@@ -92,6 +92,7 @@ export async function startWalletTopUp(
 
   const result = await wordPressPost<{
     checkout_url?: string;
+    order_id?: number;
     amount_eur?: number;
     barcode?: string;
   }>("/woof-id/topup", {
@@ -123,7 +124,34 @@ export async function startWalletTopUp(
   return {
     ok: true,
     checkoutUrl,
+    orderId: Number(result.order_id ?? 0),
     amountEur: Number(result.amount_eur ?? 0),
     barcode: result.barcode ?? input.barcode,
+  };
+}
+
+export async function fetchTopUpPaymentStatus(input: {
+  email: string;
+  orderId: number;
+}): Promise<{ paid: boolean; amountEur: number } | null> {
+  if (!isWordPressBridgeEnabled() || input.orderId <= 0) {
+    return null;
+  }
+
+  const result = await wordPressPost<{
+    paid?: boolean;
+    amount_eur?: number;
+  }>("/woof-id/topup/status", {
+    email: input.email.trim().toLowerCase(),
+    order_id: input.orderId,
+  });
+
+  if (!result.ok) {
+    return null;
+  }
+
+  return {
+    paid: Boolean(result.paid),
+    amountEur: Number(result.amount_eur ?? 0),
   };
 }
