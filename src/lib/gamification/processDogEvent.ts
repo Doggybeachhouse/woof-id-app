@@ -7,7 +7,7 @@ import {
 } from "@prisma/client";
 
 import { COIN_AMOUNTS } from "@/lib/gamification/coins";
-import { COIN_PER_PRODUCT_UNIT } from "@/lib/gamification/productUnits";
+import { coinsFromPurchaseEur } from "@/lib/gamification/receiptCoins";
 import { prisma } from "@/lib/prisma";
 
 type Tx = Omit<
@@ -33,7 +33,7 @@ export type ProcessDogEventInput = {
     location?: string;
     photoChallengeSlug?: string;
     receiptId?: string;
-    productUnitCount?: number;
+    purchaseAmountEur?: number;
   };
 };
 
@@ -245,37 +245,29 @@ export async function processDogEvent(input: ProcessDogEventInput) {
       }
 
       case "RECEIPT_CONFIRMED": {
-        const units = Math.max(0, input.payload?.productUnitCount ?? 0);
-        const coins = units * COIN_PER_PRODUCT_UNIT;
+        const purchaseEur = Math.max(0, input.payload?.purchaseAmountEur ?? 0);
+        const coins = coinsFromPurchaseEur(purchaseEur);
         await tx.journeyEvent.create({
           data: {
             dogProfileId: dog.id,
             eventType: JourneyEventType.RECEIPT_SCANNED,
             title: "Bon bevestigd",
             body:
-              units > 0
-                ? `${units} artikel${units === 1 ? "" : "en"} · +${coins} Woof Coins`
+              coins > 0
+                ? `€${purchaseEur.toFixed(2)} · +${coins} Woof Coins`
                 : "Bon opgeslagen",
             metadata: {
               receiptId: input.payload?.receiptId,
-              productUnitCount: units,
+              purchaseAmountEur: purchaseEur,
             },
           },
         });
-        if (units > 0) {
-          await tx.journeyEvent.create({
-            data: {
-              dogProfileId: dog.id,
-              eventType: JourneyEventType.PRODUCTS_REGISTERED,
-              title: `${units} producten geregistreerd`,
-              metadata: { receiptId: input.payload?.receiptId, units },
-            },
-          });
+        if (coins > 0) {
           await addCoins(
             tx,
             dog.id,
             coins,
-            `${units} gekochte artikel${units === 1 ? "" : "en"} op bon`,
+            `Aankoop €${purchaseEur.toFixed(2)} op bon`,
             CoinSourceType.RECEIPT,
             input.payload?.receiptId,
           );

@@ -5,7 +5,9 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { processDogEvent } from "@/lib/gamification/processDogEvent";
-import { sumProductUnits } from "@/lib/gamification/productUnits";
+import { coinsFromPurchaseEur } from "@/lib/gamification/receiptCoins";
+import { estimateReceiptTotalEur } from "@/lib/gamification/receiptTotal.server";
+import { loadProductCatalog } from "@/lib/catalog/products";
 import { parseProductCategory } from "@/lib/receipts/categories";
 import { guessCategoryFromName } from "@/lib/catalog/products";
 import { lookupReceiptByBarcode } from "@/lib/mplus/receiptLookup";
@@ -28,6 +30,13 @@ const itemSchema = z.object({
   quantity: z.coerce.number().int().min(1).max(99),
   category: z.string(),
 });
+
+function parsePurchaseTotalEur(raw: string | null | undefined): number | null {
+  if (!raw?.trim()) return null;
+  const value = parseFloat(raw.replace(",", "."));
+  if (!Number.isFinite(value) || value <= 0) return null;
+  return value;
+}
 
 async function assertDogAccess(dogProfileId: string, userId: string, role: string) {
   const dog = await prisma.dogProfile.findFirst({
@@ -143,14 +152,23 @@ export async function manualReceiptAction(formData: FormData) {
     throw new Error("Maximaal 5 bonnen per hond per dag");
   }
 
-  const normalizedItems = items.map((item) => ({
-    rawName: item.name,
-    normalizedName: item.name,
-    quantity: item.quantity,
-    category: guessCategoryFromName(item.name),
-  }));
+  const catalogByArticle = new Map(
+    loadProductCatalog().map((p) => [p.articleNumber, p]),
+  );
 
-  const unitCount = sumProductUnits(normalizedItems);
+  const normalizedItems = items.map((item) => {
+    const product = catalogByArticle.get(item.articleNumber);
+    return {
+      rawName: item.name,
+      normalizedName: item.name,
+      quantity: item.quantity,
+      category: guessCategoryFromName(item.name),
+      unitPriceEur: product?.priceEur ?? null,
+    };
+  });
+
+  const totalEur = estimateReceiptTotalEur(normalizedItems);
+  const coins = coinsFromPurchaseEur(totalEur);
 
   const receipt = await prisma.$transaction(async (tx) => {
     const created = await tx.receipt.create({
@@ -158,13 +176,18 @@ export async function manualReceiptAction(formData: FormData) {
         dogProfileId,
         imageUrl: null,
         status: "CONFIRMED",
+        totalEur,
         confirmedAt: new Date(),
       },
     });
     await tx.receiptItem.createMany({
       data: normalizedItems.map((item) => ({
         receiptId: created.id,
-        ...item,
+        rawName: item.rawName,
+        normalizedName: item.normalizedName,
+        quantity: item.quantity,
+        category: item.category,
+        unitPriceEur: item.unitPriceEur,
       })),
     });
     return created;
@@ -173,7 +196,7 @@ export async function manualReceiptAction(formData: FormData) {
   await processDogEvent({
     dogProfileId,
     eventType: "RECEIPT_CONFIRMED",
-    payload: { receiptId: receipt.id, productUnitCount: unitCount },
+    payload: { receiptId: receipt.id, purchaseAmountEur: totalEur },
   });
 
   const dog = await prisma.dogProfile.findUnique({
@@ -183,7 +206,7 @@ export async function manualReceiptAction(formData: FormData) {
 
   revalidatePath(`/dogs/${dogProfileId}`);
   redirect(
-    `/receipts/${receipt.id}/success?units=${unitCount}&dog=${encodeURIComponent(dog?.name ?? "")}`,
+    `/receipts/${receipt.id}/success?coins=${coins}&total=${totalEur.toFixed(2)}&dog=${encodeURIComponent(dog?.name ?? "")}`,
   );
 }
 
@@ -284,6 +307,7 @@ export async function confirmReceiptAction(formData: FormData) {
 
   const receiptId = String(formData.get("receiptId") ?? "");
   const itemsJson = String(formData.get("items") ?? "[]");
+  const purchaseTotalRaw = String(formData.get("purchaseTotalEur") ?? "");
 
   let items: z.infer<typeof itemSchema>[];
   try {
@@ -309,6 +333,11 @@ export async function confirmReceiptAction(formData: FormData) {
     category: parseProductCategory(item.category),
   }));
 
+  const estimatedTotal = estimateReceiptTotalEur(normalizedItems);
+  const purchaseTotal =
+    parsePurchaseTotalEur(purchaseTotalRaw) ?? estimatedTotal;
+  const coins = coinsFromPurchaseEur(purchaseTotal);
+
   await prisma.$transaction(async (tx) => {
     await tx.receiptItem.deleteMany({ where: { receiptId } });
     await tx.receiptItem.createMany({
@@ -319,21 +348,23 @@ export async function confirmReceiptAction(formData: FormData) {
     });
     await tx.receipt.update({
       where: { id: receiptId },
-      data: { status: "CONFIRMED", confirmedAt: new Date() },
+      data: {
+        status: "CONFIRMED",
+        confirmedAt: new Date(),
+        totalEur: purchaseTotal,
+      },
     });
   });
-
-  const unitCount = sumProductUnits(normalizedItems);
 
   await processDogEvent({
     dogProfileId: receipt.dogProfileId,
     eventType: "RECEIPT_CONFIRMED",
-    payload: { receiptId, productUnitCount: unitCount },
+    payload: { receiptId, purchaseAmountEur: purchaseTotal },
   });
 
   revalidatePath(`/dogs/${receipt.dogProfileId}`);
   redirect(
-    `/receipts/${receiptId}/success?units=${unitCount}&dog=${encodeURIComponent(receipt.dog.name)}`,
+    `/receipts/${receiptId}/success?coins=${coins}&total=${purchaseTotal.toFixed(2)}&dog=${encodeURIComponent(receipt.dog.name)}`,
   );
 }
 
