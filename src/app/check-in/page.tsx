@@ -2,8 +2,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { DateTime } from "luxon";
 
+import { CheckInForm } from "@/app/check-in/_components/CheckInForm";
 import { CheckInQrScanner } from "@/app/check-in/_components/CheckInQrScanner";
-import { submitCheckInAction } from "@/app/dogs/actions";
 import { getTranslations } from "@/i18n/server";
 import {
   getDogsCheckedInToday,
@@ -82,50 +82,19 @@ export default async function CheckInPage({
           </Link>
         </div>
       ) : (
-        <form action={submitCheckInAction} className="card p-6 space-y-4">
-          <input type="hidden" name="loc" value={locKey} />
-          <input type="hidden" name="token" value={token ?? ""} />
-          <div>
-            <label className="label" htmlFor="dogProfileId">
-              {t("checkIn.page.selectDogLabel")}
-            </label>
-            <select
-              id="dogProfileId"
-              name="dogProfileId"
-              className="input"
-              defaultValue={
-                preselectedDog && eligibleDogs.some((d) => d.id === preselectedDog)
-                  ? preselectedDog
-                  : eligibleDogs[0]?.id
-              }
-              required
-            >
-              {eligibleDogs.map((d) => (
-                <option key={d.id} value={d.id}>
-                  {d.name} ({d.woofId})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {checkedInToday.size > 0 && (
-            <p className="text-xs text-[var(--foreground-muted)]">
-              {t("checkIn.page.alreadyCheckedInToday")}{" "}
-              {dogs
-                .filter((d) => checkedInToday.has(d.id))
-                .map((d) => d.name)
-                .join(", ")}
-            </p>
-          )}
-
-          <p className="text-xs text-[var(--foreground-muted)]">
-            {t("checkIn.page.maxPerDay")}
-          </p>
-
-          <button type="submit" className="btn btn-primary w-full text-lg">
-            {t("checkIn.page.submit")}
-          </button>
-        </form>
+        <CheckInForm
+          dogs={eligibleDogs.map((d) => ({
+            id: d.id,
+            name: d.name,
+            woofId: d.woofId,
+          }))}
+          checkedInTodayNames={dogs
+            .filter((d) => checkedInToday.has(d.id))
+            .map((d) => d.name)}
+          locKey={locKey}
+          token={token ?? ""}
+          preselectedDogId={preselectedDog}
+        />
       )}
     </div>
   );

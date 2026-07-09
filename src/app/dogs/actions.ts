@@ -176,29 +176,33 @@ const CHECK_IN_LOCATIONS: Record<string, string> = {
   zandvoort: DEFAULT_LOCATION,
 };
 
-export async function submitCheckInAction(formData: FormData) {
+export type CheckInFormState = {
+  error?: string;
+  redirectTo?: string;
+};
+
+export async function submitCheckInAction(
+  _prev: CheckInFormState,
+  formData: FormData,
+): Promise<CheckInFormState> {
   const dogId = String(formData.get("dogProfileId"));
   const locKeyForm = String(formData.get("loc") ?? "zandvoort");
   const tokenForm = String(formData.get("token") ?? "");
   const locName = CHECK_IN_LOCATIONS[locKeyForm] ?? DEFAULT_LOCATION;
 
-  let result: { dogName: string; location: string };
   try {
-    result = await checkInDogAction(dogId, locName, {
+    const result = await checkInDogAction(dogId, locName, {
       loc: locKeyForm,
       token: tokenForm,
     });
+    return {
+      redirectTo: `/check-in/success?name=${encodeURIComponent(result.dogName)}&loc=${encodeURIComponent(locName)}`,
+    };
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Check-in mislukt";
-    redirect(
-      `/check-in?loc=${encodeURIComponent(locKeyForm)}&token=${encodeURIComponent(tokenForm)}&error=${encodeURIComponent(message)}`,
-    );
+    return { error: message };
   }
-
-  redirect(
-    `/check-in/success?name=${encodeURIComponent(result.dogName)}&loc=${encodeURIComponent(locName)}`,
-  );
 }
 
 export async function checkInDogAction(

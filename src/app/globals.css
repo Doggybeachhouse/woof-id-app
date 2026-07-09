@@ -423,6 +423,55 @@ body {
 .voucher-check-pop {
   animation: voucher-check-pop 0.55s ease-out both;
 }
+.checkin-dog-name-pop {
+  animation: checkin-dog-name-pop 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) 0.15s both;
+}
+
+.checkin-coins-pop {
+  animation: checkin-coins-pop 0.5s ease-out 0.35s both;
+}
+
+.checkin-confetti {
+  animation: checkin-confetti 0.7s ease-out 0.05s both;
+}
+
+@keyframes checkin-dog-name-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes checkin-coins-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes checkin-confetti {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-12deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12) rotate(6deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
 
 .amount-preset {
   position: relative;
