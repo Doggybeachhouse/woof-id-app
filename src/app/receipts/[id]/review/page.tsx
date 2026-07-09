@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { ReceiptReviewForm } from "@/app/receipts/_components/ReceiptReviewForm";
 import { cancelReceiptAction } from "@/app/receipts/actions";
+import { estimateReceiptTotalEur } from "@/lib/gamification/receiptTotal.server";
 import { getTranslations } from "@/i18n/server";
 import { requireUser, isStaffRole } from "@/lib/serverAuth";
 import { prisma } from "@/lib/prisma";
@@ -42,6 +43,15 @@ export default async function ReceiptReviewPage({
     isStaffRole(role) || receipt.dog.ownerUserId === userId;
   if (!canView) notFound();
 
+  const initialPurchaseTotalEur = estimateReceiptTotalEur(
+    receipt.items.map((item) => ({
+      normalizedName: item.normalizedName,
+      quantity: item.quantity,
+      unitPriceEur:
+        item.unitPriceEur != null ? Number(item.unitPriceEur) : null,
+    })),
+  );
+
   return (
     <div className="space-y-6">
       <div>
@@ -74,6 +84,7 @@ export default async function ReceiptReviewPage({
           quantity: item.quantity,
           category: item.category,
         }))}
+        initialPurchaseTotalEur={initialPurchaseTotalEur}
       />
 
       <form action={cancelReceiptAction.bind(null, receipt.id)}>
