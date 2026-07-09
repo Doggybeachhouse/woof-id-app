@@ -6,7 +6,7 @@
     "postinstall": "prisma generate",
     "dev": "next dev --webpack -H 0.0.0.0",
     "dev:https": "next dev --webpack -H 0.0.0.0 --experimental-https",
-    "build": "next build",
+    "build": "prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint",
     "prisma:generate": "prisma generate",
@@ -31,7 +31,8 @@
     "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

@@ -200,7 +200,8 @@
       "selectDogLabel": "Kies je hond",
       "alreadyCheckedInToday": "Al ingecheckt vandaag:",
       "maxPerDay": "Maximaal 1 check-in per hond per dag.",
-      "submit": "Inchecken (+25 Woof Coins)"
+      "submit": "Inchecken (+5 Woof Coins)",
+      "submitLoading": "Inchecken…"
     },
     "scanner": {
       "title": "Check-in",
@@ -220,7 +221,7 @@
       "message": "{dogName} is ingecheckt bij {location}.",
       "defaultDogName": "Je hond",
       "defaultLocation": "Doggy Beach House Zandvoort",
-      "coinsEarned": "+25 Woof Coins",
+      "coinsEarned": "+5 Woof Coins",
       "toDogProfile": "Naar hondprofiel",
       "home": "Home"
     },
@@ -249,9 +250,9 @@
   "receipts": {
     "scan": {
       "title": "Bon scannen",
-      "description": "Scan de barcode onderaan je kassabon. Producten komen automatisch uit de kassa — geen handmatig typen. 1 Woof Coin per artikel.",
+      "description": "Scan de barcode onderaan je kassabon. Producten komen automatisch uit de kassa — geen handmatig typen. Woof Coins = aankoopbedrag afgerond op hele euro's.",
       "descriptionBoldBarcode": "barcode onderaan je kassabon",
-      "descriptionBoldCoins": "1 Woof Coin per artikel",
+      "descriptionBoldCoins": "aankoopbedrag afgerond op hele euro's",
       "backToDogs": "Terug naar honden",
       "manualFallback": "Liever zelf producten kiezen?",
       "manualFallbackPending": "Kassa-koppeling nog niet actief? Voeg producten nu handmatig toe en verdien direct Woof Coins.",
@@ -259,7 +260,7 @@
     },
     "manual": {
       "title": "Bon handmatig registreren",
-      "description": "Zoek producten uit de winkelcatalogus en bevestig je aankoop. 1 Woof Coin per artikel — direct na bevestigen.",
+      "description": "Zoek producten uit de winkelcatalogus en bevestig je aankoop. Woof Coins = totaalbedrag afgerond op hele euro's — direct na bevestigen.",
       "backToScan": "← Terug naar barcode scannen"
     },
     "barcodeForm": {
@@ -294,8 +295,8 @@
       "noProducts": "Geen producten gevonden",
       "receiptTitle": "Jouw bon",
       "removeAriaLabel": "Verwijderen",
-      "totalSingular": "Totaal: {count} artikel → {coins} Woof Coins",
-      "totalPlural": "Totaal: {count} artikelen → {coins} Woof Coins",
+      "totalWithAmount": "Totaal: €{total} → {coins} Woof Coins",
+      "totalMissingPrices": "Totaalbedrag onbekend — prijzen ontbreken in catalogus.",
       "submit": "Bevestigen en coins verdienen",
       "submitLoading": "Bezig…"
     },
@@ -307,11 +308,12 @@
       "alreadyConfirmed": "Deze bon is al bevestigd.",
       "toDog": "Naar {dogName}",
       "cancel": "Annuleren en bon verwijderen",
-      "intro": "We hebben deze producten gevonden. Klopt dit? Pas namen en aantallen aan — je krijgt 1 Woof Coin per artikel (niet per bon of euro).",
-      "introBold": "1 Woof Coin per artikel",
+      "intro": "We hebben deze producten gevonden. Klopt dit? Pas namen en aantallen aan en controleer het totaalbedrag op je bon.",
+      "introBold": "totaalbedrag op je bon",
+      "purchaseTotalLabel": "Totaalbedrag bon (€)",
+      "purchaseTotalPlaceholder": "bijv. 16,80",
+      "purchaseTotalHint": "Woof Coins = dit bedrag afgerond op hele euro's (€16,23 → 16 coins, €16,80 → 17 coins).",
       "coinsAfterConfirm": "🪙 {count} Woof Coins na bevestigen",
-      "itemsSingular": "{count} artikel totaal",
-      "itemsPlural": "{count} artikelen totaal",
       "productNumber": "Product {number}",
       "remove": "Verwijderen",
       "onReceipt": "Op bon:",
@@ -335,8 +337,7 @@
       "message": "De aankopen van {dogName} zijn geregistreerd.",
       "defaultDogName": "je hond",
       "coinsEarned": "+{count} Woof Coins",
-      "itemsSingular": "{count} artikel × 1 coin",
-      "itemsPlural": "{count} artikelen × 1 coin",
+      "purchaseTotal": "Aankoop €{total}",
       "toDogProfiles": "Naar hondprofielen",
       "scanAnother": "Nog een bon scannen"
     },
@@ -413,7 +414,8 @@
       "submitLoading": "Bezig…",
       "linkWalletFor": "Wallet koppelen voor {dogName}",
       "successTitle": "Betaling ontvangen!",
-      "successBody": "Je opwaardering is ontvangen. Je saldo wordt tijdens openingstijden binnen enkele uren geactiveerd. Je ontvangt een e-mail zodra je Woof Wallet is bijgewerkt."
+      "successBody": "Je opwaardering is ontvangen. Je saldo wordt tijdens openingstijden binnen enkele uren geactiveerd.",
+      "successEmailNote": "Je ontvangt tijdens openingstijden een e-mail zodra je Woof Wallet is bijgewerkt."
     }
   },
   "account": {
@@ -456,6 +458,7 @@
       "scanVouchers": "Vouchers scannen",
       "openVoucherDisplay": "Open voucher-scherm (tablet)",
       "accountHelp": "Account hulp",
+      "pushNotifications": "Pushmeldingen",
       "recentProfiles": "Recente profielen"
     },
     "dogs": {
@@ -607,6 +610,7 @@
       "selectDogAndBarcode": "Kies een hond en scan een barcode",
       "failed": "Mislukt",
       "addNamedProduct": "Voeg minstens één product met een naam toe",
+      "invalidPurchaseTotal": "Vul een geldig totaalbedrag in (bijv. 16,80)",
       "cameraUnavailable": "Camera niet beschikbaar. Voer de barcode hieronder handmatig in."
     },
     "wallet": {
@@ -654,6 +658,36 @@
       "emailAvailable": "Dit e-mailadres is beschikbaar.",
       "emailInUseWebshop": "Dit e-mailadres is al in gebruik op doggybeachhouse.com. Gebruik hetzelfde wachtwoord om je accounts te koppelen.",
       "createFailed": "Account aanmaken mislukt. Probeer het opnieuw of neem contact op met Doggy Beach House."
+    }
+  },
+  "push": {
+    "title": "Pushmeldingen",
+    "description": "Ontvang nieuws en updates van Doggy Beach House direct op je telefoon.",
+    "loading": "Status laden…",
+    "unsupported": "Pushmeldingen worden niet ondersteund in deze browser.",
+    "iosHint": "Op iPhone/iPad werken pushmeldingen alleen als je Woof ID aan je beginscherm hebt toegevoegd (deel-knop → Zet op beginscherm). Open de app daarna opnieuw.",
+    "denied": "Meldingen zijn geblokkeerd. Sta ze toe via je browser- of apparaatinstellingen.",
+    "enable": "Meldingen inschakelen",
+    "unsubscribe": "Meldingen uitschakelen",
+    "subscribed": "Je ontvangt pushmeldingen van Woof ID.",
+    "admin": {
+      "back": "← Admin",
+      "title": "Pushmeldingen versturen",
+      "description": "Stuur een melding naar alle gebruikers die push hebben ingeschakeld.",
+      "subscriberCount": "Actieve abonnees",
+      "iosHint": "iOS: push werkt alleen voor gebruikers die Woof ID als PWA op hun beginscherm hebben gezet.",
+      "titleLabel": "Titel",
+      "bodyLabel": "Bericht",
+      "urlLabel": "Link (optioneel)",
+      "sendToAll": "Verstuur naar alle abonnees",
+      "sending": "Versturen…",
+      "success": "Verstuurd naar {sent} apparaat/apparaten ({failed} mislukt).",
+      "errors": {
+        "forbidden": "Alleen admins mogen meldingen versturen.",
+        "invalid_input": "Controleer titel en bericht.",
+        "vapid_not_configured": "VAPID-sleutels ontbreken in de serverconfiguratie.",
+        "sendFailed": "Versturen mislukt. Probeer het opnieuw."
+      }
     }
   },
   "language": {

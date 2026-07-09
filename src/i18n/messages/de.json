@@ -456,7 +456,8 @@
       "scanVouchers": "Gutscheine scannen",
       "openVoucherDisplay": "Gutschein-Bildschirm öffnen (Tablet)",
       "accountHelp": "Konto-Hilfe",
-      "recentProfiles": "Aktuelle Profile"
+      "recentProfiles": "Aktuelle Profile",
+      "pushNotifications": "Push-Benachrichtigungen"
     },
     "dogs": {
       "back": "← Admin",
@@ -658,5 +659,35 @@
   },
   "language": {
     "label": "Sprache"
+  },
+  "push": {
+    "title": "Push-Benachrichtigungen",
+    "description": "Erhalte Neuigkeiten und Updates von Doggy Beach House direkt auf dein Handy.",
+    "loading": "Status wird geladen…",
+    "unsupported": "Push-Benachrichtigungen werden in diesem Browser nicht unterstützt.",
+    "iosHint": "Auf iPhone/iPad funktionieren Push-Benachrichtigungen nur, wenn Woof ID zum Startbildschirm hinzugefügt wurde (Teilen → Zum Home-Bildschirm). Öffne die App danach erneut.",
+    "denied": "Benachrichtigungen sind blockiert. Erlaube sie in den Browser- oder Geräteeinstellungen.",
+    "enable": "Benachrichtigungen aktivieren",
+    "unsubscribe": "Benachrichtigungen deaktivieren",
+    "subscribed": "Du erhältst Push-Benachrichtigungen von Woof ID.",
+    "admin": {
+      "back": "← Admin",
+      "title": "Push-Benachrichtigungen senden",
+      "description": "Sende eine Benachrichtigung an alle Nutzer mit aktiviertem Push.",
+      "subscriberCount": "Aktive Abonnenten",
+      "iosHint": "iOS: Push funktioniert nur für Nutzer, die Woof ID als PWA auf dem Startbildschirm installiert haben.",
+      "titleLabel": "Titel",
+      "bodyLabel": "Nachricht",
+      "urlLabel": "Link (optional)",
+      "sendToAll": "An alle Abonnenten senden",
+      "sending": "Wird gesendet…",
+      "success": "An {sent} Gerät(e) gesendet ({failed} fehlgeschlagen).",
+      "errors": {
+        "forbidden": "Nur Admins dürfen Benachrichtigungen senden.",
+        "invalid_input": "Titel und Nachricht prüfen.",
+        "vapid_not_configured": "VAPID-Schlüssel fehlen in der Serverkonfiguration.",
+        "sendFailed": "Senden fehlgeschlagen. Bitte erneut versuchen."
+      }
+    }
   }
 }

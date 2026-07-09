@@ -1,6 +1,5 @@
 export const COIN_AMOUNTS = {
-  CHECK_IN: 25,
-  /** 1 coin per purchased product unit — see COIN_PER_PRODUCT_UNIT */
+  CHECK_IN: 5,
   PHOTO_CHALLENGE: 20,
   FIRST_TOP_UP: 50,
   BIRTHDAY: 100,

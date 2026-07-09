@@ -456,7 +456,8 @@
       "scanVouchers": "Scan vouchers",
       "openVoucherDisplay": "Open voucher screen (tablet)",
       "accountHelp": "Account help",
-      "recentProfiles": "Recent profiles"
+      "recentProfiles": "Recent profiles",
+      "pushNotifications": "Push notifications"
     },
     "dogs": {
       "back": "← Admin",
@@ -658,5 +659,35 @@
   },
   "language": {
     "label": "Language"
+  },
+  "push": {
+    "title": "Push notifications",
+    "description": "Get news and updates from Doggy Beach House directly on your phone.",
+    "loading": "Loading status…",
+    "unsupported": "Push notifications are not supported in this browser.",
+    "iosHint": "On iPhone/iPad, push only works when Woof ID is added to your home screen (Share → Add to Home Screen). Then open the app again.",
+    "denied": "Notifications are blocked. Allow them in your browser or device settings.",
+    "enable": "Enable notifications",
+    "unsubscribe": "Disable notifications",
+    "subscribed": "You receive push notifications from Woof ID.",
+    "admin": {
+      "back": "← Admin",
+      "title": "Send push notifications",
+      "description": "Send a notification to all users who enabled push.",
+      "subscriberCount": "Active subscribers",
+      "iosHint": "iOS: push only works for users who added Woof ID as a PWA to their home screen.",
+      "titleLabel": "Title",
+      "bodyLabel": "Message",
+      "urlLabel": "Link (optional)",
+      "sendToAll": "Send to all subscribers",
+      "sending": "Sending…",
+      "success": "Sent to {sent} device(s) ({failed} failed).",
+      "errors": {
+        "forbidden": "Only admins can send notifications.",
+        "invalid_input": "Check title and message.",
+        "vapid_not_configured": "VAPID keys are missing in server configuration.",
+        "sendFailed": "Sending failed. Please try again."
+      }
+    }
   }
 }

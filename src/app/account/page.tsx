@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { DbhLogo } from "@/app/_components/DbhLogo";
+import { PushNotificationPrompt } from "@/app/_components/PushNotificationPrompt";
 import { AccountSettingsForms } from "@/app/account/_components/AccountSettingsForms";
 import { getTranslations } from "@/i18n/server";
 import { requireUser } from "@/lib/serverAuth";
@@ -52,6 +53,8 @@ export default async function AccountPage() {
           </Link>
         )}
       </section>
+
+      <PushNotificationPrompt />
 
       <AccountSettingsForms email={email} />
     </div>

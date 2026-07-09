@@ -17,10 +17,21 @@ function isStaffRole(role: string | undefined) {
   return role === "STAFF" || role === "ADMIN";
 }
 
+function isAdminRole(role: string | undefined) {
+  return role === "ADMIN";
+}
+
 export default withAuth(
   function middleware(req) {
     const { pathname } = req.nextUrl;
     const role = req.nextauth.token?.role as string | undefined;
+
+    if (pathname.startsWith("/admin/push") && !isAdminRole(role)) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/admin";
+      url.searchParams.set("access", "admin_required");
+      return NextResponse.redirect(url);
+    }
 
     if (pathname.startsWith("/admin") && !isStaffRole(role)) {
       const url = req.nextUrl.clone();

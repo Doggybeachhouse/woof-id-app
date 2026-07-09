@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { AppFooter } from "@/app/_components/AppFooter";
 import { NavBarShell } from "@/app/_components/NavBarShell";
+import { ServiceWorkerRegistrar } from "@/app/_components/ServiceWorkerRegistrar";
 import { getTranslations } from "@/i18n/server";
 import { getSession } from "@/lib/serverAuth";
 
@@ -62,6 +63,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full app-bg">
         <Providers locale={locale} messages={messages} session={session}>
+          <ServiceWorkerRegistrar />
           <div className="min-h-full flex flex-col">
             <NavBarShell />
             <main className="flex-1 px-4 py-7 sm:py-8 max-w-3xl mx-auto w-full">
