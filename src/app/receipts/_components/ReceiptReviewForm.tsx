@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { confirmReceiptAction } from "@/app/receipts/actions";
 import { useI18n } from "@/i18n/client";
+import { coinsFromPurchaseEur } from "@/lib/gamification/receiptCoins";
 import { PRODUCT_CATEGORY_OPTIONS } from "@/lib/receipts/categories";
 import type { ProductCategory } from "@prisma/client";
 
@@ -14,20 +15,30 @@ export type ReviewItem = {
   category: ProductCategory;
 };
 
+function parseEuroInput(value: string): number {
+  const parsed = parseFloat(value.replace(",", "."));
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+}
+
 export function ReceiptReviewForm({
   receiptId,
   initialItems,
+  initialPurchaseTotalEur,
 }: {
   receiptId: string;
   initialItems: ReviewItem[];
+  initialPurchaseTotalEur: number;
 }) {
   const { t } = useI18n();
   const [items, setItems] = useState<ReviewItem[]>(initialItems);
+  const [purchaseTotal, setPurchaseTotal] = useState(
+    initialPurchaseTotalEur > 0 ? initialPurchaseTotalEur.toFixed(2) : "",
+  );
   const [error, setError] = useState("");
 
-  const unitCount = items.reduce(
-    (sum, item) => sum + Math.max(1, item.quantity),
-    0,
+  const coins = useMemo(
+    () => coinsFromPurchaseEur(parseEuroInput(purchaseTotal)),
+    [purchaseTotal],
   );
 
   function updateItem(index: number, patch: Partial<ReviewItem>) {
@@ -60,8 +71,14 @@ export function ReceiptReviewForm({
       setError(t("errors.receipts.addNamedProduct"));
       return;
     }
+    const totalEur = parseEuroInput(purchaseTotal);
+    if (totalEur <= 0) {
+      setError(t("errors.receipts.invalidPurchaseTotal"));
+      return;
+    }
     const formData = new FormData();
     formData.set("receiptId", receiptId);
+    formData.set("purchaseTotalEur", purchaseTotal.replace(",", "."));
     formData.set(
       "items",
       JSON.stringify(
@@ -86,13 +103,27 @@ export function ReceiptReviewForm({
         {t("receipts.review.intro")}
       </p>
 
-      <div className="card p-3 bg-[#ffde5b]/20 text-center">
-        <span className="coin-badge">{t("receipts.review.coinsAfterConfirm", { count: unitCount })}</span>
-        <p className="text-xs text-black/50 mt-1">
-          {unitCount === 1
-            ? t("receipts.review.itemsSingular", { count: unitCount })
-            : t("receipts.review.itemsPlural", { count: unitCount })}
-        </p>
+      <div className="card p-3 bg-[#ffde5b]/20 text-center space-y-3">
+        <div>
+          <label className="label text-left" htmlFor="purchaseTotalEur">
+            {t("receipts.review.purchaseTotalLabel")}
+          </label>
+          <input
+            id="purchaseTotalEur"
+            className="input text-center text-lg font-semibold"
+            inputMode="decimal"
+            placeholder={t("receipts.review.purchaseTotalPlaceholder")}
+            value={purchaseTotal}
+            onChange={(e) => setPurchaseTotal(e.target.value)}
+            required
+          />
+          <p className="text-xs text-black/50 mt-1 text-left">
+            {t("receipts.review.purchaseTotalHint")}
+          </p>
+        </div>
+        <span className="coin-badge">
+          {t("receipts.review.coinsAfterConfirm", { count: coins })}
+        </span>
       </div>
 
       <ul className="space-y-3">

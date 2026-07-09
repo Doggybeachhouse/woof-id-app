@@ -4,11 +4,12 @@ import { getTranslations } from "@/i18n/server";
 export default async function ReceiptSuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ units?: string; dog?: string }>;
+  searchParams: Promise<{ coins?: string; total?: string; dog?: string; units?: string }>;
 }) {
   const { t } = await getTranslations();
-  const { units, dog } = await searchParams;
-  const unitCount = parseInt(units ?? "0", 10) || 0;
+  const { coins, total, dog, units } = await searchParams;
+  const coinCount = parseInt(coins ?? units ?? "0", 10) || 0;
+  const purchaseTotal = total ? parseFloat(total.replace(",", ".")) : null;
   const dogName = dog ?? t("receipts.success.defaultDogName");
 
   return (
@@ -18,16 +19,18 @@ export default async function ReceiptSuccessPage({
       <p className="text-lg">
         {t("receipts.success.message", { dogName })}
       </p>
-      {unitCount > 0 && (
+      {coinCount > 0 && (
         <div className="space-y-1">
           <span className="coin-badge text-base inline-flex">
-            {t("receipts.success.coinsEarned", { count: unitCount })}
+            {t("receipts.success.coinsEarned", { count: coinCount })}
           </span>
-          <p className="text-xs text-black/50">
-            {unitCount === 1
-              ? t("receipts.success.itemsSingular", { count: unitCount })
-              : t("receipts.success.itemsPlural", { count: unitCount })}
-          </p>
+          {purchaseTotal != null && Number.isFinite(purchaseTotal) && (
+            <p className="text-xs text-black/50">
+              {t("receipts.success.purchaseTotal", {
+                total: purchaseTotal.toFixed(2),
+              })}
+            </p>
+          )}
         </div>
       )}
       <div className="flex flex-col gap-3 pt-4">
