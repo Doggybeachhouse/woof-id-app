@@ -6,11 +6,15 @@
       "logoAlt": "Doggy Beach House"
     },
     "links": {
+      "home": "Home",
+      "guide": "Guide",
+      "hunts": "Scavenger hunts",
       "dogs": "Dogs",
       "checkIn": "Check-in",
       "receipts": "Scan receipt",
       "rewards": "Rewards",
       "wallet": "Woof Wallet",
+      "topUp": "Top up",
       "admin": "Admin",
       "account": "Account",
       "login": "Log in",
@@ -23,6 +27,22 @@
     "menu": {
       "open": "Open menu",
       "close": "Close menu"
+    },
+    "tabs": {
+      "ariaLabel": "Main navigation",
+      "home": "Home",
+      "guideShort": "Guide",
+      "huntsShort": "Hunts",
+      "checkInShort": "Check-in",
+      "receiptsShort": "Receipt",
+      "rewardsShort": "Perks",
+      "topUpShort": "Top up",
+      "accountShort": "Account"
+    },
+    "profile": {
+      "open": "Open profile menu",
+      "title": "My account",
+      "fallbackName": "Account"
     },
     "footer": {
       "timeline": "Timeline",
@@ -103,6 +123,7 @@
     "loggedIn": {
       "eyebrow": "Welcome back",
       "headline": "Ready for a woofin' visit?",
+      "tapHint": "Tap your dog to continue",
       "description": "Pick a dog to view their profile, receipt or rewards.",
       "allDogs": "All dogs",
       "checkIn": "Check-in",
@@ -114,7 +135,7 @@
   "dogs": {
     "list": {
       "title": "My dogs",
-      "addDog": "+ Dog",
+      "addDog": "Add dog",
       "empty": "No dog profiles yet.",
       "createFirst": "Create your first dog",
       "visits": "{count} visits",
@@ -144,6 +165,18 @@
       "balanceHintPrefix": "Your balance on the website will appear once the till is connected. Until then, check your balance in store or at",
       "balanceHintSuffix": ".",
       "balanceHint": "Your balance on the website will appear once the till is connected. Until then, check your balance in store or at {link}.",
+      "cardNumber": "Card number",
+      "balanceLabel": "Balance",
+      "balanceUnavailable": "—",
+      "balanceError": "Could not fetch your balance right now. Please try again later.",
+      "balanceInactive": "This card is not active.",
+      "balanceValidUntil": "Valid until {date}",
+      "balanceLastKnown": "Last known balance ({date})",
+      "walletHistoryTitle": "Recent transactions",
+      "walletHistoryUnknownDate": "Unknown date",
+      "walletHistoryShowMore": "More transactions",
+      "walletHistoryShowLess": "Fewer transactions",
+      "recentPurchasesShow": "View recent purchases",
       "websiteLink": "doggybeachhouse.com",
       "topUp": "Top up",
       "noWalletLinked": "No Woof Wallet linked yet. Add your card or tag number under Edit profile.",
@@ -166,8 +199,32 @@
       "checkInHint": "Check in via the QR code in the store.",
       "achievementsTitle": "Achievements",
       "achievementsEmpty": "No badges yet — check in or scan a receipt!",
+      "achievementLocked": "Keep going to unlock!",
+      "infoTitle": "Dog info",
+      "vouchersTitle": "Your vouchers",
+      "editInfo": "Edit",
+      "favoriteProductsTitle": "Favourite products",
+      "favoriteProductsEmpty": "No favourite products yet — scan a receipt!",
+      "favoriteProductsCount": "{count}× purchased",
+      "recentPurchasesTitle": "Recent purchases",
+      "recentPurchasesEmpty": "No purchases registered yet.",
       "timelineTitle": "Recent timeline",
-      "fullTimeline": "Full timeline →"
+      "timelineEmpty": "No events yet — time for a visit!",
+      "fullTimeline": "Full timeline →",
+      "cardNumber": "Card number",
+      "balanceLabel": "Balance",
+      "balanceUnavailable": "—",
+      "balanceInactive": "Wallet not activated yet",
+      "balanceValidUntil": "Valid until {date}",
+      "balanceError": "Could not load balance. Please try again later.",
+      "walletHistoryTitle": "Recent transactions",
+      "walletHistoryUnknownDate": "Unknown date"
+    },
+    "photo": {
+      "addProfilePhoto": "Add profile photo",
+      "choosePhoto": "Choose photo",
+      "takePhoto": "Take photo",
+      "chooseFromGallery": "Choose from gallery"
     },
     "edit": {
       "back": "← {dogName}",
@@ -200,7 +257,8 @@
       "selectDogLabel": "Choose your dog",
       "alreadyCheckedInToday": "Already checked in today:",
       "maxPerDay": "Maximum 1 check-in per dog per day.",
-      "submit": "Check in (+25 Woof Coins)"
+      "submit": "Check in (+5 Woof Coins)",
+      "submitLoading": "Checking in…"
     },
     "scanner": {
       "title": "Check-in",
@@ -220,7 +278,7 @@
       "message": "{dogName} has checked in at {location}.",
       "defaultDogName": "Your dog",
       "defaultLocation": "Doggy Beach House Zandvoort",
-      "coinsEarned": "+25 Woof Coins",
+      "coinsEarned": "+5 Woof Coins",
       "toDogProfile": "Go to dog profile",
       "home": "Home"
     },
@@ -249,9 +307,9 @@
   "receipts": {
     "scan": {
       "title": "Scan receipt",
-      "description": "Scan the barcode at the bottom of your receipt. Products come automatically from the till — no typing needed. 1 Woof Coin per item.",
+      "description": "Scan the barcode at the bottom of your receipt. Products come automatically from the till — no typing needed. Woof Coins = purchase amount rounded to whole euros.",
       "descriptionBoldBarcode": "barcode at the bottom of your receipt",
-      "descriptionBoldCoins": "1 Woof Coin per item",
+      "descriptionBoldCoins": "purchase amount rounded to whole euros",
       "backToDogs": "Back to dogs",
       "manualFallback": "Prefer to pick products yourself?",
       "manualFallbackPending": "POS link not active yet? Add products manually now and earn Woof Coins right away.",
@@ -259,7 +317,7 @@
     },
     "manual": {
       "title": "Register receipt manually",
-      "description": "Search products from the store catalog and confirm your purchase. 1 Woof Coin per item — credited immediately after confirmation.",
+      "description": "Search products from the store catalog and confirm your purchase. Woof Coins = total amount rounded to whole euros — credited immediately after confirmation.",
       "backToScan": "← Back to barcode scan"
     },
     "barcodeForm": {
@@ -268,6 +326,7 @@
       "barcodePlaceholder": "Scan or type the code at the bottom of the receipt",
       "submit": "Register receipt",
       "submitLoading": "Looking up receipt…",
+      "retryScan": "Scan again",
       "mplusPending": "Till integration is being activated. Your receipt will be saved; Woof Coins will follow once STN has connected the API."
     },
     "scanner": {
@@ -276,6 +335,10 @@
       "stopCamera": "Stop camera",
       "detecting": "Looking for QR…",
       "holdSteady": "Hold steady on the QR code",
+      "alignBarcodeBottom": "Align the barcode at the bottom of your receipt in the frame",
+      "detectingBarcode": "Looking for barcode…",
+      "detectingBarcodeProgress": "Scanning… ({count} attempts)",
+      "holdSteadyBarcode": "Hold steady on the barcode",
       "unsupportedHint": "Barcode scanning via camera works best in Chrome. Otherwise use the input field below."
     },
     "photoForm": {
@@ -294,24 +357,31 @@
       "noProducts": "No products found",
       "receiptTitle": "Your receipt",
       "removeAriaLabel": "Remove",
-      "totalSingular": "Total: {count} item → {coins} Woof Coins",
-      "totalPlural": "Total: {count} items → {coins} Woof Coins",
+      "totalWithAmount": "Total: €{total} → {coins} Woof Coins",
+      "totalMissingPrices": "Total unknown — prices missing from catalog.",
+      "totalSingular": "{count} product → {coins} Woof Coins",
+      "totalPlural": "{count} products → {coins} Woof Coins",
       "submit": "Confirm and earn coins",
       "submitLoading": "Working…"
     },
     "review": {
       "back": "← Scan again",
       "title": "Does this look right?",
+      "resumed": "Welcome back — your receipt is still here.",
+      "introMplus": "We found these products from the till. Check the total and confirm to earn Woof Coins.",
+      "mplusFound": "Products from till",
+      "mplusTotal": "Till total: €{total}",
       "forDog": "Receipt for {dogName}",
       "receiptPhotoAlt": "Receipt photo",
       "alreadyConfirmed": "This receipt has already been confirmed.",
       "toDog": "Go to {dogName}",
       "cancel": "Cancel and delete receipt",
-      "intro": "We found these products. Does this look right? Adjust names and quantities — you earn 1 Woof Coin per item (not per receipt or euro).",
-      "introBold": "1 Woof Coin per item",
+      "intro": "We found these products. Does this look right? Adjust names and quantities and check the total on your receipt.",
+      "introBold": "total on your receipt",
+      "purchaseTotalLabel": "Receipt total (€)",
+      "purchaseTotalPlaceholder": "e.g. 16.80",
+      "purchaseTotalHint": "Woof Coins = this amount rounded to whole euros (€16.23 → 16 coins, €16.80 → 17 coins).",
       "coinsAfterConfirm": "🪙 {count} Woof Coins after confirming",
-      "itemsSingular": "{count} item total",
-      "itemsPlural": "{count} items total",
       "productNumber": "Product {number}",
       "remove": "Remove",
       "onReceipt": "On receipt:",
@@ -335,14 +405,15 @@
       "message": "{dogName}'s purchases have been registered.",
       "defaultDogName": "your dog",
       "coinsEarned": "+{count} Woof Coins",
-      "itemsSingular": "{count} item × 1 coin",
-      "itemsPlural": "{count} items × 1 coin",
+      "purchaseTotal": "Purchase €{total}",
       "toDogProfiles": "Go to dog profiles",
       "scanAnother": "Scan another receipt"
     },
     "pending": {
       "title": "Receipt registered",
       "message": "Receipt for {dogName} has been saved.",
+      "resumed": "Welcome back — your receipt is still being processed.",
+      "notFoundHint": "We couldn't find this receipt in the till yet. It will be linked automatically once the till integration is live.",
       "activationHint": "The till integration is being activated. Once it's live, your products and Woof Coins will be awarded automatically. Nothing else to do.",
       "toDogProfile": "Go to dog profile"
     }
@@ -361,16 +432,24 @@
       "howItWorks2": "Pick a reward and tap \"Redeem\".",
       "howItWorks3": "You'll get a personal voucher with a QR code and barcode.",
       "howItWorks4": "Scan your voucher at the till on the voucher screen — each code works only once.",
+      "howItWorks5": "Active vouchers appear above — scan them at the till before you leave.",
       "backToDog": "Back to {dogName}"
+    },
+    "vouchers": {
+      "title": "Your vouchers",
+      "empty": "No active vouchers yet.",
+      "validated": "Scanned at till"
     },
     "items": {
       "free-licky": {
         "title": "Free Licky",
-        "description": "One free Licky ice cream for your dog — a tasty treat!"
+        "description": "One free Licky ice cream for your dog — a tasty treat!",
+        "terms": "One per dog. Cannot be combined with other offers."
       },
       "free-ball": {
         "title": "Free ball",
-        "description": "A ball of your choice from our range, completely free."
+        "description": "A ball of your choice from our range, completely free.",
+        "terms": "One per dog. Cannot be combined with other offers."
       },
       "discount-10": {
         "title": "10% off",
@@ -389,6 +468,7 @@
       "newBalance": "New balance:",
       "showAtCheckout": "Show this voucher at the till. Once scanned, it's used up.",
       "scanAtCounter": "Scan this QR code at the till on the voucher screen.",
+      "scanAtKassa": "Scan this voucher at the till on the voucher screen.",
       "qrAlt": "Voucher QR code",
       "submit": "Redeem",
       "submitLoading": "Working…"
@@ -413,12 +493,38 @@
       "submitLoading": "Working…",
       "linkWalletFor": "Link wallet for {dogName}",
       "successTitle": "Payment received!",
-      "successBody": "Your top-up has been received. Your balance will be activated within a few hours during opening times. You'll get an email once your Woof Wallet is updated."
+      "successBody": "Your top-up has been received. Your balance will be activated within a few hours during opening times.",
+      "successBalance": "New balance: €{balance}",
+      "successEmailNote": "You'll receive an email during opening times once your Woof Wallet has been updated.",
+      "returnLoggingIn": "Signing you in…",
+      "returnLinkInvalid": "This return link is invalid or has expired.",
+      "returnLoginFailed": "Automatic sign-in failed. Please log in manually to continue.",
+      "returnLinkHelp": "Open Woof ID again or log in with the same account you use on doggybeachhouse.com."
     }
   },
   "account": {
     "title": "Account",
     "description": "Update your login details or get help if you've forgotten your password.",
+    "menu": {
+      "ariaLabel": "Account menu",
+      "dogs": {
+        "title": "My dogs",
+        "descEmpty": "Add your first dog",
+        "descOne": "1 dog",
+        "descMany": "{count} dogs"
+      },
+      "admin": {
+        "desc": "Admin and check-in screens"
+      },
+      "rewards": {
+        "title": "Rewards",
+        "desc": "Redeem Woof Coins"
+      },
+      "receipts": {
+        "title": "Scan receipt",
+        "desc": "Earn Woof Coins"
+      }
+    },
     "wallet": {
       "title": "Woof Wallet",
       "description": "Top up your physical Woof Wallet via iDEAL. Choose the dog your wallet is linked to.",
@@ -456,8 +562,17 @@
       "scanVouchers": "Scan vouchers",
       "openVoucherDisplay": "Open voucher screen (tablet)",
       "accountHelp": "Account help",
-      "recentProfiles": "Recent profiles",
-      "pushNotifications": "Push notifications"
+      "pushNotifications": "Push notifications",
+      "receiptDebug": "Receipt debug",
+      "recentProfiles": "Recent profiles"
+    },
+    "receipts": {
+      "title": "Receipt debug",
+      "description": "Look up receipts by barcode to troubleshoot till integration.",
+      "barcodeFilter": "Barcode",
+      "barcodePlaceholder": "Scan or enter receipt barcode…",
+      "search": "Search",
+      "empty": "No receipts found for this barcode."
     },
     "dogs": {
       "back": "← Admin",
@@ -596,6 +711,9 @@
     "checkIn": {
       "failed": "Check-in failed",
       "invalidQr": "This isn't the store's check-in QR. Scan the code at the till.",
+      "expiredQr": "This QR code has expired or is invalid. Scan the current code in the store.",
+      "dogNotFound": "Dog not found",
+      "alreadyCheckedInToday": "{dogName} has already checked in today. See you tomorrow!",
       "cameraUnavailable": "Camera unavailable. Allow access in your browser or scan the QR with your camera app and open the link.",
       "barcodeDetectorUnsupported": "QR scanning works best in Chrome on your phone. You can also scan the QR with your regular camera app."
     },
@@ -608,7 +726,14 @@
       "selectDogAndBarcode": "Choose a dog and scan a barcode",
       "failed": "Failed",
       "addNamedProduct": "Add at least one product with a name",
-      "cameraUnavailable": "Camera unavailable. Enter the barcode manually below."
+      "invalidPurchaseTotal": "Enter a valid total amount (e.g. 16.80)",
+      "cameraUnavailable": "Camera unavailable. Enter the barcode manually below.",
+      "duplicateBarcode": "This receipt has already been registered",
+      "duplicateBarcodeOtherDog": "This barcode was already used for another dog's receipt.",
+      "alreadyClaimed": "This receipt has already been claimed",
+      "alreadyClaimedCoins": "Woof Coins were already awarded ({count} coins).",
+      "dailyLimit": "You've reached the daily receipt limit. Try again tomorrow.",
+      "dogNotFound": "Dog not found"
     },
     "wallet": {
       "topUpFailed": "Top-up failed. Please try again later.",
@@ -657,9 +782,6 @@
       "createFailed": "Could not create account. Please try again or contact Doggy Beach House."
     }
   },
-  "language": {
-    "label": "Language"
-  },
   "push": {
     "title": "Push notifications",
     "description": "Get news and updates from Doggy Beach House directly on your phone.",
@@ -688,6 +810,212 @@
         "vapid_not_configured": "VAPID keys are missing in server configuration.",
         "sendFailed": "Sending failed. Please try again."
       }
+    }
+  },
+  "language": {
+    "label": "Language"
+  },
+  "guide": {
+    "title": "Doggy Guide",
+    "hint": {
+      "pan": "Pinch to zoom · drag to pan"
+    },
+    "mapAlt": "Interactive map with off-leash areas around Zandvoort",
+    "intro": {
+      "title": "Discover off-leash spots",
+      "body": "Tap a hotspot for route info, tips and links. The map is based on the official Doggy Beach House guide.",
+      "dismiss": "Got it"
+    },
+    "popup": {
+      "close": "Close",
+      "maps": "Open in Google Maps",
+      "website": "Learn more",
+      "dbhCta": "Check in at Doggy Beach House"
+    }
+  },
+  "hunt": {
+    "title": "Scavenger hunt",
+    "subtitle": "Off-leash area Zuid",
+    "withDog": "Playing with {name}",
+    "selectDog": "Choose your dog",
+    "progressLabel": "Hunt progress",
+    "stepOf": "Checkpoint {current} of {total}",
+    "checkpointLabel": "Checkpoint {step}",
+    "uploadPrompt": "You're close enough! Take a photo with your dog to unlock the next clue.",
+    "addPhoto": "Add photo",
+    "changePhoto": "Choose another photo",
+    "submit": "Submit checkpoint",
+    "submitting": "Uploading…",
+    "walkCloser": "Get within {radius} m of the checkpoint to unlock photo upload.",
+    "hereBanner": "You're here! 📍",
+    "testMode": {
+      "toggleLabel": "Hunt mode",
+      "testMode": "Test",
+      "walkMode": "Walk",
+      "banner": "Test mode — no GPS, no Woof Coins, not on the leaderboard. Staff only.",
+      "nextCheckpoint": "Next checkpoint",
+      "atCheckpoint": "Test mode — at checkpoint",
+      "compassDisabled": "Compass disabled in test mode.",
+      "completeNote": "This was a test run — nothing was saved and no coins were awarded."
+    },
+    "questBadge": "Adventure quest",
+    "questStage": "Quest stage",
+    "compass": {
+      "permissionDenied": "Compass access denied — showing map direction only. Enable motion & orientation in your browser settings.",
+      "unsupported": "Compass not available — arrow shows map direction.",
+      "calibrating": "Calibrating compass… move your phone in a figure-eight.",
+      "live": "Live compass — walk in the direction the arrow points.",
+      "bearingOnly": "Map direction — rotate until the arrow points ahead.",
+      "enable": "Enable live compass",
+      "retry": "Try compass again",
+      "bearing": "Bearing {degrees}",
+      "direction": {
+        "north": "Walk north",
+        "northEast": "Walk north-east",
+        "east": "Walk east",
+        "southEast": "Walk south-east",
+        "south": "Walk south",
+        "southWest": "Walk south-west",
+        "west": "Walk west",
+        "northWest": "Walk north-west"
+      }
+    },
+    "collage": {
+      "generating": "Creating your adventure collage…",
+      "download": "Download collage",
+      "share": "Share collage",
+      "shareTitle": "My Doggy Beach House Adventure",
+      "shareText": "I completed the Woof ID scavenger hunt!",
+      "previewAlt": "Adventure collage with route map and checkpoint photos",
+      "error": "Could not create the collage. Please try again.",
+      "retry": "Try again"
+    },
+    "homeCta": {
+      "title": "GPS scavenger hunt — Zuid",
+      "body": "Walk your dog through off-leash area Zuid. Reach GPS checkpoints, take photos, and earn Woof Coins.",
+      "button": "Browse hunts"
+    },
+    "intro": {
+      "body": "Choose your route before you start. You can change it again at Swan Lake if you change your mind.",
+      "start": "Start hunt",
+      "backToList": "All scavenger hunts"
+    },
+    "route": {
+      "legend": "Choose your route",
+      "duration": "{minutes} min",
+      "saving": "Saving route…",
+      "changePrompt": "Before you continue — include the viewpoint climb or take the shorter route?",
+      "full": {
+        "title": "Full route with viewpoint",
+        "description": "Climb the highest dune for a panoramic view over the Water Supply Dunes."
+      },
+      "short": {
+        "title": "Shorter route",
+        "description": "Skip the steep climb to the highest hill and head straight to the deer valley."
+      },
+      "errors": {
+        "locked": "You can no longer change the route at this point.",
+        "generic": "Could not save route choice. Please try again."
+      }
+    },
+    "geo": {
+      "locating": "Getting your location…",
+      "denied": "Location access is required for the scavenger hunt. Enable GPS in your browser settings.",
+      "unsupported": "Your browser does not support GPS.",
+      "unavailable": "Could not determine your location. Try again outdoors with GPS enabled."
+    },
+    "distance": {
+      "near": "You're at the checkpoint!",
+      "far": "Distance to checkpoint"
+    },
+    "hints": {
+      "button": "Hint",
+      "buy": "Buy hint (€{price})",
+      "loading": "Loading hint…",
+      "purchasing": "Going to payment…",
+      "freeUsed": "Your free hint has been used for this hunt.",
+      "revealedLabel": "Hint",
+      "show": "Show hint",
+      "hide": "Hide hint",
+      "paymentPending": "Payment is still processing. Please wait…",
+      "errors": {
+        "generic": "Could not load the hint. Please try again.",
+        "purchase": "Could not start hint purchase. Please try again."
+      }
+    },
+    "errors": {
+      "tooFar": "You're not close enough to this checkpoint yet.",
+      "gpsAccuracy": "GPS signal is too inaccurate. Wait a moment or move to an open area.",
+      "photo": "Choose a photo first.",
+      "photoTooLarge": "Photo is too large (max 5 MB).",
+      "uploadFailed": "Upload failed. Please try again.",
+      "wrongCheckpoint": "This checkpoint is already done or not available yet.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "completed": {
+      "title": "Hunt complete!",
+      "body": "Well done — you and your dog reached every checkpoint. You earned 50 Woof Coins!",
+      "time": "Time: {time}",
+      "rank": "Your rank: #{rank}",
+      "coins": "+{count} Woof Coins earned!",
+      "hunts": "More scavenger hunts",
+      "dogProfile": "Dog profile"
+    },
+    "replay": {
+      "button": "Walk again",
+      "loading": "Resetting…",
+      "note": "Free replay — your previous completion stays in history. Paid replay may be added later."
+    },
+    "leaderboard": {
+      "title": "Fastest walkers",
+      "viewAll": "Full leaderboard",
+      "eyebrow": "Leaderboard",
+      "loading": "Loading leaderboard…",
+      "empty": "No completions yet — be the first!",
+      "yourRank": "Your best time: #{rank} ({time})"
+    }
+  },
+  "hunts": {
+    "eyebrow": "Adventures",
+    "title": "Scavenger hunts",
+    "subtitle": "GPS walks with your dog — earn Woof Coins along the way.",
+    "historyLink": "My hunt history",
+    "backToList": "All scavenger hunts",
+    "notFound": "Hunt not found.",
+    "difficulty": "{minutes} min · difficulty",
+    "wheelchairNotice": "Not suitable for wheelchair users",
+    "leaderboardLink": "Leaderboard",
+    "history": {
+      "eyebrow": "Your adventures",
+      "title": "Hunt history",
+      "subtitle": "Completed scavenger hunts with your dogs.",
+      "empty": "No completed hunts yet.",
+      "browse": "Browse hunts",
+      "viewCollage": "View collage"
+    },
+    "durationFull": "Full route · {minutes} min",
+    "durationShort": "Short route · {minutes} min",
+    "startFull": "Start · {minutes} min (with viewpoint)",
+    "startShort": "Start · {minutes} min (shorter)"
+  },
+  "achievements": {
+    "first_visit": { "name": "First visit", "description": "First visit to Doggy Beach House" },
+    "beach_regular": { "name": "Beach regular", "description": "5 visits" },
+    "doggy_beach_fan": { "name": "Doggy Beach fan", "description": "10 visits" },
+    "beach_legend": { "name": "Beach legend", "description": "25 visits" },
+    "first_topup": { "name": "First top-up", "description": "First wallet top-up" },
+    "wallet_lover": { "name": "Wallet lover", "description": "5 top-ups" },
+    "big_spender": { "name": "Big spender", "description": "€100 total topped up" },
+    "receipt_rookie": { "name": "Receipt rookie", "description": "First receipt scanned" },
+    "snack_lover": { "name": "Snack lover", "description": "10 snack products registered" },
+    "licky_lover": { "name": "Licky lover", "description": "5 Licky products" },
+    "toy_collector": { "name": "Toy collector", "description": "5 toys registered" },
+    "photo_pup": { "name": "Photo pup", "description": "First photo challenge completed" }
+  },
+  "mplus": {
+    "webhook": {
+      "pushTitle": "{dogName} earned Woof Coins!",
+      "pushBody": "+{coins} Woof Coins from a €{total} purchase"
     }
   }
 }

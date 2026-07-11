@@ -6,11 +6,15 @@
       "logoAlt": "Doggy Beach House"
     },
     "links": {
+      "home": "Home",
+      "guide": "Gids",
+      "hunts": "Speurtochten",
       "dogs": "Honden",
       "checkIn": "Check-in",
       "receipts": "Bon scannen",
       "rewards": "Beloningen",
       "wallet": "Woof Wallet",
+      "topUp": "Opwaarderen",
       "admin": "Admin",
       "account": "Account",
       "login": "Inloggen",
@@ -23,6 +27,22 @@
     "menu": {
       "open": "Menu openen",
       "close": "Menu sluiten"
+    },
+    "tabs": {
+      "ariaLabel": "Hoofdnavigatie",
+      "home": "Home",
+      "guideShort": "Gids",
+      "huntsShort": "Speurtocht",
+      "checkInShort": "Check-in",
+      "receiptsShort": "Bon",
+      "rewardsShort": "Bonus",
+      "topUpShort": "Opwaarderen",
+      "accountShort": "Account"
+    },
+    "profile": {
+      "open": "Profielmenu openen",
+      "title": "Mijn account",
+      "fallbackName": "Account"
     },
     "footer": {
       "timeline": "Timeline",
@@ -103,6 +123,7 @@
     "loggedIn": {
       "eyebrow": "Welkom terug",
       "headline": "Klaar voor een woofin' visit?",
+      "tapHint": "Tik op je hond om verder te gaan",
       "description": "Kies een hond om je profiel, bon of beloningen te bekijken.",
       "allDogs": "Alle honden",
       "checkIn": "Check-in",
@@ -114,7 +135,7 @@
   "dogs": {
     "list": {
       "title": "Mijn honden",
-      "addDog": "+ Hond",
+      "addDog": "Voeg hond toe",
       "empty": "Nog geen hondprofielen.",
       "createFirst": "Eerste hond aanmaken",
       "visits": "{count} bezoeken",
@@ -166,8 +187,35 @@
       "checkInHint": "Check-in via de QR-code in de winkel.",
       "achievementsTitle": "Achievements",
       "achievementsEmpty": "Nog geen badges — check in of scan een bon!",
+      "achievementLocked": "Blijf doorgaan om vrij te spelen!",
+      "infoTitle": "Hondeninfo",
+      "vouchersTitle": "Jouw vouchers",
+      "editInfo": "Bewerken",
+      "favoriteProductsTitle": "Favoriete producten",
+      "favoriteProductsEmpty": "Nog geen favoriete producten — scan een bon!",
+      "favoriteProductsCount": "{count}× gekocht",
+      "recentPurchasesTitle": "Recente aankopen",
+      "recentPurchasesEmpty": "Nog geen aankopen geregistreerd.",
       "timelineTitle": "Recente timeline",
-      "fullTimeline": "Volledige timeline →"
+      "timelineEmpty": "Nog geen events — tijd voor een bezoek!",
+      "fullTimeline": "Volledige timeline →",
+      "cardNumber": "Kaartnummer",
+      "balanceLabel": "Saldo",
+      "balanceUnavailable": "—",
+      "balanceInactive": "Wallet nog niet geactiveerd",
+      "balanceValidUntil": "Geldig tot {date}",
+      "balanceError": "Saldo kon niet worden opgehaald. Probeer het later opnieuw.",
+      "walletHistoryTitle": "Recente transacties",
+      "walletHistoryUnknownDate": "Datum onbekend",
+      "walletHistoryShowMore": "Meer transacties",
+      "walletHistoryShowLess": "Minder transacties",
+      "recentPurchasesShow": "Recente aankopen bekijken"
+    },
+    "photo": {
+      "addProfilePhoto": "Profiel foto toevoegen",
+      "choosePhoto": "Foto kiezen",
+      "takePhoto": "Foto maken",
+      "chooseFromGallery": "Kies uit galerij"
     },
     "edit": {
       "back": "← {dogName}",
@@ -269,6 +317,7 @@
       "barcodePlaceholder": "Scan of typ de code onderaan de bon",
       "submit": "Bon registreren",
       "submitLoading": "Bon opzoeken…",
+      "retryScan": "Opnieuw scannen",
       "mplusPending": "Kassa-koppeling wordt geactiveerd. Je bon wordt opgeslagen; Woof Coins volgen zodra STN de API heeft gekoppeld."
     },
     "scanner": {
@@ -277,6 +326,10 @@
       "stopCamera": "Camera stoppen",
       "detecting": "QR zoeken…",
       "holdSteady": "Houd de camera stil op de QR-code",
+      "alignBarcodeBottom": "Richt de barcode onderaan je bon in het kader",
+      "detectingBarcode": "Barcode zoeken…",
+      "detectingBarcodeProgress": "Scannen… ({count} pogingen)",
+      "holdSteadyBarcode": "Houd de camera stil op de barcode",
       "unsupportedHint": "Barcode scannen via camera werkt het beste in Chrome. Gebruik anders het invoerveld hieronder."
     },
     "photoForm": {
@@ -297,12 +350,18 @@
       "removeAriaLabel": "Verwijderen",
       "totalWithAmount": "Totaal: €{total} → {coins} Woof Coins",
       "totalMissingPrices": "Totaalbedrag onbekend — prijzen ontbreken in catalogus.",
+      "totalSingular": "{count} product → {coins} Woof Coins",
+      "totalPlural": "{count} producten → {coins} Woof Coins",
       "submit": "Bevestigen en coins verdienen",
       "submitLoading": "Bezig…"
     },
     "review": {
       "back": "← Opnieuw scannen",
       "title": "Klopt dit?",
+      "resumed": "Welkom terug — je bon staat nog klaar.",
+      "introMplus": "We hebben deze producten uit de kassa gevonden. Controleer het totaal en bevestig om Woof Coins te verdienen.",
+      "mplusFound": "Producten uit kassa",
+      "mplusTotal": "Kassatotaal: €{total}",
       "forDog": "Bon voor {dogName}",
       "receiptPhotoAlt": "Bonfoto",
       "alreadyConfirmed": "Deze bon is al bevestigd.",
@@ -344,6 +403,8 @@
     "pending": {
       "title": "Bon geregistreerd",
       "message": "Bon van {dogName} is opgeslagen.",
+      "resumed": "Welkom terug — je bon wordt nog verwerkt.",
+      "notFoundHint": "We konden deze bon nog niet in de kassa vinden. Zodra de kassa-koppeling live is, wordt hij automatisch gekoppeld.",
       "activationHint": "De kassa-koppeling wordt geactiveerd. Zodra die live is, worden je producten en Woof Coins automatisch toegekend. Je hoeft niets meer te doen.",
       "toDogProfile": "Naar hondprofiel"
     }
@@ -362,16 +423,24 @@
       "howItWorks2": "Kies een beloning en klik op \"Wissel in\".",
       "howItWorks3": "Je krijgt een persoonlijke voucher met QR-code en barcode.",
       "howItWorks4": "Scan je voucher bij de kassa op het voucherscherm — elke code werkt maar één keer.",
+      "howItWorks5": "Actieve vouchers staan hierboven — scan ze bij de kassa voordat je vertrekt.",
       "backToDog": "Terug naar {dogName}"
+    },
+    "vouchers": {
+      "title": "Jouw vouchers",
+      "empty": "Nog geen actieve vouchers.",
+      "validated": "Gescand bij kassa"
     },
     "items": {
       "free-licky": {
         "title": "Gratis Licky",
-        "description": "Eén gratis Licky ijsje voor je hond — smakelijke beloning!"
+        "description": "Eén gratis Licky ijsje voor je hond — smakelijke beloning!",
+        "terms": "Eén per hond. Niet combineerbaar met andere acties."
       },
       "free-ball": {
         "title": "Gratis bal",
-        "description": "Een bal naar keuze uit ons assortiment, helemaal gratis."
+        "description": "Een bal naar keuze uit ons assortiment, helemaal gratis.",
+        "terms": "Eén per hond. Niet combineerbaar met andere acties."
       },
       "discount-10": {
         "title": "10% korting",
@@ -390,6 +459,7 @@
       "newBalance": "Nieuw saldo:",
       "showAtCheckout": "Toon deze voucher aan de kassa. Na scannen is hij verbruikt.",
       "scanAtCounter": "Scan deze QR-code bij de kassa op het voucherscherm.",
+      "scanAtKassa": "Scan deze voucher bij de kassa op het voucherscherm.",
       "qrAlt": "Voucher QR-code",
       "submit": "Wissel in",
       "submitLoading": "Bezig…"
@@ -415,12 +485,37 @@
       "linkWalletFor": "Wallet koppelen voor {dogName}",
       "successTitle": "Betaling ontvangen!",
       "successBody": "Je opwaardering is ontvangen. Je saldo wordt tijdens openingstijden binnen enkele uren geactiveerd.",
-      "successEmailNote": "Je ontvangt tijdens openingstijden een e-mail zodra je Woof Wallet is bijgewerkt."
+      "successBalance": "Nieuw saldo: €{balance}",
+      "successEmailNote": "Je ontvangt tijdens openingstijden een e-mail zodra je Woof Wallet is bijgewerkt.",
+      "returnLoggingIn": "Je wordt ingelogd en doorgestuurd…",
+      "returnLinkInvalid": "Deze terugkeerlink is ongeldig of verlopen.",
+      "returnLoginFailed": "Automatisch inloggen mislukt. Log handmatig in om verder te gaan.",
+      "returnLinkHelp": "Open Woof ID opnieuw of log in met hetzelfde account als op doggybeachhouse.com."
     }
   },
   "account": {
     "title": "Account",
     "description": "Wijzig je inloggegevens of vraag hulp als je je wachtwoord bent vergeten.",
+    "menu": {
+      "ariaLabel": "Accountmenu",
+      "dogs": {
+        "title": "Mijn honden",
+        "descEmpty": "Voeg je eerste hond toe",
+        "descOne": "1 hond",
+        "descMany": "{count} honden"
+      },
+      "admin": {
+        "desc": "Beheer en check-in schermen"
+      },
+      "rewards": {
+        "title": "Beloningen",
+        "desc": "Woof Coins inwisselen"
+      },
+      "receipts": {
+        "title": "Bon scannen",
+        "desc": "Woof Coins verdienen"
+      }
+    },
     "wallet": {
       "title": "Woof Wallet",
       "description": "Waardeer je fysieke Woof Wallet op via iDEAL. Kies de hond waaraan je wallet is gekoppeld.",
@@ -459,7 +554,16 @@
       "openVoucherDisplay": "Open voucher-scherm (tablet)",
       "accountHelp": "Account hulp",
       "pushNotifications": "Pushmeldingen",
+      "receiptDebug": "Bon debug",
       "recentProfiles": "Recente profielen"
+    },
+    "receipts": {
+      "title": "Bon debug",
+      "description": "Zoek bonnen op barcode om de kassa-koppeling te troubleshooten.",
+      "barcodeFilter": "Barcode",
+      "barcodePlaceholder": "Scan of voer bon-barcode in…",
+      "search": "Zoeken",
+      "empty": "Geen bonnen gevonden voor deze barcode."
     },
     "dogs": {
       "back": "← Admin",
@@ -598,6 +702,9 @@
     "checkIn": {
       "failed": "Check-in mislukt",
       "invalidQr": "Dit is niet de check-in QR van de winkel. Scan de code bij de kassa.",
+      "expiredQr": "Deze QR-code is verlopen of ongeldig. Scan de actuele code in de winkel.",
+      "dogNotFound": "Hond niet gevonden",
+      "alreadyCheckedInToday": "{dogName} is vandaag al ingecheckt. Tot morgen!",
       "cameraUnavailable": "Camera niet beschikbaar. Geef toegang in je browser of scan de QR met je camera-app en open de link.",
       "barcodeDetectorUnsupported": "QR scannen werkt het beste in Chrome op je telefoon. Je kunt de QR ook met je normale camera-app scannen."
     },
@@ -611,7 +718,13 @@
       "failed": "Mislukt",
       "addNamedProduct": "Voeg minstens één product met een naam toe",
       "invalidPurchaseTotal": "Vul een geldig totaalbedrag in (bijv. 16,80)",
-      "cameraUnavailable": "Camera niet beschikbaar. Voer de barcode hieronder handmatig in."
+      "cameraUnavailable": "Camera niet beschikbaar. Voer de barcode hieronder handmatig in.",
+      "duplicateBarcode": "Deze bon is al geregistreerd",
+      "duplicateBarcodeOtherDog": "Deze barcode is al gebruikt voor de bon van een andere hond.",
+      "alreadyClaimed": "Deze bon is al geclaimd",
+      "alreadyClaimedCoins": "Woof Coins zijn al toegekend ({count} coins).",
+      "dailyLimit": "Je hebt de dagelijkse bonlimiet bereikt. Probeer het morgen opnieuw.",
+      "dogNotFound": "Hond niet gevonden"
     },
     "wallet": {
       "topUpFailed": "Opwaarderen mislukt. Probeer het later opnieuw.",
@@ -692,5 +805,210 @@
   },
   "language": {
     "label": "Taal"
+  },
+  "guide": {
+    "title": "Doggy Gids",
+    "hint": {
+      "pan": "Knijp om te zoomen · sleep om te verplaatsen"
+    },
+    "mapAlt": "Interactieve kaart met losloopgebieden rond Zandvoort",
+    "intro": {
+      "title": "Ontdek losloopplekken",
+      "body": "Tik op een hotspot voor routeinfo, tips en links. De kaart is gebaseerd op de officiële Doggy Beach House-gids.",
+      "dismiss": "Begrepen"
+    },
+    "popup": {
+      "close": "Sluiten",
+      "maps": "Open in Google Maps",
+      "website": "Meer info",
+      "dbhCta": "Check in bij Doggy Beach House"
+    }
+  },
+  "hunt": {
+    "title": "Speurtocht",
+    "subtitle": "Losloopgebied Zuid",
+    "withDog": "Speelt met {name}",
+    "selectDog": "Kies je hond",
+    "progressLabel": "Voortgang speurtocht",
+    "stepOf": "Checkpoint {current} van {total}",
+    "checkpointLabel": "Checkpoint {step}",
+    "uploadPrompt": "Je bent dichtbij genoeg! Maak een foto met je hond om de volgende aanwijzing vrij te spelen.",
+    "addPhoto": "Foto toevoegen",
+    "changePhoto": "Andere foto kiezen",
+    "submit": "Checkpoint indienen",
+    "submitting": "Uploaden…",
+    "walkCloser": "Loop binnen {radius} m van het checkpoint om de foto-upload vrij te spelen.",
+    "hereBanner": "Je bent er! 📍",
+    "testMode": {
+      "toggleLabel": "Speurtochtmodus",
+      "testMode": "Testen",
+      "walkMode": "Lopen",
+      "banner": "Testmodus — geen GPS, geen Woof Coins, niet op de ranglijst. Alleen voor medewerkers.",
+      "nextCheckpoint": "Volgende checkpoint",
+      "atCheckpoint": "Testmodus — bij checkpoint",
+      "compassDisabled": "Kompas uitgeschakeld in testmodus.",
+      "completeNote": "Dit was een testronde — niets is opgeslagen en er zijn geen coins toegekend."
+    },
+    "questBadge": "Avonturenquest",
+    "questStage": "Questfase",
+    "compass": {
+      "enable": "Kompas inschakelen",
+      "retry": "Opnieuw proberen",
+      "permissionDenied": "Kompastoegang geweigerd — pijl toont alleen kaartrichting. Schakel beweging & oriëntatie in via je browserinstellingen.",
+      "unsupported": "Kompas niet beschikbaar — pijl toont kaartrichting.",
+      "calibrating": "Kompas kalibreren… beweeg je telefoon in een acht.",
+      "live": "Live kompas — loop in de richting waar de pijl naartoe wijst.",
+      "bearingOnly": "Kaartrichting — draai tot de pijl voor je wijst.",
+      "enable": "Live kompas inschakelen",
+      "retry": "Kompas opnieuw proberen",
+      "bearing": "Richting {degrees}",
+      "direction": {
+        "north": "Loop naar het noorden",
+        "northEast": "Loop naar het noordoosten",
+        "east": "Loop naar het oosten",
+        "southEast": "Loop naar het zuidoosten",
+        "south": "Loop naar het zuiden",
+        "southWest": "Loop naar het zuidwesten",
+        "west": "Loop naar het westen",
+        "northWest": "Loop naar het noordwesten"
+      }
+    },
+    "collage": {
+      "generating": "Je avonturen-collage wordt gemaakt…",
+      "download": "Collage downloaden",
+      "share": "Collage delen",
+      "shareTitle": "Mijn Doggy Beach House-avontuur",
+      "shareText": "Ik heb de Woof ID-speurtocht voltooid!",
+      "previewAlt": "Avonturen-collage met routekaart en checkpointfoto's",
+      "error": "Collage kon niet worden gemaakt. Probeer het opnieuw.",
+      "retry": "Opnieuw proberen"
+    },
+    "homeCta": {
+      "title": "GPS-speurtocht Zuid",
+      "body": "Wandel met je hond door losloopgebied Zuid. Loop naar GPS-punten, maak foto's en verdien Woof Coins.",
+      "button": "Bekijk speurtochten"
+    },
+    "intro": {
+      "body": "Kies je route voordat je start. Bij het Zwanenmeer kun je nog wisselen als je van gedachten verandert.",
+      "start": "Start speurtocht",
+      "backToList": "Alle speurtochten"
+    },
+    "route": {
+      "legend": "Kies je route",
+      "duration": "{minutes} min",
+      "saving": "Route opslaan…",
+      "changePrompt": "Voordat je verder gaat — met of zonder klim naar het uitzichtpunt?",
+      "full": {
+        "title": "Volledige route met uitzicht",
+        "description": "Klim de hoogste heuvel op voor een panoramisch uitzicht over de Waterleidingduinen."
+      },
+      "short": {
+        "title": "Kortere route",
+        "description": "Sla de steile klim naar de hoogste heuvel over en ga direct naar het hertendal."
+      },
+      "errors": {
+        "locked": "Je kunt de route op dit punt niet meer wijzigen.",
+        "generic": "Routekeuze opslaan mislukt. Probeer het opnieuw."
+      }
+    },
+    "geo": {
+      "locating": "Locatie wordt bepaald…",
+      "denied": "Locatietoegang is nodig voor de speurtocht. Schakel GPS in via je browserinstellingen.",
+      "unsupported": "Je browser ondersteunt geen GPS.",
+      "unavailable": "Kon je locatie niet bepalen. Probeer het buiten opnieuw met GPS aan."
+    },
+    "distance": {
+      "near": "Je bent bij het checkpoint!",
+      "far": "Afstand tot checkpoint"
+    },
+    "hints": {
+      "button": "Hint",
+      "buy": "Koop hint (€{price})",
+      "loading": "Hint laden…",
+      "purchasing": "Naar betaling…",
+      "freeUsed": "Je gratis hint is gebruikt voor deze speurtocht.",
+      "revealedLabel": "Hint",
+      "show": "Toon hint",
+      "hide": "Verberg hint",
+      "paymentPending": "Betaling wordt nog verwerkt. Even geduld…",
+      "errors": {
+        "generic": "Hint kon niet worden geladen. Probeer het opnieuw.",
+        "purchase": "Hint-aankoop starten mislukt. Probeer het opnieuw."
+      }
+    },
+    "errors": {
+      "tooFar": "Je bent nog niet dicht genoeg bij dit checkpoint.",
+      "gpsAccuracy": "GPS-signaal is te onnauwkeurig. Wacht even of loop naar een open plek.",
+      "photo": "Kies eerst een foto.",
+      "photoTooLarge": "Foto is te groot (max. 5 MB).",
+      "uploadFailed": "Upload mislukt. Probeer het opnieuw.",
+      "wrongCheckpoint": "Dit checkpoint is al voltooid of nog niet beschikbaar.",
+      "generic": "Er ging iets mis. Probeer het opnieuw."
+    },
+    "completed": {
+      "title": "Speurtocht voltooid!",
+      "body": "Goed gedaan — jij en je hond hebben alle checkpoints gehaald. Je verdient 50 Woof Coins!",
+      "time": "Tijd: {time}",
+      "rank": "Jouw positie: #{rank}",
+      "coins": "+{count} Woof Coins verdiend!",
+      "hunts": "Meer speurtochten",
+      "dogProfile": "Hondenprofiel"
+    },
+    "replay": {
+      "button": "Opnieuw wandelen",
+      "loading": "Resetten…",
+      "note": "Gratis herstart — je vorige voltooiing blijft in je historie. Betaalde herstart kan later worden toegevoegd."
+    },
+    "leaderboard": {
+      "title": "Snelste wandelaars",
+      "viewAll": "Volledige ranglijst",
+      "eyebrow": "Ranglijst",
+      "loading": "Ranglijst laden…",
+      "empty": "Nog geen voltooiingen — wees de eerste!",
+      "yourRank": "Jouw beste tijd: #{rank} ({time})"
+    }
+  },
+  "hunts": {
+    "eyebrow": "Avonturen",
+    "title": "Speurtochten",
+    "subtitle": "GPS-wandelingen met je hond — verdien onderweg Woof Coins.",
+    "historyLink": "Mijn speurtochthistorie",
+    "backToList": "Alle speurtochten",
+    "notFound": "Speurtocht niet gevonden.",
+    "difficulty": "{minutes} min · moeilijkheid",
+    "wheelchairNotice": "Niet geschikt voor rolstoelgebruikers",
+    "leaderboardLink": "Ranglijst",
+    "history": {
+      "eyebrow": "Jouw avonturen",
+      "title": "Speurtochthistorie",
+      "subtitle": "Voltooide speurtochten met je honden.",
+      "empty": "Nog geen voltooide speurtochten.",
+      "browse": "Bekijk speurtochten",
+      "viewCollage": "Bekijk collage"
+    },
+    "durationFull": "Volledige route · {minutes} min",
+    "durationShort": "Korte route · {minutes} min",
+    "startFull": "Start · {minutes} min (met uitzicht)",
+    "startShort": "Start · {minutes} min (korter)"
+  },
+  "achievements": {
+    "first_visit": { "name": "Eerste bezoek", "description": "Eerste bezoek aan Doggy Beach House" },
+    "beach_regular": { "name": "Strandstamgast", "description": "5 bezoeken" },
+    "doggy_beach_fan": { "name": "Doggy Beach fan", "description": "10 bezoeken" },
+    "beach_legend": { "name": "Strandlegende", "description": "25 bezoeken" },
+    "first_topup": { "name": "Eerste opwaardering", "description": "Eerste wallet-opwaardering" },
+    "wallet_lover": { "name": "Wallet-fan", "description": "5 opwaarderingen" },
+    "big_spender": { "name": "Grote spender", "description": "€100 totaal opgewaardeerd" },
+    "receipt_rookie": { "name": "Bon-nieuweling", "description": "Eerste bon gescand" },
+    "snack_lover": { "name": "Snackliefhebber", "description": "10 snackproducten geregistreerd" },
+    "licky_lover": { "name": "Licky-fan", "description": "5 Licky-producten" },
+    "toy_collector": { "name": "Speelgoedverzamelaar", "description": "5 speeltjes geregistreerd" },
+    "photo_pup": { "name": "Foto-hond", "description": "Eerste foto-opdracht voltooid" }
+  },
+  "mplus": {
+    "webhook": {
+      "pushTitle": "{dogName} heeft Woof Coins verdiend!",
+      "pushBody": "+{coins} Woof Coins van een aankoop van €{total}"
+    }
   }
 }
