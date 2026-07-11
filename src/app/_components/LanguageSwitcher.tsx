@@ -1,8 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 import { localeLabels, locales, type Locale } from "@/i18n/config";
 import { useI18n } from "@/i18n/client";
 
@@ -11,8 +8,7 @@ type Props = {
 };
 
 export function LanguageSwitcher({ size = "default" }: Props) {
-  const { locale, t } = useI18n();
-  const pathname = usePathname();
+  const { locale, t, setLocale } = useI18n();
   const isLarge = size === "large";
 
   return (
@@ -44,14 +40,18 @@ export function LanguageSwitcher({ size = "default" }: Props) {
         }
 
         return (
-          <Link
+          <button
             key={code}
-            href={`/api/locale?lang=${code}&returnTo=${encodeURIComponent(pathname)}`}
-            prefetch={false}
+            type="button"
             className={className}
+            onPointerDown={(event) => {
+              if (event.button !== 0) return;
+              setLocale(code);
+            }}
+            onClick={(event) => event.preventDefault()}
           >
             {localeLabels[code as Locale]}
-          </Link>
+          </button>
         );
       })}
     </div>

@@ -3,6 +3,9 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = "nl";
 export const localeCookie = "woof_locale";
+export const localeStorageKey = "woof_locale";
+/** 1 year — keep in sync with cookie max-age in storage + API routes */
+export const localeCookieMaxAge = 60 * 60 * 24 * 365;
 
 export const localeLabels: Record<Locale, string> = {
   nl: "NL",
@@ -25,3 +28,9 @@ export function resolveLocale(
   if (header.includes("en")) return "en";
   return defaultLocale;
 }
+
+export const luxonLocales: Record<Locale, string> = {
+  nl: "nl",
+  de: "de",
+  en: "en-GB",
+};
