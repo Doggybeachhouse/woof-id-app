@@ -44,11 +44,7 @@ export function LanguageSwitcher({ size = "default" }: Props) {
             key={code}
             type="button"
             className={className}
-            onPointerDown={(event) => {
-              if (event.button !== 0) return;
-              setLocale(code);
-            }}
-            onClick={(event) => event.preventDefault()}
+            onClick={() => setLocale(code)}
           >
             {localeLabels[code as Locale]}
           </button>
