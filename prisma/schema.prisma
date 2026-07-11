@@ -50,6 +50,7 @@ enum CoinSourceType {
 
 enum VoucherStatus {
   ACTIVE
+  VALIDATED
   REDEEMED
   CANCELLED
 }
@@ -61,6 +62,8 @@ enum AchievementRuleType {
   RECEIPT_COUNT
   PRODUCT_CATEGORY_COUNT
   PHOTO_COUNT
+  WOOF_COINS
+  BIRTHDAY_CHECK_IN
 }
 
 enum ReceiptStatus {
@@ -69,12 +72,13 @@ enum ReceiptStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String?
-  name         String?
-  role         UserRole @default(OWNER)
-  createdAt    DateTime @default(now())
+  id                  String   @id @default(cuid())
+  email               String   @unique
+  passwordHash        String?
+  name                String?
+  role                UserRole @default(OWNER)
+  mplusRelationNumber Int?
+  createdAt           DateTime @default(now())
 
   dogs     DogProfile[]
   accounts Account[]
@@ -123,37 +127,146 @@ model DogProfile {
   achievements     DogAchievement[]
   missionProgress  MissionProgress[]
   journeyEvents    JourneyEvent[]
-  photoChallenges  PhotoChallenge[]
-  rewardVouchers   RewardVoucher[]
+  photoChallenges       PhotoChallenge[]
+  rewardVouchers        RewardVoucher[]
+  scavengerHuntProgress    ScavengerHuntProgress[]
+  scavengerHuntCompletions ScavengerHuntCompletion[]
 
   @@index([ownerUserId])
 }
 
+enum HuntHintSource {
+  FREE
+  PAID
+}
+
+model ScavengerHuntProgress {
+  id                 String    @id @default(cuid())
+  dogProfileId       String
+  huntSlug           String
+  currentStep        Int       @default(0)
+  routeVariant       String    @default("full")
+  freeHintUsed       Boolean   @default(false)
+  startedAt          DateTime?
+  completedAt        DateTime?
+  durationSeconds    Int?
+  collageGeneratedAt DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  dog           DogProfile                  @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+  submissions   ScavengerHuntSubmission[]
+  hintReveals   ScavengerHuntHintReveal[]
+  hintPurchases ScavengerHuntHintPurchase[]
+
+  @@unique([dogProfileId, huntSlug])
+  @@index([dogProfileId])
+}
+
+model ScavengerHuntCompletion {
+  id              String   @id @default(cuid())
+  dogProfileId    String
+  huntSlug        String
+  routeVariant    String
+  startedAt       DateTime
+  completedAt     DateTime
+  durationSeconds Int
+  submissions     Json
+  createdAt       DateTime @default(now())
+
+  dog DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
+
+  @@index([huntSlug, routeVariant, durationSeconds])
+  @@index([dogProfileId, completedAt])
+}
+
+model ScavengerHuntHintReveal {
+  id              String         @id @default(cuid())
+  progressId      String
+  checkpointIndex Int
+  source          HuntHintSource
+  revealedAt      DateTime       @default(now())
+
+  progress ScavengerHuntProgress @relation(fields: [progressId], references: [id], onDelete: Cascade)
+
+  @@unique([progressId, checkpointIndex])
+  @@index([progressId])
+}
+
+model ScavengerHuntHintPurchase {
+  id              String    @id @default(cuid())
+  progressId      String
+  checkpointIndex Int
+  orderId         Int
+  amountEur       Decimal   @db.Decimal(10, 2)
+  paidAt          DateTime?
+  createdAt       DateTime  @default(now())
+
+  progress ScavengerHuntProgress @relation(fields: [progressId], references: [id], onDelete: Cascade)
+
+  @@index([progressId, orderId])
+  @@index([orderId])
+}
+
+model ScavengerHuntSubmission {
+  id              String   @id @default(cuid())
+  progressId      String
+  checkpointIndex Int
+  imageUrl        String
+  lat             Float
+  lng             Float
+  submittedAt     DateTime @default(now())
+
+  progress ScavengerHuntProgress @relation(fields: [progressId], references: [id], onDelete: Cascade)
+
+  @@unique([progressId, checkpointIndex])
+  @@index([progressId])
+}
+
 model RewardVoucher {
-  id           String        @id @default(cuid())
-  code         String        @unique
-  dogProfileId String
-  rewardId     String
-  rewardTitle  String
-  coinsSpent   Int
-  status       VoucherStatus @default(ACTIVE)
-  createdAt    DateTime      @default(now())
-  redeemedAt   DateTime?
-  redeemedById String?
+  id              String        @id @default(cuid())
+  code            String        @unique
+  dogProfileId    String
+  rewardId        String
+  rewardTitle     String
+  coinsSpent      Int
+  status          VoucherStatus @default(ACTIVE)
+  mplusDiscountId String?       @unique
+  mplusSessionId  String?
+  appliedAt       DateTime?
+  createdAt       DateTime      @default(now())
+  redeemedAt      DateTime?
+  redeemedById    String?
 
   dog        DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
   redeemedBy User?      @relation("VoucherRedeemedBy", fields: [redeemedById], references: [id], onDelete: SetNull)
 
   @@index([dogProfileId, status])
   @@index([code])
+  @@index([mplusSessionId])
+}
+
+model MplusSessionContext {
+  id           String   @id @default(cuid())
+  sessionId    String   @unique
+  dogProfileId String
+  voucherId    String?
+  rewardId     String?
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+
+  @@index([expiresAt])
 }
 
 model WoofWalletLink {
-  id           String   @id @default(cuid())
-  dogProfileId String   @unique
-  walletCardId String
-  linkedAt     DateTime @default(now())
-  linkedBy     String?
+  id                   String    @id @default(cuid())
+  dogProfileId         String    @unique
+  walletCardId         String
+  linkedAt             DateTime  @default(now())
+  linkedBy             String?
+  lastKnownBalanceEur  Decimal?  @db.Decimal(10, 2)
+  lastBalanceFetchedAt DateTime?
+  balanceConfirmedAt   DateTime?
 
   dog DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
 
@@ -178,6 +291,7 @@ model TopUp {
   toppedUpAt     DateTime @default(now())
   registeredById String?
   note           String?
+  wooOrderId     Int?     @unique
 
   dog          DogProfile @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
   registeredBy User?      @relation("TopUpRegisteredBy", fields: [registeredById], references: [id], onDelete: SetNull)
@@ -186,14 +300,15 @@ model TopUp {
 }
 
 model Receipt {
-  id           String        @id @default(cuid())
-  dogProfileId String
-  imageUrl     String?
-  barcode      String?       @unique
-  status       ReceiptStatus @default(PENDING)
-  totalEur     Decimal?
-  scannedAt    DateTime      @default(now())
-  confirmedAt  DateTime?
+  id             String        @id @default(cuid())
+  dogProfileId   String
+  imageUrl       String?
+  barcode        String?       @unique
+  mplusSessionId String?       @unique
+  status         ReceiptStatus @default(PENDING)
+  totalEur       Decimal?
+  scannedAt      DateTime      @default(now())
+  confirmedAt    DateTime?
 
   dog   DogProfile    @relation(fields: [dogProfileId], references: [id], onDelete: Cascade)
   items ReceiptItem[]
@@ -204,6 +319,7 @@ model Receipt {
 model ReceiptItem {
   id             String           @id @default(cuid())
   receiptId      String
+  articleNumber  String?
   rawName        String
   normalizedName String
   category       ProductCategory  @default(OTHER)
