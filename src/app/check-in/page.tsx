@@ -5,6 +5,7 @@ import { DateTime } from "luxon";
 import { CheckInForm } from "@/app/check-in/_components/CheckInForm";
 import { CheckInQrScanner } from "@/app/check-in/_components/CheckInQrScanner";
 import { getTranslations } from "@/i18n/server";
+import { luxonLocales } from "@/i18n/config";
 import {
   getDogsCheckedInToday,
   isValidCheckInQrAccess,
@@ -27,7 +28,7 @@ export default async function CheckInPage({
     error?: string;
   }>;
 }) {
-  const { t } = await getTranslations();
+  const { t, locale } = await getTranslations();
   const session = await requireUser();
   const userId = (session.user as { id: string }).id;
   const { loc, token, dog: preselectedDog, error: errorParam } = await searchParams;
@@ -56,12 +57,15 @@ export default async function CheckInPage({
 
   return (
     <div className="space-y-6">
-      <div className="card p-6 text-center space-y-2">
+      <div className="card-luxe p-6 text-center space-y-2">
         <p className="text-4xl">🏖️</p>
         <h1 className="font-display text-3xl">{t("checkIn.page.title")}</h1>
-        <p className="text-[var(--foreground-muted)]">{location}</p>
+        <p className="text-[var(--foreground-muted)] font-medium">{location}</p>
         <p className="text-xs text-[var(--foreground-muted)]">
-          {DateTime.now().setZone("Europe/Amsterdam").toFormat("cccc d MMMM, HH:mm")}
+          {DateTime.now()
+            .setZone("Europe/Amsterdam")
+            .setLocale(luxonLocales[locale])
+            .toFormat("cccc d MMMM, HH:mm")}
         </p>
       </div>
 
@@ -72,7 +76,10 @@ export default async function CheckInPage({
       )}
 
       {eligibleDogs.length === 0 ? (
-        <div className="card p-6 space-y-3 text-center">
+        <div className="empty-state space-y-3">
+          <div className="empty-state__icon" aria-hidden>
+            ✅
+          </div>
           <p className="font-semibold">{t("checkIn.page.alreadyCheckedInTitle")}</p>
           <p className="text-sm text-[var(--foreground-muted)]">
             {t("checkIn.page.alreadyCheckedInBody")}

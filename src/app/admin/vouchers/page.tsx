@@ -48,6 +48,8 @@ export default async function AdminVouchersPage() {
                   className={`text-xs px-2 py-0.5 rounded-full ${
                     voucher.status === "ACTIVE"
                       ? "bg-[#ffde5b]/50"
+                      : voucher.status === "VALIDATED"
+                        ? "bg-amber-100 text-amber-800"
                       : voucher.status === "REDEEMED"
                         ? "bg-green-100 text-green-800"
                         : "bg-black/10"

@@ -1,5 +1,6 @@
 "use server";
 
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -11,6 +12,13 @@ import { loadProductCatalog } from "@/lib/catalog/products";
 import { parseProductCategory } from "@/lib/receipts/categories";
 import { guessCategoryFromName } from "@/lib/catalog/products";
 import { lookupReceiptByBarcode } from "@/lib/mplus/receiptLookup";
+import {
+  canonicalReceiptBarcode,
+  findExistingReceiptByBarcode,
+  normalizeReceiptBarcode,
+} from "@/lib/receipts/barcode";
+import { RECEIPT_ERROR } from "@/lib/receipts/errors";
+import { resolveExistingBarcodeReceipt } from "@/lib/receipts/receiptClaim";
 import { recognizeReceiptProducts } from "@/lib/receipts/ocr";
 import { saveReceiptImage } from "@/lib/receipts/storage";
 import { prisma } from "@/lib/prisma";
@@ -45,7 +53,7 @@ async function assertDogAccess(dogProfileId: string, userId: string, role: strin
         ? { id: dogProfileId }
         : { id: dogProfileId, ownerUserId: userId },
   });
-  if (!dog) throw new Error("Hond niet gevonden");
+  if (!dog) throw new Error(RECEIPT_ERROR.DOG_NOT_FOUND);
   return dog;
 }
 
@@ -55,23 +63,64 @@ const manualItemSchema = z.object({
   quantity: z.coerce.number().int().min(1).max(99),
 });
 
-export async function claimReceiptBarcodeAction(formData: FormData) {
+export type ClaimReceiptBarcodeState = {
+  error?: string;
+  claimedCoins?: number;
+  redirectTo?: string;
+};
+
+async function claimReceiptBarcode(formData: FormData): Promise<string> {
   const session = await requireUser();
   const userId = (session.user as { id: string }).id;
   const role = (session.user as { role: string }).role;
 
   const dogProfileId = String(formData.get("dogProfileId") ?? "");
-  const barcode = String(formData.get("barcode") ?? "").trim();
+  const barcode = normalizeReceiptBarcode(String(formData.get("barcode") ?? ""));
 
   if (!dogProfileId || barcode.length < 4) {
-    throw new Error("Kies een hond en scan een geldige barcode");
+    throw new Error(RECEIPT_ERROR.INVALID_INPUT);
   }
 
   await assertDogAccess(dogProfileId, userId, role);
 
-  const existing = await prisma.receipt.findUnique({ where: { barcode } });
+  const dog = await prisma.dogProfile.findUnique({
+    where: { id: dogProfileId },
+    select: { name: true },
+  });
+
+  const existing = await findExistingReceiptByBarcode(barcode);
   if (existing) {
-    throw new Error("Deze bon is al geregistreerd voor Woof Coins");
+    const resolution = await resolveExistingBarcodeReceipt(
+      existing,
+      dogProfileId,
+      dog?.name ?? "",
+    );
+    if (resolution.action === "redirect") {
+      console.info("[receipt] resuming existing barcode claim", {
+        scanned: barcode,
+        canonical: canonicalReceiptBarcode(barcode),
+        existingId: existing.id,
+        existingStatus: existing.status,
+        dogProfileId,
+        path: resolution.path,
+      });
+      revalidatePath(`/dogs/${dogProfileId}`);
+      return resolution.path;
+    }
+    console.warn("[receipt] duplicate barcode blocked", {
+      scanned: barcode,
+      canonical: canonicalReceiptBarcode(barcode),
+      existingId: existing.id,
+      existingBarcode: existing.barcode,
+      existingStatus: existing.status,
+      dogProfileId,
+      code: resolution.code,
+      coins: resolution.coins,
+    });
+    const err = new Error(resolution.code);
+    (err as Error & { claimedCoins?: number }).claimedCoins =
+      resolution.coins;
+    throw err;
   }
 
   const todayStart = new Date();
@@ -80,7 +129,12 @@ export async function claimReceiptBarcodeAction(formData: FormData) {
     where: { dogProfileId, scannedAt: { gte: todayStart } },
   });
   if (scansToday >= 5) {
-    throw new Error("Maximaal 5 bonnen per hond per dag");
+    console.warn("[receipt] daily scan limit reached", {
+      dogProfileId,
+      scansToday,
+      barcode,
+    });
+    throw new Error(RECEIPT_ERROR.DAILY_LIMIT);
   }
 
   const mplus = await lookupReceiptByBarcode(barcode);
@@ -94,9 +148,16 @@ export async function claimReceiptBarcodeAction(formData: FormData) {
         status: "PENDING",
       },
     });
+    console.info("[receipt] barcode not found in mplus, saved pending", {
+      dogProfileId,
+      barcode,
+      receiptId: receipt.id,
+    });
     revalidatePath(`/dogs/${dogProfileId}`);
-    redirect(`/receipts/${receipt.id}/pending`);
+    return `/receipts/${receipt.id}/pending`;
   }
+
+  const storedBarcode = normalizeReceiptBarcode(mplus.barcode);
 
   const products = mplus.lines.map((line) => ({
     rawName: line.name,
@@ -108,8 +169,9 @@ export async function claimReceiptBarcodeAction(formData: FormData) {
   const receipt = await prisma.receipt.create({
     data: {
       dogProfileId,
-      barcode,
+      barcode: storedBarcode,
       status: "PENDING",
+      totalEur: mplus.totalEur,
       items: {
         create: products.map((p) => ({
           rawName: p.rawName,
@@ -122,7 +184,58 @@ export async function claimReceiptBarcodeAction(formData: FormData) {
   });
 
   revalidatePath(`/receipts/${receipt.id}/review`);
-  redirect(`/receipts/${receipt.id}/review`);
+  return `/receipts/${receipt.id}/review`;
+}
+
+export async function claimReceiptBarcodeFormAction(
+  _prev: ClaimReceiptBarcodeState,
+  formData: FormData,
+): Promise<ClaimReceiptBarcodeState> {
+  try {
+    const redirectTo = await claimReceiptBarcode(formData);
+    return { redirectTo };
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const barcode = normalizeReceiptBarcode(String(formData.get("barcode") ?? ""));
+      const dogProfileId = String(formData.get("dogProfileId") ?? "");
+      const raced = await findExistingReceiptByBarcode(barcode);
+      if (raced) {
+        const dog = await prisma.dogProfile.findUnique({
+          where: { id: dogProfileId },
+          select: { name: true },
+        });
+        const resolution = await resolveExistingBarcodeReceipt(
+          raced,
+          dogProfileId,
+          dog?.name ?? "",
+        );
+        if (resolution.action === "redirect") {
+          return { redirectTo: resolution.path };
+        }
+        return {
+          error: resolution.code,
+          claimedCoins: resolution.coins,
+        };
+      }
+      return { error: RECEIPT_ERROR.DUPLICATE };
+    }
+    const claimedCoins =
+      error instanceof Error
+        ? (error as Error & { claimedCoins?: number }).claimedCoins
+        : undefined;
+    const message =
+      error instanceof Error ? error.message : RECEIPT_ERROR.INVALID_INPUT;
+    return { error: message, claimedCoins };
+  }
+}
+
+/** @deprecated Use claimReceiptBarcodeFormAction via useActionState */
+export async function claimReceiptBarcodeAction(formData: FormData) {
+  const redirectTo = await claimReceiptBarcode(formData);
+  redirect(redirectTo);
 }
 
 /** @deprecated gebruik claimReceiptBarcodeAction */
@@ -306,15 +419,9 @@ export async function confirmReceiptAction(formData: FormData) {
   const role = (session.user as { role: string }).role;
 
   const receiptId = String(formData.get("receiptId") ?? "");
+  const useStoredItems = formData.get("useStoredItems") === "true";
   const itemsJson = String(formData.get("items") ?? "[]");
   const purchaseTotalRaw = String(formData.get("purchaseTotalEur") ?? "");
-
-  let items: z.infer<typeof itemSchema>[];
-  try {
-    items = z.array(itemSchema).min(1).parse(JSON.parse(itemsJson));
-  } catch {
-    throw new Error("Voeg minstens één product toe");
-  }
 
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
@@ -326,12 +433,37 @@ export async function confirmReceiptAction(formData: FormData) {
 
   await assertDogAccess(receipt.dogProfileId, userId, role);
 
-  const normalizedItems = items.map((item) => ({
-    rawName: item.rawName.trim() || item.normalizedName.trim(),
-    normalizedName: item.normalizedName.trim(),
-    quantity: item.quantity,
-    category: parseProductCategory(item.category),
-  }));
+  let normalizedItems: {
+    rawName: string;
+    normalizedName: string;
+    quantity: number;
+    category: ReturnType<typeof parseProductCategory>;
+  }[];
+
+  if (useStoredItems) {
+    if (receipt.items.length === 0) {
+      throw new Error("Voeg minstens één product toe");
+    }
+    normalizedItems = receipt.items.map((item) => ({
+      rawName: item.rawName.trim() || item.normalizedName.trim(),
+      normalizedName: item.normalizedName.trim(),
+      quantity: item.quantity,
+      category: item.category,
+    }));
+  } else {
+    let items: z.infer<typeof itemSchema>[];
+    try {
+      items = z.array(itemSchema).min(1).parse(JSON.parse(itemsJson));
+    } catch {
+      throw new Error("Voeg minstens één product toe");
+    }
+    normalizedItems = items.map((item) => ({
+      rawName: item.rawName.trim() || item.normalizedName.trim(),
+      normalizedName: item.normalizedName.trim(),
+      quantity: item.quantity,
+      category: parseProductCategory(item.category),
+    }));
+  }
 
   const estimatedTotal = estimateReceiptTotalEur(normalizedItems);
   const purchaseTotal =
@@ -339,13 +471,15 @@ export async function confirmReceiptAction(formData: FormData) {
   const coins = coinsFromPurchaseEur(purchaseTotal);
 
   await prisma.$transaction(async (tx) => {
-    await tx.receiptItem.deleteMany({ where: { receiptId } });
-    await tx.receiptItem.createMany({
-      data: normalizedItems.map((item) => ({
-        receiptId,
-        ...item,
-      })),
-    });
+    if (!useStoredItems) {
+      await tx.receiptItem.deleteMany({ where: { receiptId } });
+      await tx.receiptItem.createMany({
+        data: normalizedItems.map((item) => ({
+          receiptId,
+          ...item,
+        })),
+      });
+    }
     await tx.receipt.update({
       where: { id: receiptId },
       data: {

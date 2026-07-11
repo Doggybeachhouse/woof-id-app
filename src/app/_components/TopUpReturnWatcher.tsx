@@ -5,11 +5,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 const PENDING_ORDER_KEY = "woof_topup_order_id";
+const PENDING_DOG_KEY = "woof_topup_dog_id";
 const PENDING_STARTED_KEY = "woof_topup_started_at";
 const MAX_PENDING_MS = 30 * 60 * 1000;
+const WATCH_PATH = "/wallet/top-up";
 
 function clearPendingTopUp(): void {
   sessionStorage.removeItem(PENDING_ORDER_KEY);
+  sessionStorage.removeItem(PENDING_DOG_KEY);
   sessionStorage.removeItem(PENDING_STARTED_KEY);
 }
 
@@ -38,6 +41,9 @@ export function TopUpReturnWatcher() {
     }
     if (pathname === "/wallet/top-up/success") {
       clearPendingTopUp();
+      return;
+    }
+    if (pathname !== WATCH_PATH) {
       return;
     }
 
@@ -77,7 +83,6 @@ export function TopUpReturnWatcher() {
       }
     }
 
-    void checkPendingPayment();
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("pageshow", onVisible);
 

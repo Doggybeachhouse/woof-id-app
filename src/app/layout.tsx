@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat, Protest_Strike } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { AppFooter } from "@/app/_components/AppFooter";
+import { AppChrome } from "@/app/_components/AppChrome";
 import { NavBarShell } from "@/app/_components/NavBarShell";
 import { ServiceWorkerRegistrar } from "@/app/_components/ServiceWorkerRegistrar";
 import { TopUpReturnWatcher } from "@/app/_components/TopUpReturnWatcher";
@@ -62,16 +62,17 @@ export default async function RootLayout({
       lang={locale}
       className={`${montserrat.variable} ${protestStrike.variable} h-full antialiased`}
     >
-      <body className="min-h-full app-bg">
+      <body className="h-full min-h-dvh app-bg">
         <Providers locale={locale} messages={messages} session={session}>
           <ServiceWorkerRegistrar />
           <TopUpReturnWatcher />
-          <div className="min-h-full flex flex-col">
+          <div className="flex min-h-dvh flex-1 flex-col h-full">
             <NavBarShell />
-            <main className="flex-1 px-4 py-7 sm:py-8 max-w-3xl mx-auto w-full">
-              {children}
-            </main>
-            <AppFooter />
+            <AppChrome isLoggedIn={!!session?.user}>
+              <main className="flex-1 px-4 py-7 sm:py-8 max-w-3xl mx-auto w-full">
+                {children}
+              </main>
+            </AppChrome>
           </div>
         </Providers>
       </body>

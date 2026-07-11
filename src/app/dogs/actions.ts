@@ -4,11 +4,15 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { getTranslations } from "@/i18n/server";
 import { startOfTodayAmsterdam } from "@/lib/checkin/qrGate";
 import { validateRotatingCheckInToken } from "@/lib/checkin/rotatingToken";
 import { saveDogPhoto } from "@/lib/dogs/storage";
 import { DEFAULT_LOCATION } from "@/lib/gamification/coins";
 import { processDogEvent } from "@/lib/gamification/processDogEvent";
+import { recordWalletTopUp } from "@/lib/wallet/recordTopUp";
+import { seedWalletBalanceCache } from "@/lib/mplus/balance";
+import { provisionDogInMplusKassa } from "@/lib/mplus/provisionKassa";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/serverAuth";
 import { createUniqueWoofId } from "@/lib/woofId";
@@ -19,7 +23,20 @@ const ALLOWED_MIME = new Set([
   "image/png",
   "image/webp",
   "image/jpg",
+  "image/heic",
+  "image/heif",
 ]);
+
+function inferMimeType(file: File): string {
+  if (file.type && ALLOWED_MIME.has(file.type)) return file.type;
+  const name = file.name.toLowerCase();
+  if (name.endsWith(".png")) return "image/png";
+  if (name.endsWith(".webp")) return "image/webp";
+  if (name.endsWith(".heic")) return "image/heic";
+  if (name.endsWith(".heif")) return "image/heif";
+  if (name.endsWith(".jpg") || name.endsWith(".jpeg")) return "image/jpeg";
+  return file.type;
+}
 
 const dogFieldsSchema = z.object({
   name: z.string().min(1).max(80),
@@ -32,17 +49,32 @@ const dogFieldsSchema = z.object({
   walletCardId: z.string().max(40).optional(),
 });
 
-async function parseDogPhoto(formData: FormData, dogId: string) {
+async function parseDogPhoto(
+  formData: FormData,
+  dogId: string,
+  previousPhotoUrl?: string | null,
+) {
   const file = formData.get("photo");
   if (!(file instanceof File) || file.size === 0) return undefined;
-  if (!ALLOWED_MIME.has(file.type)) {
-    throw new Error("Foto: alleen JPG, PNG of WebP");
+  const mimeType = inferMimeType(file);
+  if (!ALLOWED_MIME.has(mimeType)) {
+    throw new Error("Foto: alleen JPG, PNG, WebP of HEIC");
   }
   if (file.size > MAX_PHOTO_BYTES) {
     throw new Error("Foto is te groot (max 5 MB)");
   }
   const buffer = Buffer.from(await file.arrayBuffer());
-  return saveDogPhoto(dogId, buffer, file.type);
+  try {
+    return await saveDogPhoto(dogId, buffer, mimeType, previousPhotoUrl);
+  } catch (error) {
+    console.error("[parseDogPhoto] saveDogPhoto failed", {
+      dogId,
+      mimeType,
+      bytes: buffer.length,
+      error,
+    });
+    throw error;
+  }
 }
 
 export async function createDogAction(formData: FormData) {
@@ -92,7 +124,7 @@ export async function createDogAction(formData: FormData) {
     },
   });
 
-  const photoFilename = await parseDogPhoto(formData, dog.id);
+  const photoFilename = await parseDogPhoto(formData, dog.id, dog.photoUrl);
   if (photoFilename) {
     await prisma.dogProfile.update({
       where: { id: dog.id },
@@ -104,6 +136,42 @@ export async function createDogAction(formData: FormData) {
     dogProfileId: dog.id,
     eventType: "PROFILE_CREATED",
   });
+
+  const owner = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { email: true, name: true },
+  });
+  if (owner) {
+    const kassa = await provisionDogInMplusKassa({
+      userId,
+      userEmail: owner.email,
+      userName: owner.name,
+      dogProfileId: dog.id,
+      woofId: dog.woofId,
+      dogName: dog.name,
+      manualWalletCardId: data.walletCardId?.trim() || undefined,
+    });
+    if (kassa.walletCreated && kassa.walletCardId) {
+      console.info("[dogs] auto-provisioned Woof Wallet in Mplus kassa", {
+        dogId: dog.id,
+        woofId: dog.woofId,
+        walletCardId: kassa.walletCardId,
+        relationNumber: kassa.relationNumber,
+      });
+    } else if (kassa.skippedReason) {
+      console.info("[dogs] Mplus kassa sync skipped or partial", {
+        dogId: dog.id,
+        woofId: dog.woofId,
+        reason: kassa.skippedReason,
+        relationNumber: kassa.relationNumber,
+      });
+    }
+  }
+
+  const linkedWalletId = data.walletCardId?.trim();
+  if (linkedWalletId) {
+    await seedWalletBalanceCache(dog.id, linkedWalletId);
+  }
 
   revalidatePath("/dogs");
   redirect(`/dogs/${dog.id}`);
@@ -135,7 +203,7 @@ export async function updateDogAction(formData: FormData) {
   if (!parsed.success) throw new Error("Ongeldige invoer");
   const data = parsed.data;
 
-  const photoFilename = await parseDogPhoto(formData, dog.id);
+  const photoFilename = await parseDogPhoto(formData, dog.id, dog.photoUrl);
 
   await prisma.dogProfile.update({
     where: { id: dog.id },
@@ -165,11 +233,50 @@ export async function updateDogAction(formData: FormData) {
         linkedBy: userId,
       },
     });
+    await seedWalletBalanceCache(dog.id, walletId);
   }
 
   revalidatePath(`/dogs/${dog.id}`);
   revalidatePath("/dogs");
+  revalidatePath("/");
   redirect(`/dogs/${dog.id}`);
+}
+
+export type UploadDogPhotoResult = { error?: string };
+
+export async function uploadDogPhotoAction(
+  formData: FormData,
+): Promise<UploadDogPhotoResult> {
+  try {
+    const session = await requireUser();
+    const userId = (session.user as { id: string }).id;
+
+    const dogId = String(formData.get("dogId") ?? "");
+    if (!dogId) return { error: "Hond niet gevonden" };
+
+    const dog = await prisma.dogProfile.findFirst({
+      where: { id: dogId, ownerUserId: userId },
+    });
+    if (!dog) return { error: "Hond niet gevonden" };
+
+    const photoFilename = await parseDogPhoto(formData, dog.id, dog.photoUrl);
+    if (!photoFilename) return { error: "Geen foto geselecteerd" };
+
+    await prisma.dogProfile.update({
+      where: { id: dog.id },
+      data: { photoUrl: photoFilename },
+    });
+
+    revalidatePath("/");
+    revalidatePath(`/dogs/${dog.id}`);
+    revalidatePath("/dogs");
+    return {};
+  } catch (error) {
+    console.error("[uploadDogPhotoAction] failed", error);
+    const message =
+      error instanceof Error ? error.message : "Foto uploaden mislukt";
+    return { error: message };
+  }
 }
 
 const CHECK_IN_LOCATIONS: Record<string, string> = {
@@ -199,8 +306,9 @@ export async function submitCheckInAction(
       redirectTo: `/check-in/success?name=${encodeURIComponent(result.dogName)}&loc=${encodeURIComponent(locName)}`,
     };
   } catch (error) {
+    const { t } = await getTranslations();
     const message =
-      error instanceof Error ? error.message : "Check-in mislukt";
+      error instanceof Error ? error.message : t("errors.checkIn.failed");
     return { error: message };
   }
 }
@@ -210,17 +318,18 @@ export async function checkInDogAction(
   location: string,
   qr?: { loc: string; token: string },
 ) {
+  const { t } = await getTranslations();
   const session = await requireUser();
   const userId = (session.user as { id: string }).id;
 
   if (qr && !validateRotatingCheckInToken(qr.loc, qr.token)) {
-    throw new Error("QR-code verlopen. Scan opnieuw de code in de winkel.");
+    throw new Error(t("errors.checkIn.expiredQr"));
   }
 
   const dog = await prisma.dogProfile.findFirst({
     where: { id: dogProfileId, ownerUserId: userId },
   });
-  if (!dog) throw new Error("Hond niet gevonden");
+  if (!dog) throw new Error(t("errors.checkIn.dogNotFound"));
 
   const alreadyToday = await prisma.visit.findFirst({
     where: {
@@ -231,7 +340,7 @@ export async function checkInDogAction(
 
   if (alreadyToday) {
     throw new Error(
-      `${dog.name} heeft vandaag al ingecheckt. Morgen weer welkom!`,
+      t("errors.checkIn.alreadyCheckedInToday", { dogName: dog.name }),
     );
   }
 
@@ -270,25 +379,11 @@ export async function registerTopUpAction(formData: FormData) {
     throw new Error("Ongeldige invoer");
   }
 
-  const priorCount = await prisma.topUp.count({ where: { dogProfileId } });
-
-  const topUp = await prisma.topUp.create({
-    data: {
-      dogProfileId,
-      amountEur,
-      registeredById: userId,
-      note,
-    },
-  });
-
-  await processDogEvent({
+  await recordWalletTopUp({
     dogProfileId,
-    eventType: "TOP_UP",
-    payload: {
-      topUpId: topUp.id,
-      amountEur,
-      isFirstTopUp: priorCount === 0,
-    },
+    amountEur,
+    registeredById: userId,
+    note,
   });
 
   revalidatePath("/admin");

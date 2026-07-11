@@ -4,7 +4,7 @@ const ACHIEVEMENTS = [
   {
     slug: "first_visit",
     name: "First Visit",
-    description: "Eerste bezoek aan Doggy Beach House",
+    description: "First visit to Doggy Beach House",
     icon: "🐾",
     ruleType: "VISIT_COUNT" as const,
     ruleConfig: { threshold: 1 },
@@ -12,8 +12,8 @@ const ACHIEVEMENTS = [
   },
   {
     slug: "beach_regular",
-    name: "Beach Regular",
-    description: "5 bezoeken",
+    name: "5 Visits",
+    description: "5 visits to the store",
     icon: "🏖️",
     ruleType: "VISIT_COUNT" as const,
     ruleConfig: { threshold: 5 },
@@ -21,26 +21,35 @@ const ACHIEVEMENTS = [
   },
   {
     slug: "doggy_beach_fan",
-    name: "Doggy Beach Fan",
-    description: "10 bezoeken",
+    name: "10 Visits",
+    description: "10 visits — you're a regular!",
     icon: "🌊",
     ruleType: "VISIT_COUNT" as const,
     ruleConfig: { threshold: 10 },
     sortOrder: 3,
   },
   {
+    slug: "loyal_friend",
+    name: "Loyal Friend",
+    description: "30 visits — true beach house royalty",
+    icon: "🤝",
+    ruleType: "VISIT_COUNT" as const,
+    ruleConfig: { threshold: 30 },
+    sortOrder: 4,
+  },
+  {
     slug: "beach_legend",
     name: "Beach Legend",
-    description: "25 bezoeken",
+    description: "25 visits",
     icon: "👑",
     ruleType: "VISIT_COUNT" as const,
     ruleConfig: { threshold: 25 },
-    sortOrder: 4,
+    sortOrder: 5,
   },
   {
     slug: "first_topup",
     name: "First Top-Up",
-    description: "Eerste opwaardering",
+    description: "First Woof Wallet top-up",
     icon: "💳",
     ruleType: "TOP_UP_COUNT" as const,
     ruleConfig: { threshold: 1 },
@@ -49,7 +58,7 @@ const ACHIEVEMENTS = [
   {
     slug: "wallet_lover",
     name: "Wallet Lover",
-    description: "5 opwaarderingen",
+    description: "5 wallet top-ups",
     icon: "💖",
     ruleType: "TOP_UP_COUNT" as const,
     ruleConfig: { threshold: 5 },
@@ -58,16 +67,16 @@ const ACHIEVEMENTS = [
   {
     slug: "big_spender",
     name: "Big Spender",
-    description: "€100 totaal opgewaardeerd",
+    description: "€100 total topped up",
     icon: "💰",
     ruleType: "TOP_UP_TOTAL_EUR" as const,
     ruleConfig: { threshold: 100 },
     sortOrder: 12,
   },
   {
-    slug: "receipt_rookie",
-    name: "Receipt Rookie",
-    description: "Eerste bon gescand",
+    slug: "receipt_scanner",
+    name: "Receipt Scanner",
+    description: "First receipt scanned",
     icon: "🧾",
     ruleType: "RECEIPT_COUNT" as const,
     ruleConfig: { threshold: 1 },
@@ -76,7 +85,7 @@ const ACHIEVEMENTS = [
   {
     slug: "snack_lover",
     name: "Snack Lover",
-    description: "10 snackproducten geregistreerd",
+    description: "10 snack products registered",
     icon: "🦴",
     ruleType: "PRODUCT_CATEGORY_COUNT" as const,
     ruleConfig: { threshold: 10, category: "SNACKS" },
@@ -85,7 +94,7 @@ const ACHIEVEMENTS = [
   {
     slug: "licky_lover",
     name: "Licky Lover",
-    description: "5 Licky-producten",
+    description: "5 Licky products",
     icon: "🍦",
     ruleType: "PRODUCT_CATEGORY_COUNT" as const,
     ruleConfig: { threshold: 5, category: "LICKY" },
@@ -94,20 +103,47 @@ const ACHIEVEMENTS = [
   {
     slug: "toy_collector",
     name: "Toy Collector",
-    description: "5 speeltjes geregistreerd",
+    description: "5 toys registered",
     icon: "🎾",
     ruleType: "PRODUCT_CATEGORY_COUNT" as const,
     ruleConfig: { threshold: 5, category: "TOYS" },
     sortOrder: 23,
   },
   {
+    slug: "coin_collector_50",
+    name: "Coin Collector",
+    description: "50 Woof Coins earned",
+    icon: "🪙",
+    ruleType: "WOOF_COINS" as const,
+    ruleConfig: { threshold: 50 },
+    sortOrder: 30,
+  },
+  {
+    slug: "coin_collector_100",
+    name: "Coin Hoarder",
+    description: "100 Woof Coins earned",
+    icon: "💎",
+    ruleType: "WOOF_COINS" as const,
+    ruleConfig: { threshold: 100 },
+    sortOrder: 31,
+  },
+  {
+    slug: "birthday_pup",
+    name: "Birthday Pup",
+    description: "Checked in on your birthday",
+    icon: "🎂",
+    ruleType: "BIRTHDAY_CHECK_IN" as const,
+    ruleConfig: { threshold: 1 },
+    sortOrder: 32,
+  },
+  {
     slug: "photo_pup",
     name: "Photo Pup",
-    description: "Eerste foto-opdracht voltooid",
+    description: "First photo challenge completed",
     icon: "📸",
     ruleType: "PHOTO_COUNT" as const,
     ruleConfig: { threshold: 1 },
-    sortOrder: 30,
+    sortOrder: 40,
   },
 ];
 
@@ -126,4 +162,23 @@ export async function seedAchievements(prisma: PrismaClient) {
       },
     });
   }
+
+  // Legacy slug kept for existing unlocks
+  await prisma.achievementDefinition.upsert({
+    where: { slug: "receipt_rookie" },
+    create: {
+      slug: "receipt_rookie",
+      name: "Receipt Rookie",
+      description: "First receipt scanned",
+      icon: "🧾",
+      ruleType: "RECEIPT_COUNT",
+      ruleConfig: { threshold: 1 },
+      sortOrder: 19,
+    },
+    update: {
+      name: "Receipt Rookie",
+      description: "First receipt scanned",
+      sortOrder: 19,
+    },
+  });
 }

@@ -1,3 +1,20 @@
+// SW_VERSION=2 — bump when shell/layout changes so installed PWAs refresh.
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
+function resolveAppUrl(path) {
+  try {
+    return new URL(path || "/", self.location.origin).href;
+  } catch {
+    return `${self.location.origin}/`;
+  }
+}
+
 self.addEventListener("push", (event) => {
   let data = { title: "Woof ID", body: "", url: "/" };
 
@@ -13,7 +30,7 @@ self.addEventListener("push", (event) => {
     body: data.body,
     icon: "/icon-192.png",
     badge: "/icon-192.png",
-    data: { url: data.url || "/" },
+    data: { url: resolveAppUrl(data.url || "/") },
   };
 
   event.waitUntil(self.registration.showNotification(data.title, options));
@@ -21,7 +38,7 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const url = event.notification.data?.url || "/";
+  const targetUrl = resolveAppUrl(event.notification.data?.url || "/");
 
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
@@ -31,7 +48,7 @@ self.addEventListener("notificationclick", (event) => {
         }
       }
       if (clients.openWindow) {
-        return clients.openWindow(url);
+        return clients.openWindow(targetUrl);
       }
     }),
   );

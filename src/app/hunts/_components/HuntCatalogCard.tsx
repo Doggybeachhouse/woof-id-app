@@ -53,7 +53,7 @@ export function HuntCatalogCard({ hunt, locale }: HuntCatalogCardProps) {
       </div>
 
       <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-        ⚠️ {t("hunts.wheelchairNotice")}
+        ⚠️ {hunt.wheelchairNotice?.[loc] ?? hunt.wheelchairNotice?.nl ?? t("hunts.wheelchairNotice")}
       </p>
 
       <div className="flex flex-wrap gap-2">

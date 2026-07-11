@@ -5,13 +5,14 @@ import { revalidatePath } from "next/cache";
 import { getLocale, getTranslatorForLocale } from "@/i18n/server";
 import { requireStaff } from "@/lib/serverAuth";
 import {
-  redeemVoucherByCode,
-  type RedeemVoucherErrorCode,
+  validateVoucherByCode,
+  type VoucherErrorCode,
 } from "@/lib/vouchers/redeem";
 
-const ERROR_KEYS: Record<RedeemVoucherErrorCode, string> = {
+const ERROR_KEYS: Record<VoucherErrorCode, string> = {
   not_found: "admin.vouchers.errors.notFound",
   already_redeemed: "admin.vouchers.errors.alreadyRedeemed",
+  already_validated: "admin.vouchers.errors.alreadyValidated",
   cancelled: "admin.vouchers.errors.cancelled",
 };
 
@@ -21,7 +22,7 @@ export async function redeemVoucherByCodeAction(code: string) {
   const locale = await getLocale();
   const t = getTranslatorForLocale(locale);
 
-  const result = await redeemVoucherByCode(code, staffId);
+  const result = await validateVoucherByCode(code, staffId);
 
   if (!result.ok) {
     return {
@@ -37,6 +38,7 @@ export async function redeemVoucherByCodeAction(code: string) {
 
   return {
     ok: true as const,
+    alreadyValidated: result.alreadyValidated ?? false,
     voucher: result.voucher,
   };
 }

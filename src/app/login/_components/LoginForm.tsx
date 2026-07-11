@@ -53,13 +53,13 @@ export function LoginForm({
   return (
     <div className="hero-card p-6 sm:p-7 max-w-md mx-auto space-y-5">
       <div className="text-center space-y-3">
-        <DbhLogo className="mx-auto h-40 w-40" href={null} />
+        <DbhLogo className="mx-auto h-32 w-32" href={null} />
         <h1 className="font-display text-3xl">{t("auth.login.title")}</h1>
-        <p className="text-sm text-black/60">{t("auth.login.subtitle")}</p>
+        <p className="text-sm text-[var(--foreground-muted)]">{t("auth.login.subtitle")}</p>
       </div>
 
       {resetDone && (
-        <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg p-3">
+        <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl p-3">
           {t("auth.login.resetSuccess")}
         </p>
       )}
@@ -108,13 +108,13 @@ export function LoginForm({
 
       <div className="text-sm text-center space-y-2">
         <p>
-          <Link href="/forgot-password" className="font-semibold underline">
+          <Link href="/forgot-password" className="font-semibold text-[var(--accent-primary)] hover:underline">
             {t("auth.login.forgotPassword")}
           </Link>
         </p>
-        <p className="text-black/60">
+        <p className="text-[var(--foreground-muted)]">
           {t("auth.login.noAccount")}{" "}
-          <Link href="/register" className="font-semibold underline">
+          <Link href="/register" className="font-semibold text-[var(--accent-primary)] hover:underline">
             {t("auth.login.registerLink")}
           </Link>
         </p>

@@ -1,26 +1,28 @@
-export type MplusReceiptLine = {
-  name: string;
-  quantity: number;
-  articleNumber?: string;
-};
+export type { MplusReceiptLine } from "@/lib/mplus/receipts";
 
 export type MplusReceiptResult = {
   barcode: string;
-  lines: MplusReceiptLine[];
+  totalEur: number;
+  lines: import("@/lib/mplus/receipts").MplusReceiptLine[];
 };
 
-/** STN/Mplus API — returns null until credentials are configured. */
+import { isMplusConfigured } from "@/lib/mplus/config";
+import { lookupReceiptByBarcode as lookupReceipt } from "@/lib/mplus/receipts";
+
+/** STN/Mplus API — returns null when credentials are missing or receipt not found. */
 export async function lookupReceiptByBarcode(
   barcode: string,
 ): Promise<MplusReceiptResult | null> {
-  const url = process.env.MPLUS_API_URL;
-  const ident = process.env.MPLUS_IDENT;
-  const secret = process.env.MPLUS_SECRET;
-  if (!url || !ident || !secret) {
+  if (!isMplusConfigured()) {
     return null;
   }
 
-  // TODO: SOAP getReceipts / getOrder when STN delivers credentials
-  void barcode;
-  return null;
+  const receipt = await lookupReceipt(barcode);
+  if (!receipt) return null;
+
+  return {
+    barcode: receipt.barcode,
+    totalEur: receipt.totalEur,
+    lines: receipt.lines,
+  };
 }

@@ -139,6 +139,7 @@ main:has(.doggy-guide-page) {
   flex-direction: column;
   max-width: none;
   min-height: 0;
+  height: 100%;
   padding: 0;
 }
 
@@ -1392,13 +1393,29 @@ main:has(.doggy-guide-page) {
 
 /* ── Doggy Guide ── */
 
+:root {
+  --guide-header-height: 3.75rem;
+  --guide-bottom-tab-height: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+}
+
 .doggy-guide-page {
   display: flex;
   flex: 1 1 0;
   flex-direction: column;
   width: 100%;
   min-height: 0;
+  height: calc(100dvh - 3.75rem);
   overflow: hidden;
+}
+
+.app-chrome--with-tabs .doggy-guide-page {
+  height: calc(100dvh - 3.75rem - var(--guide-bottom-tab-height));
+}
+
+@media (min-width: 1024px) {
+  .app-chrome--with-tabs .doggy-guide-page {
+    height: calc(100dvh - 3.75rem);
+  }
 }
 
 .doggy-guide {
@@ -1406,12 +1423,13 @@ main:has(.doggy-guide-page) {
   flex-direction: column;
   flex: 1 1 0;
   min-height: 0;
+  height: 100%;
   background: linear-gradient(180deg, var(--surface-cream) 0%, var(--background) 100%);
 }
 
 .doggy-guide__header {
   flex-shrink: 0;
-  padding: 0.5rem 1rem 0.35rem;
+  padding: 0.4rem 1rem 0.3rem;
   text-align: center;
 }
 
@@ -1431,8 +1449,6 @@ main:has(.doggy-guide-page) {
   position: relative;
   flex: 1 1 0;
   min-height: 0;
-  /* Fallback when flex ancestors fail to propagate height (e.g. PWA standalone). */
-  min-height: calc(100dvh - 3.75rem - 3.5rem - 5.5rem - env(safe-area-inset-bottom, 0px));
   overflow: hidden;
   touch-action: none;
   cursor: grab;

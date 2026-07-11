@@ -3,28 +3,30 @@
 import { useEffect, useState } from "react";
 
 import { useI18n } from "@/i18n/client";
-import { DUNE_FACTS } from "@/lib/scavengerHunt/facts";
+import { getHuntFacts } from "@/lib/scavengerHunt/facts";
 
 type HuntDuneFactCardProps = {
   checkpointStep: number;
+  huntSlug: string;
 };
 
-export function HuntDuneFactCard({ checkpointStep }: HuntDuneFactCardProps) {
+export function HuntDuneFactCard({ checkpointStep, huntSlug }: HuntDuneFactCardProps) {
   const { locale } = useI18n();
-  const [factIndex, setFactIndex] = useState(() => checkpointStep % DUNE_FACTS.length);
+  const facts = getHuntFacts(huntSlug);
+  const [factIndex, setFactIndex] = useState(() => checkpointStep % facts.length);
 
   useEffect(() => {
-    setFactIndex(checkpointStep % DUNE_FACTS.length);
-  }, [checkpointStep]);
+    setFactIndex(checkpointStep % facts.length);
+  }, [checkpointStep, facts.length]);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
-      setFactIndex((prev) => (prev + 1) % DUNE_FACTS.length);
+      setFactIndex((prev) => (prev + 1) % facts.length);
     }, 25_000);
     return () => window.clearInterval(interval);
-  }, []);
+  }, [facts.length]);
 
-  const fact = DUNE_FACTS[factIndex]!;
+  const fact = facts[factIndex]!;
 
   return (
     <div className="hunt-fact-card">

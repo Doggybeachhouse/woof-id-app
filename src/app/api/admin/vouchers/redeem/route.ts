@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { z } from "zod";
 
 import { authOptions } from "@/lib/auth";
-import { redeemVoucherByCode } from "@/lib/vouchers/redeem";
+import { validateVoucherByCode } from "@/lib/vouchers/redeem";
 
 const bodySchema = z.object({
   code: z.string().min(1),
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid_input" }, { status: 400 });
   }
 
-  const result = await redeemVoucherByCode(parsed.data.code, userId);
+  const result = await validateVoucherByCode(parsed.data.code, userId);
 
   if (!result.ok) {
     return NextResponse.json(result, { status: 400 });

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { ReceiptBarcodeForm } from "@/app/receipts/_components/ReceiptBarcodeForm";
 import { getTranslations } from "@/i18n/server";
+import { isMplusConfigured } from "@/lib/mplus/config";
 import { requireUser } from "@/lib/serverAuth";
 import { prisma } from "@/lib/prisma";
 
@@ -24,11 +25,7 @@ export default async function ReceiptScanPage({
 
   if (dogs.length === 0) redirect("/dogs/new");
 
-  const mplusReady = !!(
-    process.env.MPLUS_API_URL &&
-    process.env.MPLUS_IDENT &&
-    process.env.MPLUS_SECRET
-  );
+  const mplusReady = isMplusConfigured();
 
   return (
     <div className="space-y-6">
@@ -44,20 +41,6 @@ export default async function ReceiptScanPage({
         defaultDogId={dog}
         mplusReady={mplusReady}
       />
-
-      <div className="card p-5 text-center space-y-2">
-        <p className="text-sm text-black/65">
-          {mplusReady
-            ? t("receipts.scan.manualFallback")
-            : t("receipts.scan.manualFallbackPending")}
-        </p>
-        <Link
-          href={dog ? `/receipts/manual?dog=${dog}` : "/receipts/manual"}
-          className="btn btn-secondary text-sm inline-flex"
-        >
-          {t("receipts.scan.manualLink")}
-        </Link>
-      </div>
 
       <p className="text-center text-sm">
         <Link href="/dogs" className="underline text-black/60">

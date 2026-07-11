@@ -5,6 +5,7 @@ import {
   JourneyEventType,
   type PrismaClient,
 } from "@prisma/client";
+import { DateTime } from "luxon";
 
 import { COIN_AMOUNTS } from "@/lib/gamification/coins";
 import { coinsFromPurchaseEur } from "@/lib/gamification/receiptCoins";
@@ -106,6 +107,7 @@ async function evaluateAchievements(tx: Tx, dogProfileId: string) {
     include: {
       achievements: true,
       topUps: true,
+      visits: true,
       receipts: { where: { status: "CONFIRMED" }, include: { items: true } },
       photoChallenges: true,
     },
@@ -131,6 +133,20 @@ async function evaluateAchievements(tx: Tx, dogProfileId: string) {
     .flatMap((r) => r.items)
     .filter((i) => i.category === "TOYS")
     .reduce((s, i) => s + i.quantity, 0);
+
+  const hasBirthdayCheckIn =
+    dog.birthday != null &&
+    dog.visits.some((visit) => {
+      const visitDay = DateTime.fromJSDate(visit.visitedAt, {
+        zone: "Europe/Amsterdam",
+      });
+      const birthday = DateTime.fromJSDate(dog.birthday!, {
+        zone: "Europe/Amsterdam",
+      });
+      return (
+        visitDay.month === birthday.month && visitDay.day === birthday.day
+      );
+    });
 
   for (const def of definitions) {
     if (unlockedIds.has(def.id)) continue;
@@ -165,12 +181,24 @@ async function evaluateAchievements(tx: Tx, dogProfileId: string) {
       case AchievementRuleType.PHOTO_COUNT:
         met = dog.photoChallenges.length >= threshold;
         break;
+      case AchievementRuleType.WOOF_COINS:
+        met = dog.woofCoins >= threshold;
+        break;
+      case AchievementRuleType.BIRTHDAY_CHECK_IN:
+        met = hasBirthdayCheckIn;
+        break;
     }
 
     if (met) {
       await unlockAchievement(tx, dogProfileId, def.id, def.name);
     }
   }
+}
+
+export async function evaluateDogAchievements(dogProfileId: string) {
+  await prisma.$transaction(async (tx) => {
+    await evaluateAchievements(tx, dogProfileId);
+  });
 }
 
 export async function processDogEvent(input: ProcessDogEventInput) {
@@ -245,8 +273,20 @@ export async function processDogEvent(input: ProcessDogEventInput) {
       }
 
       case "RECEIPT_CONFIRMED": {
+        const receiptId = input.payload?.receiptId;
         const purchaseEur = Math.max(0, input.payload?.purchaseAmountEur ?? 0);
         const coins = coinsFromPurchaseEur(purchaseEur);
+
+        if (receiptId) {
+          const existingCoin = await tx.coinLedger.findFirst({
+            where: {
+              sourceType: CoinSourceType.RECEIPT,
+              sourceId: receiptId,
+            },
+          });
+          if (existingCoin) break;
+        }
+
         await tx.journeyEvent.create({
           data: {
             dogProfileId: dog.id,

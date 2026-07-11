@@ -66,6 +66,9 @@ export default async function AdminHomePage() {
         <Link href="/admin/push" className="btn btn-secondary">
           {t("admin.home.pushNotifications")}
         </Link>
+        <Link href="/admin/receipts" className="btn btn-secondary">
+          {t("admin.home.receiptDebug")}
+        </Link>
       </div>
 
       <section className="space-y-2">

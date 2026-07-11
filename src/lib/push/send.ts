@@ -79,3 +79,33 @@ export async function sendPushToUser(userId: string, payload: PushPayload) {
   });
   return sendPushToSubscriptions(subscriptions, payload);
 }
+
+export async function sendPushToUserIds(userIds: string[], payload: PushPayload) {
+  const uniqueIds = [...new Set(userIds.map((id) => id.trim()).filter(Boolean))];
+  if (uniqueIds.length === 0) {
+    return { sent: 0, failed: 0, removed: 0, subscriptions: 0, users: 0 };
+  }
+
+  const subscriptions = await prisma.pushSubscription.findMany({
+    where: { userId: { in: uniqueIds } },
+  });
+  const result = await sendPushToSubscriptions(subscriptions, payload);
+  return { ...result, subscriptions: subscriptions.length, users: uniqueIds.length };
+}
+
+export async function sendPushToEmails(emails: string[], payload: PushPayload) {
+  const normalized = [...new Set(emails.map((email) => email.trim().toLowerCase()).filter(Boolean))];
+  if (normalized.length === 0) {
+    return { sent: 0, failed: 0, removed: 0, subscriptions: 0, users: 0, matchedUsers: 0 };
+  }
+
+  const users = await prisma.user.findMany({
+    where: { email: { in: normalized } },
+    select: { id: true },
+  });
+  const result = await sendPushToUserIds(
+    users.map((user) => user.id),
+    payload,
+  );
+  return { ...result, matchedUsers: users.length };
+}

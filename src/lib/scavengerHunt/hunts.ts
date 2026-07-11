@@ -13,6 +13,8 @@ export type HuntCatalogEntry = {
   /** Checkpoint array index that can be skipped on the short route. */
   optionalSkipCheckpointIndex: number | null;
   areaLabel: Record<Locale, string>;
+  /** Override default hunts.wheelchairNotice when set. */
+  wheelchairNotice?: Record<Locale, string>;
 };
 
 export const HUNT_CATALOG: HuntCatalogEntry[] = [
@@ -36,6 +38,33 @@ export const HUNT_CATALOG: HuntCatalogEntry[] = [
       nl: "Zandvoort",
       en: "Zandvoort",
       de: "Zandvoort",
+    },
+  },
+  {
+    slug: "zandvoort-strand",
+    name: {
+      nl: "Zandvoort Strand",
+      en: "Zandvoort Beach",
+      de: "Strand Zandvoort",
+    },
+    description: {
+      nl: "Wandel een rondje over strand en duinen rond Zuid strand. Van Doggy Beach House langs iconische plekken — foto's, weetjes en Woof Coins.",
+      en: "Walk a loop along beach and dunes around South Beach. From Doggy Beach House past iconic spots — photos, fun facts, and Woof Coins.",
+      de: "Wandere eine Runde über Strand und Dünen am Südstrand. Vom Doggy Beach House vorbei an ikonischen Orten — Fotos, Fakten und Woof Coins.",
+    },
+    durationMinutesFull: 45,
+    durationMinutesShort: 45,
+    difficultyStars: 2,
+    optionalSkipCheckpointIndex: null,
+    areaLabel: {
+      nl: "Zandvoort · strand",
+      en: "Zandvoort · beach",
+      de: "Zandvoort · Strand",
+    },
+    wheelchairNotice: {
+      nl: "Gedeeltelijk toegankelijk — zand, duinpaden en strand zijn lastig met rolstoel of rollator.",
+      en: "Partially accessible — sand, dune paths, and the beach are difficult with a wheelchair or rollator.",
+      de: "Teilweise barrierefrei — Sand, Dünenwege und Strand sind mit Rollstuhl oder Rollator schwierig.",
     },
   },
 ];

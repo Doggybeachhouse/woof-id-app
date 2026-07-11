@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DateTime } from "luxon";
 
+import { DogPhotoSourcePicker } from "@/app/dogs/_components/DogPhotoSourcePicker";
 import { updateDogAction } from "@/app/dogs/actions";
 import { getTranslations } from "@/i18n/server";
+import { dogPhotoApiSrc } from "@/lib/dogs/photoUrl";
 import { requireUser } from "@/lib/serverAuth";
 import { prisma } from "@/lib/prisma";
 
@@ -47,19 +49,12 @@ export default async function EditDogPage({
           {dog.photoUrl && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={`/api/dogs/${dog.id}/photo`}
+              src={dogPhotoApiSrc(dog.id, dog.updatedAt)}
               alt={dog.name}
               className="w-28 h-28 rounded-2xl object-cover border border-black/10 mb-2"
             />
           )}
-          <input
-            id="photo"
-            name="photo"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            capture="user"
-            className="input"
-          />
+          <DogPhotoSourcePicker id="photo" name="photo" />
         </div>
 
         <div>

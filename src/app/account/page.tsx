@@ -1,10 +1,11 @@
 import Link from "next/link";
 
-import { DbhLogo } from "@/app/_components/DbhLogo";
 import { PushNotificationPrompt } from "@/app/_components/PushNotificationPrompt";
+import { NavDogsIcon } from "@/app/_components/nav/NavIcons";
+import { AccountLogoutButton } from "@/app/account/_components/AccountLogoutButton";
 import { AccountSettingsForms } from "@/app/account/_components/AccountSettingsForms";
 import { getTranslations } from "@/i18n/server";
-import { requireUser } from "@/lib/serverAuth";
+import { isStaffRole, requireUser } from "@/lib/serverAuth";
 import { prisma } from "@/lib/prisma";
 
 export default async function AccountPage() {
@@ -12,51 +13,65 @@ export default async function AccountPage() {
   const session = await requireUser();
   const email = session.user?.email ?? "";
   const userId = (session.user as { id: string }).id;
+  const role = (session.user as { role?: string }).role;
 
-  const walletDogs = await prisma.dogProfile.findMany({
-    where: { ownerUserId: userId, walletLink: { isNot: null } },
+  const dogs = await prisma.dogProfile.findMany({
+    where: { ownerUserId: userId },
     orderBy: { name: "asc" },
-    select: { id: true, name: true, walletLink: { select: { walletCardId: true } } },
+    select: { id: true, name: true, woofCoins: true },
   });
 
   return (
     <div className="space-y-6 max-w-lg mx-auto">
-      <div className="text-center space-y-3">
-        <DbhLogo variant="nav" className="mx-auto h-12 w-12" />
+      <div className="space-y-1">
         <h1 className="font-display text-3xl">{t("account.title")}</h1>
-        <p className="text-sm text-black/60">
+        <p className="text-sm text-[var(--foreground-muted)]">
           {t("account.description")}
         </p>
       </div>
 
-      <section className="card-luxe p-5 space-y-3">
-        <h2 className="font-display text-xl">{t("account.wallet.title")}</h2>
-        <p className="text-sm text-[var(--foreground-muted)]">
-          {t("account.wallet.description")}
-        </p>
-        {walletDogs.length > 0 ? (
-          <>
-            <ul className="text-sm space-y-1">
-              {walletDogs.map((dog) => (
-                <li key={dog.id}>
-                  {dog.name} · <span className="font-mono">{dog.walletLink?.walletCardId}</span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/wallet/top-up" className="btn btn-primary text-sm inline-flex">
-              {t("account.wallet.topUp")}
-            </Link>
-          </>
-        ) : (
-          <Link href="/dogs" className="btn btn-secondary text-sm inline-flex">
-            {t("account.wallet.linkFirst")}
+      <nav className="grid gap-2" aria-label={t("account.menu.ariaLabel")}>
+        <Link href="/dogs" className="menu-link">
+          <NavDogsIcon className="menu-link__icon" />
+          <span className="menu-link__body">
+            <span className="menu-link__title">{t("account.menu.dogs.title")}</span>
+            <span className="menu-link__desc">
+              {dogs.length === 0
+                ? t("account.menu.dogs.descEmpty")
+                : dogs.length === 1
+                  ? t("account.menu.dogs.descOne")
+                  : t("account.menu.dogs.descMany", { count: dogs.length })}
+            </span>
+          </span>
+          <span className="menu-link__chevron" aria-hidden>›</span>
+        </Link>
+
+        <Link href="/hunts/history" className="menu-link">
+          <span className="menu-link__icon text-lg leading-none">🗺️</span>
+          <span className="menu-link__body">
+            <span className="menu-link__title">{t("hunts.history.title")}</span>
+            <span className="menu-link__desc">{t("hunts.history.subtitle")}</span>
+          </span>
+          <span className="menu-link__chevron" aria-hidden>›</span>
+        </Link>
+
+        {isStaffRole(role) && (
+          <Link href="/admin" className="menu-link">
+            <span className="menu-link__icon text-lg leading-none">⚙️</span>
+            <span className="menu-link__body">
+              <span className="menu-link__title">{t("nav.links.admin")}</span>
+              <span className="menu-link__desc">{t("account.menu.admin.desc")}</span>
+            </span>
+            <span className="menu-link__chevron" aria-hidden>›</span>
           </Link>
         )}
-      </section>
+      </nav>
 
       <PushNotificationPrompt />
 
       <AccountSettingsForms email={email} />
+
+      <AccountLogoutButton />
     </div>
   );
 }

@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 
+import {
+  bindTopUpReturnTokenOrder,
+  buildTopUpSuccessReturnUrl,
+  createTopUpReturnToken,
+} from "@/lib/auth/topupReturnToken";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import {
@@ -50,10 +55,12 @@ export async function POST(req: Request) {
     );
   }
 
-  const appBase = process.env.NEXTAUTH_URL?.trim().replace(/\/$/, "");
-  if (!appBase) {
+  let returnToken: string;
+  try {
+    ({ token: returnToken } = await createTopUpReturnToken(userId));
+  } catch {
     return NextResponse.json(
-      { error: "NEXTAUTH_URL ontbreekt in serverconfiguratie.", code: "not_configured" },
+      { error: "Kon geen veilige terugkeerlink maken.", code: "return_token_failed" },
       { status: 500 },
     );
   }
@@ -62,7 +69,7 @@ export async function POST(req: Request) {
     email,
     barcode: dog.walletLink.walletCardId,
     amountEur: parsed.data.amountEur,
-    returnUrl: `${appBase}/wallet/top-up/success`,
+    returnUrl: buildTopUpSuccessReturnUrl(returnToken),
   });
 
   if (!result.ok) {
@@ -72,8 +79,13 @@ export async function POST(req: Request) {
     );
   }
 
+  if (result.orderId > 0) {
+    await bindTopUpReturnTokenOrder(returnToken, result.orderId);
+  }
+
   return NextResponse.json({
     checkoutUrl: result.checkoutUrl,
+    orderId: result.orderId,
     amountEur: result.amountEur,
   });
 }

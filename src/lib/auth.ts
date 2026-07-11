@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 
+import { consumeTopUpReturnToken } from "@/lib/auth/topupReturnToken";
 import { consumeAuthToken } from "@/lib/auth/tokens";
 import { prisma } from "@/lib/prisma";
 
@@ -20,10 +21,27 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
         magicToken: { label: "Magic Token", type: "text" },
+        topupReturnToken: { label: "Top-up Return Token", type: "text" },
       },
       async authorize(credentials) {
         const email = credentials?.email?.trim().toLowerCase();
         if (!email) return null;
+
+        const topupReturnToken = credentials?.topupReturnToken?.trim();
+        if (topupReturnToken) {
+          const consumed = await consumeTopUpReturnToken(topupReturnToken);
+          if (!consumed || consumed.email !== email) return null;
+
+          const user = await prisma.user.findUnique({ where: { email } });
+          if (!user) return null;
+
+          return {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            name: user.name,
+          };
+        }
 
         const magicToken = credentials?.magicToken?.trim();
         if (magicToken) {

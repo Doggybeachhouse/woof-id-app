@@ -93,10 +93,10 @@ export default function RegisterPage() {
   return (
     <div className="hero-card p-6 sm:p-7 max-w-md mx-auto space-y-5">
       <div className="text-center space-y-3">
-        <DbhLogo className="mx-auto h-40 w-40" />
+        <DbhLogo className="mx-auto h-32 w-32" />
         <h1 className="font-display text-3xl">{t("auth.register.title")}</h1>
       </div>
-      <p className="text-sm text-black/60 text-center">
+      <p className="text-sm text-[var(--foreground-muted)] text-center">
         {t("auth.register.intro")}
       </p>
       <form onSubmit={onSubmit} className="space-y-4">
@@ -130,23 +130,23 @@ export default function RegisterPage() {
             required
           />
           {checkingEmail && (
-            <p className="text-xs text-black/50 mt-2">{t("auth.register.emailChecking")}</p>
+            <p className="text-xs text-[var(--foreground-muted)] mt-2">{t("auth.register.emailChecking")}</p>
           )}
           {showWoofIdExists && (
-            <div className="mt-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg p-3">
+            <div className="mt-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl p-3">
               <p>
                 {emailCheck?.message ??
                   t("auth.register.emailInUseWoofId")}
               </p>
               <p className="mt-2">
-                <Link href="/login" className="font-semibold underline">
+                <Link href="/login" className="font-semibold text-[var(--accent-primary)] hover:underline">
                   {t("auth.register.goToLogin")}
                 </Link>
               </p>
             </div>
           )}
           {showWebshopHint && (
-            <div className="mt-2 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-lg p-3">
+            <div className="mt-2 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl p-3">
               <p>{emailCheck?.message}</p>
             </div>
           )}
@@ -176,9 +176,9 @@ export default function RegisterPage() {
           {loading ? t("auth.register.submitLoading") : t("auth.register.submit")}
         </button>
       </form>
-      <p className="text-sm text-black/60">
+      <p className="text-sm text-[var(--foreground-muted)] text-center">
         {t("auth.register.hasAccount")}{" "}
-        <Link href="/login" className="font-semibold underline">
+        <Link href="/login" className="font-semibold text-[var(--accent-primary)] hover:underline">
           {t("auth.register.loginLink")}
         </Link>
       </p>

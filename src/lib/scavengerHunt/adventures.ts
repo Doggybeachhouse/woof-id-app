@@ -21,6 +21,19 @@ export const HUNT_ADVENTURES: Record<string, HuntAdventureMeta> = {
       de: "Abenteuer Zuid",
     },
   },
+  "zandvoort-strand": {
+    slug: "zandvoort-strand",
+    name: {
+      nl: "Strand",
+      en: "Beach",
+      de: "Strand",
+    },
+    adventureLabel: {
+      nl: "Strandavontuur",
+      en: "Beach Adventure",
+      de: "Strandabenteuer",
+    },
+  },
 };
 
 export function getHuntAdventure(slug: string): HuntAdventureMeta | null {

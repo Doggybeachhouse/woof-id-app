@@ -1,5 +1,10 @@
 "use server";
 
+import {
+  bindTopUpReturnTokenOrder,
+  buildTopUpSuccessReturnUrl,
+  createTopUpReturnToken,
+} from "@/lib/auth/topupReturnToken";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/serverAuth";
 import {
@@ -52,11 +57,22 @@ export async function startWalletTopUpAction(
     };
   }
 
+  let returnToken: string;
+  try {
+    ({ token: returnToken } = await createTopUpReturnToken(userId));
+  } catch (error) {
+    console.error("[wallet/top-up] Failed to create return token", error);
+    return {
+      error: "Kon geen veilige terugkeerlink maken. Probeer het opnieuw.",
+      code: "return_token_failed",
+    };
+  }
+
   const result = await startWalletTopUp({
     email,
     barcode: dog.walletLink.walletCardId,
     amountEur,
-    returnUrl: `${process.env.NEXTAUTH_URL?.replace(/\/$/, "") ?? ""}/wallet/top-up/success`,
+    returnUrl: buildTopUpSuccessReturnUrl(returnToken),
   });
 
   if (!result.ok) {
@@ -68,6 +84,10 @@ export async function startWalletTopUpAction(
       error: result.error,
     });
     return { error: result.error, code: result.code };
+  }
+
+  if (result.orderId > 0) {
+    await bindTopUpReturnTokenOrder(returnToken, result.orderId);
   }
 
   return { checkoutUrl: result.checkoutUrl, orderId: result.orderId };

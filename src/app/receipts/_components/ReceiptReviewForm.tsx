@@ -5,7 +5,6 @@ import { useMemo, useState } from "react";
 import { confirmReceiptAction } from "@/app/receipts/actions";
 import { useI18n } from "@/i18n/client";
 import { coinsFromPurchaseEur } from "@/lib/gamification/receiptCoins";
-import { PRODUCT_CATEGORY_OPTIONS } from "@/lib/receipts/categories";
 import type { ProductCategory } from "@prisma/client";
 
 export type ReviewItem = {
@@ -24,13 +23,14 @@ export function ReceiptReviewForm({
   receiptId,
   initialItems,
   initialPurchaseTotalEur,
+  fromMplus = false,
 }: {
   receiptId: string;
   initialItems: ReviewItem[];
   initialPurchaseTotalEur: number;
+  fromMplus?: boolean;
 }) {
   const { t } = useI18n();
-  const [items, setItems] = useState<ReviewItem[]>(initialItems);
   const [purchaseTotal, setPurchaseTotal] = useState(
     initialPurchaseTotalEur > 0 ? initialPurchaseTotalEur.toFixed(2) : "",
   );
@@ -41,36 +41,9 @@ export function ReceiptReviewForm({
     [purchaseTotal],
   );
 
-  function updateItem(index: number, patch: Partial<ReviewItem>) {
-    setItems((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, ...patch } : item)),
-    );
-  }
-
-  function removeItem(index: number) {
-    setItems((prev) => prev.filter((_, i) => i !== index));
-  }
-
-  function addItem() {
-    setItems((prev) => [
-      ...prev,
-      {
-        rawName: "",
-        normalizedName: "",
-        quantity: 1,
-        category: "OTHER",
-      },
-    ]);
-  }
-
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    const valid = items.filter((i) => i.normalizedName.trim());
-    if (valid.length === 0) {
-      setError(t("errors.receipts.addNamedProduct"));
-      return;
-    }
     const totalEur = parseEuroInput(purchaseTotal);
     if (totalEur <= 0) {
       setError(t("errors.receipts.invalidPurchaseTotal"));
@@ -79,17 +52,7 @@ export function ReceiptReviewForm({
     const formData = new FormData();
     formData.set("receiptId", receiptId);
     formData.set("purchaseTotalEur", purchaseTotal.replace(",", "."));
-    formData.set(
-      "items",
-      JSON.stringify(
-        valid.map((i) => ({
-          rawName: i.rawName || i.normalizedName,
-          normalizedName: i.normalizedName,
-          quantity: i.quantity,
-          category: i.category,
-        })),
-      ),
-    );
+    formData.set("useStoredItems", "true");
     try {
       await confirmReceiptAction(formData);
     } catch (err) {
@@ -100,7 +63,7 @@ export function ReceiptReviewForm({
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <p className="text-sm text-black/60">
-        {t("receipts.review.intro")}
+        {fromMplus ? t("receipts.review.introMplus") : t("receipts.review.intro")}
       </p>
 
       <div className="card p-3 bg-[#ffde5b]/20 text-center space-y-3">
@@ -126,81 +89,31 @@ export function ReceiptReviewForm({
         </span>
       </div>
 
-      <ul className="space-y-3">
-        {items.map((item, index) => (
-          <li key={index} className="card p-4 space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold text-black/40">
-                {t("receipts.review.productNumber", { number: index + 1 })}
+      {initialItems.length > 0 && (
+        <ul className="space-y-2">
+          {initialItems.map((item, index) => (
+            <li
+              key={index}
+              className="card p-3 flex items-center justify-between gap-3"
+            >
+              <div className="min-w-0">
+                <p className="text-sm font-medium truncate">
+                  {item.normalizedName || item.rawName}
+                </p>
+                {item.rawName &&
+                  item.rawName !== item.normalizedName && (
+                    <p className="text-xs text-black/45 truncate">
+                      {t("receipts.review.onReceipt")} {item.rawName}
+                    </p>
+                  )}
+              </div>
+              <span className="text-sm text-black/50 shrink-0">
+                ×{item.quantity}
               </span>
-              {items.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeItem(index)}
-                  className="text-xs text-red-600 font-semibold"
-                >
-                  {t("receipts.review.remove")}
-                </button>
-              )}
-            </div>
-            {item.rawName && item.rawName !== item.normalizedName && (
-              <p className="text-xs text-black/45">
-                {t("receipts.review.onReceipt")} <em>{item.rawName}</em>
-              </p>
-            )}
-            <div>
-              <label className="label">{t("receipts.review.productNameLabel")}</label>
-              <input
-                className="input"
-                value={item.normalizedName}
-                onChange={(e) =>
-                  updateItem(index, { normalizedName: e.target.value })
-                }
-                required
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="label">{t("receipts.review.quantityLabel")}</label>
-                <input
-                  type="number"
-                  min={1}
-                  max={99}
-                  className="input"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    updateItem(index, {
-                      quantity: Math.max(1, parseInt(e.target.value, 10) || 1),
-                    })
-                  }
-                />
-              </div>
-              <div>
-                <label className="label">{t("receipts.review.categoryLabel")}</label>
-                <select
-                  className="input"
-                  value={item.category}
-                  onChange={(e) =>
-                    updateItem(index, {
-                      category: e.target.value as ProductCategory,
-                    })
-                  }
-                >
-                  {PRODUCT_CATEGORY_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <button type="button" onClick={addItem} className="btn btn-secondary w-full">
-        {t("receipts.review.addProduct")}
-      </button>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 

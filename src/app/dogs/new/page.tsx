@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { DogPhotoSourcePicker } from "@/app/dogs/_components/DogPhotoSourcePicker";
 import { createDogAction } from "@/app/dogs/actions";
 import { getTranslations } from "@/i18n/server";
 
@@ -23,14 +24,7 @@ export default async function NewDogPage() {
           <label className="label" htmlFor="photo">
             {t("dogs.new.photoLabel")}
           </label>
-          <input
-            id="photo"
-            name="photo"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            capture="user"
-            className="input"
-          />
+          <DogPhotoSourcePicker id="photo" name="photo" />
         </div>
         <div>
           <label className="label" htmlFor="name">

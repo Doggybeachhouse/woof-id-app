@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { ActiveVouchersList } from "@/app/rewards/_components/ActiveVouchersList";
 import { RewardRedeemButton } from "@/app/rewards/_components/RewardRedeemButton";
 import { RewardsDogSelect } from "@/app/rewards/_components/RewardsDogSelect";
 import { getTranslations } from "@/i18n/server";
@@ -33,7 +34,7 @@ export default async function RewardsPage({
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="page-header">
         <p className="eyebrow">{t("rewards.page.eyebrow")}</p>
         <h1 className="font-display text-4xl leading-tight">{t("rewards.page.title")}</h1>
         <p className="text-[var(--foreground-muted)] text-sm mt-2">
@@ -44,7 +45,7 @@ export default async function RewardsPage({
       <div className="card-luxe p-5">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-black/45">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--foreground-muted)]">
               {t("rewards.page.balance")}
             </p>
             {dogs.length > 1 ? (
@@ -55,19 +56,24 @@ export default async function RewardsPage({
           </div>
           <div className="text-right">
             <p className="coin-badge text-2xl px-4 py-2">🪙 {balance}</p>
-            <p className="text-xs text-black/45 mt-1 font-mono">{activeDog.woofId}</p>
+            <p className="text-xs text-[var(--foreground-muted)] mt-1 font-mono">{activeDog.woofId}</p>
           </div>
         </div>
         {upcoming && (
-          <p className="text-sm text-black/55 mt-4 pt-4 border-t border-black/10">
+          <p className="text-sm text-[var(--foreground-muted)] mt-4 pt-4 border-t border-[var(--card-border)]">
             {t("rewards.page.coinsUntil", {
               coins: upcoming.coins - balance,
-              rewardTitle: upcoming.title,
+              rewardTitle: t(`rewards.items.${upcoming.id}.title`),
               icon: upcoming.icon,
             })}
           </p>
         )}
       </div>
+
+      <section className="space-y-3">
+        <h2 className="font-display text-2xl">{t("rewards.vouchers.title")}</h2>
+        <ActiveVouchersList dogProfileId={activeDog.id} />
+      </section>
 
       <div className="space-y-4">
         {WOOF_REWARDS.map((reward) => {
@@ -79,7 +85,7 @@ export default async function RewardsPage({
               key={reward.id}
               className={`card p-5 space-y-3 transition-shadow ${
                 canAfford
-                  ? "border-[#ff416e]/35 ring-1 ring-[#ff416e]/15"
+                  ? "border-[var(--accent-pink)]/35 ring-1 ring-[var(--accent-pink)]/15"
                   : "opacity-95"
               }`}
             >
@@ -92,27 +98,27 @@ export default async function RewardsPage({
                     <h2 className="font-display text-xl">{t(`rewards.items.${reward.id}.title`)}</h2>
                     <span className="coin-badge text-sm">🪙 {reward.coins}</span>
                     {canAfford && (
-                      <span className="text-xs font-bold uppercase tracking-wide text-[#ff416e] bg-[#ff416e]/10 px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-bold uppercase tracking-wide text-[var(--accent-pink)] bg-[var(--accent-pink)]/10 px-2 py-0.5 rounded-full">
                         {t("rewards.page.available")}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-black/70 mt-1">{t(`rewards.items.${reward.id}.description`)}</p>
+                  <p className="text-sm text-[var(--foreground-muted)] mt-1">{t(`rewards.items.${reward.id}.description`)}</p>
                   {reward.terms && (
-                    <p className="text-xs text-black/45 mt-2">{t(`rewards.items.${reward.id}.terms`)}</p>
+                    <p className="text-xs text-[var(--foreground-muted)]/70 mt-2">{t(`rewards.items.${reward.id}.terms`)}</p>
                   )}
                 </div>
               </div>
 
               {!canAfford && (
                 <div>
-                  <div className="h-2 rounded-full bg-black/8 overflow-hidden">
+                  <div className="h-2 rounded-full bg-[var(--card-border)] overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#ffde5b] to-[#ff416e]"
+                      className="h-full rounded-full bg-gradient-to-r from-[var(--accent-yellow)] to-[var(--accent-pink)]"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
-                  <p className="text-xs text-black/45 mt-1">
+                  <p className="text-xs text-[var(--foreground-muted)] mt-1">
                     {t("rewards.page.progress", { balance, required: reward.coins })}
                   </p>
                 </div>
@@ -126,18 +132,19 @@ export default async function RewardsPage({
         })}
       </div>
 
-      <div className="card p-4 text-sm text-black/60 space-y-2">
-        <p className="font-semibold text-black/80">{t("rewards.page.howItWorksTitle")}</p>
+      <div className="card p-4 text-sm text-[var(--foreground-muted)] space-y-2">
+        <p className="font-semibold text-[var(--foreground)]">{t("rewards.page.howItWorksTitle")}</p>
         <ul className="list-disc pl-5 space-y-1">
           <li>{t("rewards.page.howItWorks1")}</li>
           <li>{t("rewards.page.howItWorks2")}</li>
           <li>{t("rewards.page.howItWorks3")}</li>
           <li>{t("rewards.page.howItWorks4")}</li>
+          <li>{t("rewards.page.howItWorks5")}</li>
         </ul>
       </div>
 
       <p className="text-center text-sm">
-        <Link href={`/dogs/${activeDog.id}`} className="underline text-black/55">
+        <Link href={`/dogs/${activeDog.id}`} className="underline text-[var(--accent-brown)] hover:text-[var(--accent-pink)]">
           {t("rewards.page.backToDog", { dogName: activeDog.name })}
         </Link>
       </p>

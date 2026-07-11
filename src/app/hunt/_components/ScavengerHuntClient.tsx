@@ -626,11 +626,11 @@ export function ScavengerHuntClient({
                   dangerouslySetInnerHTML={{ __html: activeCheckpoint.instruction[locale] }}
                 />
               ) : (
-                <HuntDuneFactCard checkpointStep={step} />
+                <HuntDuneFactCard checkpointStep={step} huntSlug={huntSlug} />
               )}
 
               {testMode && (
-                <HuntDuneFactCard checkpointStep={step} />
+                <HuntDuneFactCard checkpointStep={step} huntSlug={huntSlug} />
               )}
 
               <div className="hunt-nav-panel">

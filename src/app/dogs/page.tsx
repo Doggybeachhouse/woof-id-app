@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { getTranslations } from "@/i18n/server";
+import { dogPhotoApiSrc } from "@/lib/dogs/photoUrl";
 import { requireUser } from "@/lib/serverAuth";
 import { prisma } from "@/lib/prisma";
 
@@ -17,31 +18,34 @@ export default async function DogsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 page-header">
         <h1 className="font-display text-3xl">{t("dogs.list.title")}</h1>
-        <Link href="/dogs/new" className="btn btn-primary">
+        <Link href="/dogs/new" className="btn btn-primary text-sm py-2.5 px-4">
           {t("dogs.list.addDog")}
         </Link>
       </div>
 
       {dogs.length === 0 ? (
-        <div className="card p-6 text-center space-y-3">
-          <p className="text-black/60">{t("dogs.list.empty")}</p>
+        <div className="empty-state space-y-4">
+          <div className="empty-state__icon" aria-hidden>
+            🐕
+          </div>
+          <p className="text-[var(--foreground-muted)]">{t("dogs.list.empty")}</p>
           <Link href="/dogs/new" className="btn btn-primary">
             {t("dogs.list.createFirst")}
           </Link>
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-3">
           {dogs.map((dog) => (
             <div key={dog.id} className="card p-4">
               <div className="flex justify-between items-start gap-3">
                 <Link href={`/dogs/${dog.id}`} className="flex gap-3 min-w-0 flex-1">
-                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-[#ffe8ef] shrink-0 flex items-center justify-center text-2xl">
+                  <div className="dog-card__avatar w-14 h-14 rounded-xl overflow-hidden shrink-0">
                     {dog.photoUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        src={`/api/dogs/${dog.id}/photo`}
+                        src={dogPhotoApiSrc(dog.id, dog.updatedAt)}
                         alt=""
                         className="w-full h-full object-cover"
                       />
@@ -51,9 +55,9 @@ export default async function DogsPage() {
                   </div>
                   <div className="min-w-0">
                     <p className="font-display text-2xl">{dog.name}</p>
-                    <p className="text-sm text-black/50">{dog.woofId}</p>
+                    <p className="text-sm text-[var(--foreground-muted)]">{dog.woofId}</p>
                     {dog.walletLink && (
-                      <p className="text-xs text-[#ff416e] mt-1 font-mono">
+                      <p className="text-xs text-[var(--accent-pink)] mt-1 font-mono">
                         {t("dogs.list.wallet", { walletCardId: dog.walletLink.walletCardId })}
                       </p>
                     )}
@@ -61,7 +65,7 @@ export default async function DogsPage() {
                 </Link>
                 <div className="text-right space-y-2 shrink-0">
                   <span className="coin-badge">🪙 {dog.woofCoins}</span>
-                  <p className="text-xs text-black/50">
+                  <p className="text-xs text-[var(--foreground-muted)]">
                     {t("dogs.list.visits", { count: dog.visitCount })}
                   </p>
                   {dog.walletLink && (

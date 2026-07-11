@@ -1,37 +1,35 @@
 import { parseVoucherCode } from "@/lib/vouchers/parseCode";
 import { prisma } from "@/lib/prisma";
 
-export type RedeemVoucherErrorCode =
+export type VoucherErrorCode =
   | "not_found"
   | "already_redeemed"
+  | "already_validated"
   | "cancelled";
 
-export type RedeemVoucherSuccess = {
+export type VoucherLookup = {
+  code: string;
+  rewardTitle: string;
+  dogName: string;
+  woofId: string;
+  ownerEmail: string;
+  coinsSpent?: number;
+  redeemedAt?: Date | null;
+};
+
+export type ValidateVoucherSuccess = {
   ok: true;
-  voucher: {
-    code: string;
-    rewardTitle: string;
-    dogName: string;
-    woofId: string;
-    ownerEmail: string;
-    coinsSpent: number;
-  };
+  alreadyValidated?: boolean;
+  voucher: VoucherLookup;
 };
 
-export type RedeemVoucherFailure = {
+export type ValidateVoucherFailure = {
   ok: false;
-  errorCode: RedeemVoucherErrorCode;
-  voucher?: {
-    code: string;
-    rewardTitle: string;
-    dogName: string;
-    woofId?: string;
-    ownerEmail?: string;
-    redeemedAt?: Date | null;
-  };
+  errorCode: VoucherErrorCode;
+  voucher?: VoucherLookup;
 };
 
-export type RedeemVoucherResult = RedeemVoucherSuccess | RedeemVoucherFailure;
+export type ValidateVoucherResult = ValidateVoucherSuccess | ValidateVoucherFailure;
 
 const voucherInclude = {
   dog: {
@@ -43,10 +41,34 @@ const voucherInclude = {
   },
 } as const;
 
-export async function redeemVoucherByCode(
+function toVoucherLookup(
+  existing: {
+    code: string;
+    rewardTitle: string;
+    coinsSpent: number;
+    redeemedAt: Date | null;
+    dog: { name: string; woofId: string; owner: { email: string } };
+  },
+): VoucherLookup {
+  return {
+    code: existing.code,
+    rewardTitle: existing.rewardTitle,
+    dogName: existing.dog.name,
+    woofId: existing.dog.woofId,
+    ownerEmail: existing.dog.owner.email,
+    coinsSpent: existing.coinsSpent,
+    redeemedAt: existing.redeemedAt,
+  };
+}
+
+/**
+ * Kiosk validation — marks voucher VALIDATED but does not consume it.
+ * Final redemption happens via Mplus completeSession webhook at payment.
+ */
+export async function validateVoucherByCode(
   rawCode: string,
-  redeemedById: string | null,
-): Promise<RedeemVoucherResult> {
+  validatedById: string | null,
+): Promise<ValidateVoucherResult> {
   const code = parseVoucherCode(rawCode);
   if (!code.startsWith("WVH")) {
     return { ok: false, errorCode: "not_found" };
@@ -65,14 +87,7 @@ export async function redeemVoucherByCode(
     return {
       ok: false,
       errorCode: "already_redeemed",
-      voucher: {
-        code: existing.code,
-        rewardTitle: existing.rewardTitle,
-        dogName: existing.dog.name,
-        woofId: existing.dog.woofId,
-        ownerEmail: existing.dog.owner.email,
-        redeemedAt: existing.redeemedAt,
-      },
+      voucher: toVoucherLookup(existing),
     };
   }
 
@@ -80,12 +95,19 @@ export async function redeemVoucherByCode(
     return { ok: false, errorCode: "cancelled" };
   }
 
+  if (existing.status === "VALIDATED") {
+    return {
+      ok: true,
+      alreadyValidated: true,
+      voucher: toVoucherLookup(existing),
+    };
+  }
+
   const updated = await prisma.rewardVoucher.updateMany({
     where: { id: existing.id, status: "ACTIVE" },
     data: {
-      status: "REDEEMED",
-      redeemedAt: new Date(),
-      redeemedById,
+      status: "VALIDATED",
+      redeemedById: validatedById,
     },
   });
 
@@ -94,18 +116,21 @@ export async function redeemVoucherByCode(
       where: { code },
       include: voucherInclude,
     });
-    if (refreshed?.status === "REDEEMED") {
+    if (!refreshed) {
+      return { ok: false, errorCode: "not_found" };
+    }
+    if (refreshed.status === "VALIDATED") {
+      return {
+        ok: true,
+        alreadyValidated: true,
+        voucher: toVoucherLookup(refreshed),
+      };
+    }
+    if (refreshed.status === "REDEEMED") {
       return {
         ok: false,
         errorCode: "already_redeemed",
-        voucher: {
-          code: refreshed.code,
-          rewardTitle: refreshed.rewardTitle,
-          dogName: refreshed.dog.name,
-          woofId: refreshed.dog.woofId,
-          ownerEmail: refreshed.dog.owner.email,
-          redeemedAt: refreshed.redeemedAt,
-        },
+        voucher: toVoucherLookup(refreshed),
       };
     }
     return { ok: false, errorCode: "not_found" };
@@ -113,13 +138,14 @@ export async function redeemVoucherByCode(
 
   return {
     ok: true,
-    voucher: {
-      code: existing.code,
-      rewardTitle: existing.rewardTitle,
-      dogName: existing.dog.name,
-      woofId: existing.dog.woofId,
-      ownerEmail: existing.dog.owner.email,
-      coinsSpent: existing.coinsSpent,
-    },
+    voucher: toVoucherLookup(existing),
   };
+}
+
+/** @deprecated Use validateVoucherByCode for kiosk scans. */
+export async function redeemVoucherByCode(
+  rawCode: string,
+  redeemedById: string | null,
+) {
+  return validateVoucherByCode(rawCode, redeemedById);
 }

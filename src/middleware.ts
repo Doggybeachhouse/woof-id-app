@@ -4,6 +4,9 @@ import { NextResponse } from "next/server";
 function isProtectedAppRoute(pathname: string) {
   return (
     pathname.startsWith("/dogs") ||
+    pathname.startsWith("/guide") ||
+    pathname.startsWith("/hunts") ||
+    pathname.startsWith("/hunt") ||
     pathname.startsWith("/check-in") ||
     pathname.startsWith("/journey") ||
     pathname.startsWith("/receipts") ||
@@ -52,6 +55,13 @@ export default withAuth(
           return !!token;
         }
 
+        if (
+          pathname === "/wallet/top-up/success" &&
+          req.nextUrl.searchParams.has("token")
+        ) {
+          return true;
+        }
+
         if (isProtectedAppRoute(pathname)) {
           return !!token;
         }
@@ -65,6 +75,9 @@ export default withAuth(
 export const config = {
   matcher: [
     "/dogs/:path*",
+    "/guide/:path*",
+    "/hunts/:path*",
+    "/hunt/:path*",
     "/check-in/:path*",
     "/journey/:path*",
     "/receipts/:path*",

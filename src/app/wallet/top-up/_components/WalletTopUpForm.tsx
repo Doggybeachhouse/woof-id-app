@@ -83,10 +83,11 @@ export function WalletTopUpForm({
       if (state.orderId && state.orderId > 0) {
         sessionStorage.setItem("woof_topup_order_id", String(state.orderId));
         sessionStorage.setItem("woof_topup_started_at", String(Date.now()));
+        sessionStorage.setItem("woof_topup_dog_id", dogId);
       }
       window.location.assign(state.checkoutUrl);
     }
-  }, [state.checkoutUrl, state.orderId]);
+  }, [state.checkoutUrl, state.orderId, dogId]);
 
   function clearCustomAmount() {
     const custom = formRef.current?.elements.namedItem(

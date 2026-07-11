@@ -193,6 +193,188 @@ export const ZUID_HUNT_CHECKPOINTS: HuntCheckpoint[] = [
   },
 ];
 
+/**
+ * Zandvoort Strand — ~45 min loop from Doggy Beach House via Zuid strand & boulevard.
+ */
+export const STRAND_HUNT_CHECKPOINTS: HuntCheckpoint[] = [
+  {
+    id: "strand-start",
+    lat: 52.3721086,
+    lng: 4.5281375,
+    radiusMeters: 15,
+    sortOrder: 0,
+    title: {
+      nl: "Start — Doggy Beach House",
+      en: "Start — Doggy Beach House",
+      de: "Start — Doggy Beach House",
+    },
+    instruction: {
+      nl: "<strong>Welkom bij de Woof ID-strandspeurtocht!</strong> Je begint bij Doggy Beach House — thuisbasis van alles wat met honden en strand te maken heeft. Zandvoort heeft negen kilometer kust: perfect voor een avontuur met je viervoeter.<br><br>Maak een startfoto met je hond voor de winkel. Straks lopen jullie een rondje richting Zuid strand, langs de boulevard en terug via de duinen.",
+      en: "<strong>Welcome to the Woof ID beach scavenger hunt!</strong> You're starting at Doggy Beach House — home base for all things dogs and beach. Zandvoort has nine kilometres of coastline: perfect for an adventure with your four-legged friend.<br><br>Take a starting photo with your dog in front of the shop. You'll soon walk a loop toward South Beach, along the boulevard, and back through the dunes.",
+      de: "<strong>Willkommen bei der Woof ID-Strand-Schnitzeljagd!</strong> Du startest beim Doggy Beach House — der Heimatbasis für alles rund um Hunde und Strand. Zandvoort hat neun Kilometer Küste — perfekt für ein Abenteuer mit deinem Vierbeiner.<br><br>Mach ein Startfoto mit deinem Hund vor dem Laden. Gleich geht's in einer Runde Richtung Südstrand, entlang der Promenade und zurück durch die Dünen.",
+    },
+    hint: {
+      nl: "Je staat bij Doggy Beach House aan de Kerkstraat. Loop zuidwaarts richting de duinen — het zandpad naar het strand begint vlakbij.",
+      en: "You're at Doggy Beach House on Kerkstraat. Head south toward the dunes — the sandy path to the beach starts nearby.",
+      de: "Du bist beim Doggy Beach House in der Kerkstraat. Geh südwärts Richtung Dünen — der Sandweg zum Strand beginnt gleich in der Nähe.",
+    },
+  },
+  {
+    id: "strand-duinpad",
+    lat: 52.37065,
+    lng: 4.52635,
+    radiusMeters: 20,
+    sortOrder: 1,
+    title: {
+      nl: "Duinpad richting het strand",
+      en: "Dune path toward the beach",
+      de: "Dünenweg Richtung Strand",
+    },
+    instruction: {
+      nl: "<strong>Voel je het zand al onder je voeten?</strong> Je loopt nu door de duinen richting Zuid strand. Hier ruik je zout in de lucht en hoor je vaak al de branding op de achtergrond.<br><br>Zandvoort groeide in de 19e eeuw uit tot dé badplaats van Amsterdam — rijke Amsterdammers kwamen met de stoomtram naar zee. Maak een foto van je hond op dit duinpad: jullie zijn officieel op weg naar het strand!",
+      en: "<strong>Can you feel the sand under your feet yet?</strong> You're walking through the dunes toward South Beach. You can smell the salt in the air and often hear the surf in the distance.<br><br>Zandvoort grew into Amsterdam's premier seaside resort in the 19th century — wealthy Amsterdammers came by steam tram to the sea. Take a photo of your dog on this dune path — you're officially on your way to the beach!",
+      de: "<strong>Spürst du schon den Sand unter den Füßen?</strong> Du gehst durch die Dünen Richtung Südstrand. Man riecht das Salz in der Luft und hört oft schon die Brandung.<br><br>Zandvoort wurde im 19. Jahrhundert zur Badestadt Amsterdams — wohlhabende Amsterdamer kamen mit der Dampfstraßenbahn ans Meer. Mach ein Foto deines Hundes auf diesem Dünenweg — ihr seid offiziell auf dem Weg zum Strand!",
+    },
+    hint: {
+      nl: "Volg het zandpad zuidwaarts vanuit Doggy Beach House. Blijf op de hoofdroute door de duinen — niet afsnijden over kwetsbare duinhellingen.",
+      en: "Follow the sandy path south from Doggy Beach House. Stay on the main route through the dunes — don't cut across fragile dune slopes.",
+      de: "Folge dem Sandweg südwärts vom Doggy Beach House. Bleib auf der Hauptroute durch die Dünen — schneide nicht über empfindliche Dünenhänge ab.",
+    },
+  },
+  {
+    id: "strand-hond-regels",
+    lat: 52.36885,
+    lng: 4.52515,
+    radiusMeters: 20,
+    sortOrder: 2,
+    title: {
+      nl: "Hondvriendelijk strand — regels & tips",
+      en: "Dog-friendly beach — rules & tips",
+      de: "Hundefreundlicher Strand — Regeln & Tipps",
+    },
+    instruction: {
+      nl: "<strong>Wist je dat honden op Zandvoorts strand welkom zijn — maar niet altijd?</strong> Van 1 oktober t/m 14 april mag je hond overdag los het hele strand op. In de zomer (15 april–30 september) zijn honden tussen 09:00 en 19:00 <em>niet</em> toegestaan op het hoofdstrand.<br><br><strong>Tip voor de zomer:</strong> achter Parnassia aan Zee in Bloemendaal mag je hond <em>het hele jaar</em> loslopen op het strand — één van de weinige hondstranden van Kennemerland. Neem altijd opruimzakjes mee!<br><br>Maak een foto van je hond met zicht op zee of duinen — jullie zijn bijna op het strand.",
+      en: "<strong>Did you know dogs are welcome on Zandvoort beach — but not always?</strong> From 1 October to 14 April, your dog can roam the entire beach off-lead during the day. In summer (15 April–30 September), dogs are <em>not</em> allowed on the main beach between 09:00 and 19:00.<br><br><strong>Summer tip:</strong> behind Parnassia aan Zee in Bloemendaal, your dog can run free on the beach <em>all year round</em> — one of the few dog beaches in Kennemerland. Always bring poop bags!<br><br>Take a photo of your dog with a view of the sea or dunes — you're almost at the beach.",
+      de: "<strong>Wusstest du, dass Hunde am Zandvoorter Strand willkommen sind — aber nicht immer?</strong> Vom 1. Oktober bis 14. April darf dein Hund tagsüber am gesamten Strand frei laufen. Im Sommer (15. April–30. September) sind Hunde zwischen 09:00 und 19:00 am Hauptstrand <em>nicht</em> erlaubt.<br><br><strong>Sommertipp:</strong> Hinter Parnassia aan Zee in Bloemendaal darf dein Hund <em>das ganze Jahr</em> frei am Strand laufen — einer der wenigen Hundestrände in Kennemerland. Immer Kotbeutel mitnehmen!<br><br>Mach ein Foto deines Hundes mit Meer- oder Dünenblick — ihr seid fast am Strand.",
+    },
+    hint: {
+      nl: "Loop verder zuidwaarts tot je de rand van het openbare duingebied bereikt, vlak voordat je het strand op loopt.",
+      en: "Keep heading south until you reach the edge of the public dune area, just before you step onto the beach.",
+      de: "Geh weiter südwärts, bis du den Rand des öffentlichen Dünengebiets erreichst, kurz bevor du den Strand betrittst.",
+    },
+  },
+  {
+    id: "strand-south-beach",
+    lat: 52.3633176,
+    lng: 4.5188211,
+    radiusMeters: 25,
+    sortOrder: 3,
+    title: {
+      nl: "South Beach — Zuid strand",
+      en: "South Beach",
+      de: "South Beach — Südstrand",
+    },
+    instruction: {
+      nl: "<strong>Je bent op Zuid strand — het hippe stuk van Zandvoort!</strong> Hier vind je strandpaviljoens als Paal 69, Bodhi Beach en Manii Beach. Het beroemde <strong>South Beach-bord</strong> is dé Instagram-spot van Zandvoort — met zonsondergangen waar je U tegen zegt.<br><br>Zandvoort is ook <strong>Formule 1-stad</strong>: het Circuit Zandvoort ligt vlak achter de duinen. Soms hoor je zelfs een testronde als je over het strand loopt!<br><br>Maak een foto van je hond bij het South Beach-bord of met de paviljoens op de achtergrond.",
+      en: "<strong>You're at South Beach — the hip part of Zandvoort!</strong> Here you'll find beach pavilions like Paal 69, Bodhi Beach, and Manii Beach. The famous <strong>South Beach sign</strong> is Zandvoort's Instagram hotspot — with sunsets to die for.<br><br>Zandvoort is also a <strong>Formula 1 city</strong>: Circuit Zandvoort sits right behind the dunes. You might even hear a test lap as you walk along the beach!<br><br>Take a photo of your dog by the South Beach sign or with the pavilions in the background.",
+      de: "<strong>Du bist am Südstrand — dem hippen Teil von Zandvoort!</strong> Hier findest du Strandpavilions wie Paal 69, Bodhi Beach und Manii Beach. Das berühmte <strong>South Beach-Schild</strong> ist Zandvoorts Instagram-Hotspot — mit atemberaubenden Sonnenuntergängen.<br><br>Zandvoort ist auch eine <strong>Formel-1-Stadt</strong>: Die Rennstrecke liegt direkt hinter den Dünen. Manchmal hörst du sogar eine Testrunde, während du am Strand entlang gehst!<br><br>Mach ein Foto deines Hundes am South Beach-Schild oder mit den Pavilions im Hintergrund.",
+    },
+    hint: {
+      nl: "Loop verder zuidwaarts tot je Boulevard Paulus Loot bereikt. Zoek het South Beach-bord of de paviljoens bij Paal 69.",
+      en: "Keep walking south until you reach Boulevard Paulus Loot. Look for the South Beach sign or the pavilions near Paal 69.",
+      de: "Geh weiter südwärts bis zur Boulevard Paulus Loot. Suche das South Beach-Schild oder die Pavilions bei Paal 69.",
+    },
+  },
+  {
+    id: "strand-strandwacht",
+    lat: 52.3662623,
+    lng: 4.5198448,
+    radiusMeters: 20,
+    sortOrder: 4,
+    title: {
+      nl: "Strandwacht — Reddingspost Ernst Brokmeier",
+      en: "Lifeguard station — Ernst Brokmeier post",
+      de: "Strandwache — Rettungsstation Ernst Brokmeier",
+    },
+    instruction: {
+      nl: "<strong>Voor je staat de reddingspost Ernst Brokmeier 'Zuid'</strong> — vernoemd naar een Zandvoortse reddingsheld. De Zandvoortse Reddingsbrigade (ZRB) bestaat sinds 1922 en houdt het strand veilig.<br><br>Op het strand wappert een vlaggenstok: <strong>geel</strong> = voorzichtig zwemmen, <strong>rood</strong> = gevaarlijk, <strong>blauw</strong> = muien (gevaarlijke stromingen). Volg altijd de aanwijzingen op!<br><br><strong>Respecteer de strandwacht:</strong> maak een foto van je hond <em>op afstand</em> — niet te dicht bij de post en niet op het dak.",
+      en: "<strong>Ahead of you is lifeguard post Ernst Brokmeier 'South'</strong> — named after a Zandvoort rescue hero. The Zandvoort Rescue Brigade (ZRB) has kept the beach safe since 1922.<br><br>Beach flags tell you what's safe: <strong>yellow</strong> = swim with caution, <strong>red</strong> = dangerous, <strong>blue</strong> = rip currents. Always follow the instructions!<br><br><strong>Respect the lifeguards:</strong> take a photo of your dog <em>from a distance</em> — not too close to the post and not on the roof.",
+      de: "<strong>Vor dir steht die Rettungsstation Ernst Brokmeier 'Süd'</strong> — benannt nach einem Zandvoorter Rettungshelden. Die Zandvoortse Reddingsbrigade (ZRB) sorgt seit 1922 für Sicherheit am Strand.<br><br>Strandflaggen zeigen, was sicher ist: <strong>Gelb</strong> = vorsichtig schwimmen, <strong>Rot</strong> = gefährlich, <strong>Blau</strong> = Muien (gefährliche Strömungen). Folge immer den Anweisungen!<br><br><strong>Respektiere die Strandwache:</strong> Mach ein Foto deines Hundes <em>aus der Entfernung</em> — nicht zu nah an der Station und nicht auf dem Dach.",
+    },
+    hint: {
+      nl: "Loop noordwaarts langs Boulevard Paulus Loot. De witte reddingspost staat aan Boulevard Paulus Loot 66 — je ziet hem al van verre.",
+      en: "Walk north along Boulevard Paulus Loot. The white lifeguard post is at Boulevard Paulus Loot 66 — you'll spot it from afar.",
+      de: "Geh nordwärts entlang der Boulevard Paulus Loot. Der weiße Rettungsposten steht an der Boulevard Paulus Loot 66 — du siehst ihn schon von weitem.",
+    },
+  },
+  {
+    id: "strand-kunst",
+    lat: 52.36285,
+    lng: 4.51765,
+    radiusMeters: 25,
+    sortOrder: 5,
+    title: {
+      nl: "Kunst op het strand — South Beach",
+      en: "Beach art — South Beach",
+      de: "Kunst am Strand — South Beach",
+    },
+    instruction: {
+      nl: "<strong>Zandvoort heeft meer kunst dan je denkt!</strong> Op South Beach vind je street art van Frankey en langs de boulevards wisselende beelden uit de Zandvoortse beeldenroute — van zandskulpturen tot bronzen sculpturen.<br><br>In Zandvoort draait ook <strong>Film by the Sea</strong> — een internationaal filmfestival waar art-house en strand samenkomen. Geen toeval dat Zandvoort al decennia lang een podium is voor cultuur én kust.<br><br>Maak een foto van je hond bij een kunstwerk, muurschildering of het South Beach-bord — creativiteit telt!",
+      en: "<strong>Zandvoort has more art than you'd expect!</strong> At South Beach you'll find street art by Frankey, and along the boulevards rotating sculptures from the Zandvoort sculpture route — from sand sculptures to bronze works.<br><br>Zandvoort also hosts <strong>Film by the Sea</strong> — an international film festival where art-house cinema meets the coast. No wonder Zandvoort has been a stage for culture and beach life for decades.<br><br>Take a photo of your dog by an artwork, mural, or the South Beach sign — creativity counts!",
+      de: "<strong>Zandvoort hat mehr Kunst, als man denkt!</strong> Am South Beach findest du Street Art von Frankey, und entlang der Promenaden wechselnde Skulpturen der Zandvoortse Beeldenroute — von Sandskulpturen bis Bronzefiguren.<br><br>In Zandvoort findet auch <strong>Film by the Sea</strong> statt — ein internationales Filmfestival, bei dem Art-House und Küste zusammenkommen. Kein Wunder, dass Zandvoort seit Jahrzehnten Bühne für Kultur und Strand ist.<br><br>Mach ein Foto deines Hundes bei einem Kunstwerk, Wandbild oder dem South Beach-Schild — Kreativität zählt!",
+    },
+    hint: {
+      nl: "Kijk rond bij de strandpaviljoens op Zuid strand — kunst en street art vind je hier regelmatig. Loop eventueel een stukje zuidwaarts langs de boulevard.",
+      en: "Look around the beach pavilions at South Beach — art and street art pop up here regularly. Walk a bit further south along the boulevard if needed.",
+      de: "Schau dich bei den Strandpavilions am Südstrand um — Kunst und Street Art gibt es hier regelmäßig. Geh bei Bedarf etwas weiter südwärts entlang der Promenade.",
+    },
+  },
+  {
+    id: "strand-duin-terug",
+    lat: 52.36975,
+    lng: 4.52585,
+    radiusMeters: 20,
+    sortOrder: 6,
+    title: {
+      nl: "Duinovergang — terug richting Doggy Beach House",
+      en: "Dune crossing — back toward Doggy Beach House",
+      de: "Dünenübergang — zurück Richtung Doggy Beach House",
+    },
+    instruction: {
+      nl: "<strong>Tijd om de duinen weer in te duiken!</strong> Je loopt nu terug richting Doggy Beach House via het duingebied. Let op het helmgras langs het pad — die planten houden het zand vast. Zonder helmgras zou Zandvoort zijn duinen letterlijk verliezen aan wind en zee.<br><br><strong>Let op de getijden:</strong> bij vloed komt de zee verder het strand op; bij eb zie je het wad en schelpen. Check voor vertrek even de getijdentabel als je langs de branding wilt wandelen.<br><br>Maak een foto van je hond op het duinpad — jullie zijn bijna thuis!",
+      en: "<strong>Time to head back into the dunes!</strong> You're walking back toward Doggy Beach House through the dune area. Notice the marram grass along the path — these plants hold the sand together. Without marram grass, Zandvoort would literally lose its dunes to wind and sea.<br><br><strong>Mind the tides:</strong> at high tide the sea reaches further up the beach; at low tide you'll see the flats and shells. Check the tide table before you set off if you want to walk along the surf.<br><br>Take a photo of your dog on the dune path — you're almost home!",
+      de: "<strong>Zeit, wieder in die Dünen zu gehen!</strong> Du gehst zurück Richtung Doggy Beach House durch das Dünengebiet. Achte auf das Dünengras am Weg — diese Pflanzen halten den Sand fest. Ohne Dünengras würde Zandvoort seine Dünen buchstäblich an Wind und Meer verlieren.<br><br><strong>Achtung Gezeiten:</strong> Bei Flut kommt das Meer weiter den Strand hoch; bei Ebbe siehst du Watt und Muscheln. Schau vor dem Start in die Gezeitentabelle, wenn du entlang der Brandung laufen möchtest.<br><br>Mach ein Foto deines Hundes auf dem Dünenweg — ihr seid fast daheim!",
+    },
+    hint: {
+      nl: "Verlaat het strand en loop noordoostwaarts door de duinen. Volg het pad terug richting het centrum — Doggy Beach House ligt voor je.",
+      en: "Leave the beach and walk northeast through the dunes. Follow the path back toward the town centre — Doggy Beach House is ahead.",
+      de: "Verlasse den Strand und gehe nordostwärts durch die Dünen. Folge dem Weg zurück Richtung Ortsmitte — das Doggy Beach House liegt vor dir.",
+    },
+  },
+  {
+    id: "strand-finish",
+    lat: 52.3721086,
+    lng: 4.5281375,
+    radiusMeters: 15,
+    sortOrder: 7,
+    title: {
+      nl: "Finish — terug bij Doggy Beach House",
+      en: "Finish — back at Doggy Beach House",
+      de: "Ziel — zurück beim Doggy Beach House",
+    },
+    instruction: {
+      nl: "<strong>Gefeliciteerd — jullie hebben het strandrondje gehaald!</strong> Van Doggy Beach House langs Zuid strand, langs de strandwacht en terug via de duinen — wat een tocht!<br><br>Maak een slotfoto met je hond bij Doggy Beach House. Je verdient <strong>50 Woof Coins</strong> als beloning. Kom langs voor een lekkere traktatie — er staat zelfs een hondenmenu klaar.<br><br>Bedankt voor het meedoen aan de Woof ID-strandspeurtocht. 🐾🌊",
+      en: "<strong>Congratulations — you completed the beach loop!</strong> From Doggy Beach House past South Beach, the lifeguard station, and back through the dunes — what a trip!<br><br>Take a final photo with your dog at Doggy Beach House. You've earned <strong>50 Woof Coins</strong>. Pop in for a treat — there's even a dog menu waiting.<br><br>Thanks for joining the Woof ID beach scavenger hunt. 🐾🌊",
+      de: "<strong>Glückwunsch — ihr habt die Strandrunde geschafft!</strong> Vom Doggy Beach House am Südstrand vorbei an der Strandwache und zurück durch die Dünen — was für ein Abenteuer!<br><br>Mach ein Abschlussfoto mit deinem Hund beim Doggy Beach House. Ihr habt <strong>50 Woof Coins</strong> verdient. Schaut vorbei für eine Leckerei — es gibt sogar eine Hundekarte.<br><br>Danke fürs Mitmachen bei der Woof ID-Strand-Schnitzeljagd. 🐾🌊",
+    },
+    hint: {
+      nl: "Je bent bijna klaar! Loop terug naar Doggy Beach House aan de Kerkstraat — de finish ligt op dezelfde plek als waar je begon.",
+      en: "Almost done! Walk back to Doggy Beach House on Kerkstraat — the finish is at the same spot where you started.",
+      de: "Fast geschafft! Geh zurück zum Doggy Beach House in der Kerkstraat — das Ziel ist derselbe Ort wie der Start.",
+    },
+  },
+];
+
 /** @deprecated Full Zandvoort route including DBH and Amsterdam-adjacent areas. */
 export const ZANDVOORT_HUNT_CHECKPOINTS: HuntCheckpoint[] = [
   {
@@ -332,6 +514,9 @@ export const ZANDVOORT_HUNT_CHECKPOINTS: HuntCheckpoint[] = [
 export function getHuntCheckpoints(slug: string): HuntCheckpoint[] {
   if (slug === "zuid") {
     return ZUID_HUNT_CHECKPOINTS;
+  }
+  if (slug === "zandvoort-strand") {
+    return STRAND_HUNT_CHECKPOINTS;
   }
   if (slug === "zandvoort-dunes") {
     return ZANDVOORT_HUNT_CHECKPOINTS;

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 import { authOptions } from "@/lib/auth";
-import { getDogPhotoPath } from "@/lib/dogs/storage";
+import { getDogPhotoPath, isRemotePhotoRef } from "@/lib/dogs/storage";
 import { prisma } from "@/lib/prisma";
 import { isStaffRole } from "@/lib/serverAuth";
 
@@ -31,15 +31,28 @@ export async function GET(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  if (isRemotePhotoRef(dog.photoUrl)) {
+    return NextResponse.redirect(dog.photoUrl, {
+      status: 307,
+      headers: { "Cache-Control": "private, no-cache" },
+    });
+  }
+
   try {
     const buffer = await readFile(getDogPhotoPath(dog.photoUrl));
     const ext = dog.photoUrl.split(".").pop()?.toLowerCase();
     const mime =
-      ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+      ext === "png"
+        ? "image/png"
+        : ext === "webp"
+          ? "image/webp"
+          : ext === "heic"
+            ? "image/heic"
+            : "image/jpeg";
     return new NextResponse(buffer, {
       headers: {
         "Content-Type": mime,
-        "Cache-Control": "private, max-age=3600",
+        "Cache-Control": "private, no-cache",
       },
     });
   } catch {

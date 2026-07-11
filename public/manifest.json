@@ -1,10 +1,10 @@
 {
-  "name": "Woof ID — Doggy Beach House",
+  "name": "Woof ID \u2014 Doggy Beach House",
   "short_name": "Woof ID",
   "description": "Hondprofielen, check-ins en Woof Coins voor Doggy Beach House",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fffafc",
+  "background_color": "#faf8f5",
   "theme_color": "#ff416e",
   "orientation": "portrait",
   "lang": "nl",
@@ -27,5 +27,7 @@
       "type": "image/png",
       "purpose": "any"
     }
-  ]
+  ],
+  "scope": "/",
+  "id": "/"
 }

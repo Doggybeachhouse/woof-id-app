@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { ReceiptReviewForm } from "@/app/receipts/_components/ReceiptReviewForm";
 import { cancelReceiptAction } from "@/app/receipts/actions";
+import { coinsFromPurchaseEur } from "@/lib/gamification/receiptCoins";
 import { estimateReceiptTotalEur } from "@/lib/gamification/receiptTotal.server";
 import { getTranslations } from "@/i18n/server";
 import { requireUser, isStaffRole } from "@/lib/serverAuth";
@@ -10,11 +11,14 @@ import { prisma } from "@/lib/prisma";
 
 export default async function ReceiptReviewPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ resumed?: string }>;
 }) {
   const { t } = await getTranslations();
   const { id } = await params;
+  const { resumed } = await searchParams;
   const session = await requireUser();
   const userId = (session.user as { id: string }).id;
   const role = (session.user as { role?: string }).role;
@@ -43,17 +47,30 @@ export default async function ReceiptReviewPage({
     isStaffRole(role) || receipt.dog.ownerUserId === userId;
   if (!canView) notFound();
 
-  const initialPurchaseTotalEur = estimateReceiptTotalEur(
-    receipt.items.map((item) => ({
-      normalizedName: item.normalizedName,
-      quantity: item.quantity,
-      unitPriceEur:
-        item.unitPriceEur != null ? Number(item.unitPriceEur) : null,
-    })),
-  );
+  const storedTotalEur =
+    receipt.totalEur != null ? Number(receipt.totalEur) : null;
+  const fromMplus = !!receipt.barcode && receipt.items.length > 0;
+
+  const initialPurchaseTotalEur =
+    storedTotalEur ??
+    estimateReceiptTotalEur(
+      receipt.items.map((item) => ({
+        normalizedName: item.normalizedName,
+        quantity: item.quantity,
+        unitPriceEur:
+          item.unitPriceEur != null ? Number(item.unitPriceEur) : null,
+      })),
+    );
+
+  const previewCoins = coinsFromPurchaseEur(initialPurchaseTotalEur);
 
   return (
     <div className="space-y-6">
+      {resumed === "1" && (
+        <div className="card p-4 bg-amber-50 border border-amber-200/80 text-sm text-amber-900 text-center">
+          {t("receipts.review.resumed")}
+        </div>
+      )}
       <div>
         <Link
           href="/receipts/scan"
@@ -67,17 +84,36 @@ export default async function ReceiptReviewPage({
         </p>
       </div>
 
-      <div className="card p-3 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/api/receipts/${receipt.id}/image`}
-          alt={t("receipts.review.receiptPhotoAlt")}
-          className="w-full max-h-48 object-contain bg-white rounded-lg"
-        />
-      </div>
+      {fromMplus && initialPurchaseTotalEur > 0 && (
+        <div className="card p-4 bg-emerald-50 border border-emerald-200/80 space-y-2 text-center">
+          <p className="text-sm font-semibold text-emerald-900">
+            {t("receipts.review.mplusFound")}
+          </p>
+          <p className="text-sm text-emerald-800">
+            {t("receipts.review.mplusTotal", {
+              total: initialPurchaseTotalEur.toFixed(2),
+            })}
+          </p>
+          <span className="coin-badge">
+            {t("receipts.review.coinsAfterConfirm", { count: previewCoins })}
+          </span>
+        </div>
+      )}
+
+      {receipt.imageUrl && (
+        <div className="card p-3 overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/api/receipts/${receipt.id}/image`}
+            alt={t("receipts.review.receiptPhotoAlt")}
+            className="w-full max-h-48 object-contain bg-white rounded-lg"
+          />
+        </div>
+      )}
 
       <ReceiptReviewForm
         receiptId={receipt.id}
+        fromMplus={fromMplus}
         initialItems={receipt.items.map((item) => ({
           rawName: item.rawName,
           normalizedName: item.normalizedName,

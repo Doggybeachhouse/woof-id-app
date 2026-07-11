@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { findUserByEmail } from "@/lib/bridge/users";
 import { getTranslations } from "@/i18n/server";
+import { provisionUserInMplusKassa } from "@/lib/mplus/provisionKassa";
 import { registerWebshopAccount } from "@/lib/wordpress/accounts";
 import { prisma } from "@/lib/prisma";
 
@@ -58,8 +59,9 @@ export async function POST(req: Request) {
   const role = userCount === 0 ? "ADMIN" : "OWNER";
   const passwordHash = await bcrypt.hash(parsed.data.password, 12);
 
+  let createdUserId: string | null = null;
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email,
         passwordHash,
@@ -67,6 +69,7 @@ export async function POST(req: Request) {
         role,
       },
     });
+    createdUserId = user.id;
   } catch {
     return NextResponse.json(
       {
@@ -75,6 +78,19 @@ export async function POST(req: Request) {
       },
       { status: 500 },
     );
+  }
+
+  if (createdUserId) {
+    void provisionUserInMplusKassa({
+      userId: createdUserId,
+      email,
+      name: parsed.data.name,
+    }).catch((error) => {
+      console.error("[register] Mplus kassa sync failed", {
+        userId: createdUserId,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    });
   }
 
   return NextResponse.json({ ok: true, role, linked: webshop.linked });
